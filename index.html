@@ -153,13 +153,13 @@
                 <a href="https://github.com/Prosenjit-Mondol/RESUME/blob/main/CV-word.pdf" download class="btn btn2">Download CV</a>
             </div>
             <div class="contact-right">
-                <form>
+                <form name="submit-to-google-sheet">
                     <input type="text" name="Name" placeholder="Your Name" required>
                     <input type="text" name="Email" placeholder="Your Email" required>
                     <textarea name="Message" rows="6" placeholder="Your Message"></textarea>
                     <button type="submit" class="btn btn2">Submit</button>
                 </form>
-                <span id="msg">Thanks a lot</span>
+                <span id="msg"></span>
             </div>
         </div>
     </div>
@@ -200,5 +200,24 @@
     }
 
 </script>
+
+<script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbya12hBtdBryXnHoGkmPsNIFsMP0eXg_W1XNamrJrUfY1cKCs-bdWtiynASIC8rrCYW/exec'
+    const form = document.forms['submit-to-google-sheet']
+    const msg=document.getElementById("msg")
+
+    form.addEventListener('submit', e => {
+      e.preventDefault()
+      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+        .then(response => {
+            msg.innerHTML ="Message sent successfully"
+            setTimeout(function(){
+                msg.innerHTML =""
+            },5000)
+            form.reset()
+        })
+        .catch(error => console.error('Error!', error.message))
+    })
+  </script>
 </body>
 </html>
