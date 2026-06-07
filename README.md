@@ -31,7 +31,3 @@ Welcome to my personal portfolio website! This portfolio showcases my skills, pr
 
 🔗 [LinkedIn: ](https://www.linkedin.com/in/prosenjit-mondol-615342266/)
 🐙 [GitHub: ](https://github.com/pronad1)
-
----
-
-Thank you for visiting my portfolio! 🚀
