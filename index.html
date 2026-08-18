@@ -1,239 +1,1387 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PERSONAL PORTFOLIO WEBSITE</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://kit.fontawesome.com/1e502c6e98.js" crossorigin="anonymous"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prosenjit Mondol | CSE Researcher · PSTU</title>
+  <meta name="description" content="Prosenjit Mondol – CSE student at PSTU, Research Software Engineer at CIMILab. Interested in AI in Health, Machine Learning, Computer Vision, and HCI." />
+  <meta name="keywords" content="Prosenjit Mondol, CSE, PSTU, CIMILab, Machine Learning, AI, Computer Vision, Health Informatics" />
+  <meta name="author" content="Prosenjit Mondol" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Prosenjit Mondol | CSE Researcher" />
+  <meta property="og:description" content="CSE student at PSTU. Research Software Engineer at CIMILab. Passionate about ML, AI in Health, and Computer Vision." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://pronad1.github.io/Personal-Portfolio/" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    /* ─── Reset & Base ─────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:       #1a56db;
+      --blue-light: #eff6ff;
+      --blue-mid:   #3b82f6;
+      --text:       #1e293b;
+      --text-muted: #64748b;
+      --border:     #e2e8f0;
+      --bg:         #ffffff;
+      --bg-alt:     #f8fafc;
+      --accent:     #dc2626;
+      --green:      #16a34a;
+      --gold:       #d97706;
+      --sidebar-w:  260px;
+      --font-sans:  'Inter', system-ui, sans-serif;
+      --font-serif: 'Merriweather', Georgia, serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      font-size: 15px;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+      display: flex;
+    }
+
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ─── Sidebar ───────────────────────────────────────────────────────────── */
+    #sidebar {
+      width: var(--sidebar-w);
+      min-height: 100vh;
+      background: #0f172a;
+      color: #e2e8f0;
+      position: fixed;
+      top: 0; left: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px 20px 24px;
+      z-index: 100;
+      overflow-y: auto;
+    }
+
+    .sidebar-photo {
+      width: 110px; height: 110px;
+      border-radius: 50%;
+      border: 3px solid #3b82f6;
+      object-fit: cover;
+      margin-bottom: 14px;
+    }
+
+    .sidebar-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      text-align: center;
+      line-height: 1.3;
+      margin-bottom: 4px;
+    }
+
+    .sidebar-title {
+      font-size: 0.72rem;
+      color: #94a3b8;
+      text-align: center;
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+
+    .sidebar-divider {
+      width: 100%; height: 1px;
+      background: #1e293b;
+      margin: 10px 0 16px;
+    }
+
+    nav ul { list-style: none; width: 100%; }
+    nav ul li { margin-bottom: 2px; }
+
+    nav ul li a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: #94a3b8;
+      transition: background 0.18s, color 0.18s;
+    }
+    nav ul li a:hover, nav ul li a.active {
+      background: #1e40af;
+      color: #fff;
+      text-decoration: none;
+    }
+    nav ul li a i { width: 16px; text-align: center; }
+
+    /* Social row in sidebar */
+    .sidebar-social {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .sidebar-social a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      background: #1e293b;
+      color: #94a3b8;
+      font-size: 0.9rem;
+      transition: background 0.18s, color 0.18s;
+    }
+    .sidebar-social a:hover { background: #1d4ed8; color: #fff; text-decoration: none; }
+
+    .sidebar-email {
+      margin-top: 14px;
+      font-size: 0.7rem;
+      color: #64748b;
+      text-align: center;
+      word-break: break-all;
+    }
+    .sidebar-email a { color: #7dd3fc; }
+
+    /* ─── Main Content ──────────────────────────────────────────────────────── */
+    #main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      min-height: 100vh;
+    }
+
+    /* ─── Topbar (mobile) ───────────────────────────────────────────────────── */
+    #topbar {
+      display: none;
+      position: sticky;
+      top: 0;
+      background: #0f172a;
+      color: #f1f5f9;
+      padding: 12px 20px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      z-index: 99;
+      align-items: center;
+      justify-content: space-between;
+    }
+    #menu-toggle { cursor: pointer; font-size: 1.3rem; background: none; border: none; color: #f1f5f9; }
+
+    /* ─── Sections ──────────────────────────────────────────────────────────── */
+    section {
+      padding: 52px 56px;
+      border-bottom: 1px solid var(--border);
+    }
+    section:last-child { border-bottom: none; }
+
+    .section-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text);
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--blue);
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title i { color: var(--blue); font-size: 1.1rem; }
+
+    /* ─── Hero / About ──────────────────────────────────────────────────────── */
+    #about {
+      background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 60%);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 22px;
+    }
+
+    .about-greeting {
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+      margin-bottom: 4px;
+    }
+    .about-greeting span { color: var(--blue); }
+
+    .about-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--blue-light);
+      color: var(--blue);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+      border: 1px solid #bfdbfe;
+    }
+
+    .about-bio {
+      font-size: 0.93rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 10px;
+    }
+    .about-bio a { font-weight: 500; }
+
+    .about-open {
+      margin-top: 14px;
+      padding: 12px 16px;
+      background: #fefce8;
+      border-left: 3px solid var(--gold);
+      border-radius: 0 8px 8px 0;
+      font-size: 0.85rem;
+      color: #78350f;
+    }
+
+    /* Badge-style profile links (Azmine-inspired) */
+    .profile-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+    .profile-links a img {
+      height: 22px;
+      vertical-align: middle;
+      border-radius: 4px;
+    }
+
+    /* Research interest tags */
+    .interest-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .interest-tag {
+      background: var(--blue-light);
+      color: var(--blue);
+      border: 1px solid #bfdbfe;
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    /* ─── News ──────────────────────────────────────────────────────────────── */
+    .news-box {
+      max-height: 260px;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0 4px;
+    }
+    .news-box::-webkit-scrollbar { width: 5px; }
+    .news-box::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 5px; }
+    .news-box::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 5px; }
+
+    .news-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 13px 16px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+    .news-item:last-child { border-bottom: none; }
+    .news-item:hover { background: var(--bg-alt); }
+
+    .news-date {
+      font-size: 0.71rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      font-weight: 600;
+      min-width: 90px;
+      padding-top: 2px;
+    }
+    .news-text { font-size: 0.85rem; color: var(--text); }
+    .news-tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 1px 7px;
+      border-radius: 10px;
+      margin-left: 5px;
+      vertical-align: middle;
+    }
+    .tag-accepted  { background: #dcfce7; color: #16a34a; }
+    .tag-progress  { background: #fef9c3; color: #b45309; }
+    .tag-presented { background: #ede9fe; color: #7c3aed; }
+    .tag-award     { background: #fee2e2; color: #dc2626; }
+
+    /* ─── Experience ────────────────────────────────────────────────────────── */
+    .exp-item {
+      display: flex;
+      gap: 18px;
+      margin-bottom: 28px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--border);
+    }
+    .exp-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+    .exp-dot-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      min-width: 14px;
+    }
+    .exp-dot {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--blue);
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+    .exp-line {
+      width: 2px;
+      flex: 1;
+      background: var(--border);
+      margin-top: 4px;
+    }
+
+    .exp-body { flex: 1; }
+    .exp-role {
+      font-weight: 700;
+      font-size: 0.97rem;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+    .exp-org {
+      font-size: 0.85rem;
+      color: var(--blue);
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+    .exp-loc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .exp-date {
+      display: inline-block;
+      font-size: 0.72rem;
+      background: var(--blue-light);
+      color: var(--blue);
+      padding: 2px 9px;
+      border-radius: 20px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .exp-desc {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+    }
+
+    /* ─── Education ─────────────────────────────────────────────────────────── */
+    .edu-item {
+      display: flex;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+    .edu-icon {
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      background: var(--blue-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--blue);
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .edu-body { flex: 1; }
+    .edu-degree { font-weight: 700; font-size: 0.95rem; color: var(--text); }
+    .edu-school { font-size: 0.85rem; color: var(--blue); font-weight: 500; }
+    .edu-detail { font-size: 0.79rem; color: var(--text-muted); margin-top: 3px; }
+    .edu-gpa {
+      display: inline-block;
+      background: #dcfce7;
+      color: #15803d;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 9px;
+      border-radius: 20px;
+      margin-top: 5px;
+    }
+
+    /* ─── Publications ──────────────────────────────────────────────────────── */
+    .pub-item {
+      display: flex;
+      gap: 14px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 14px;
+      transition: box-shadow 0.18s, border-color 0.18s;
+      background: var(--bg);
+    }
+    .pub-item:hover {
+      box-shadow: 0 4px 16px rgba(37,99,235,0.08);
+      border-color: #bfdbfe;
+    }
+
+    .pub-number {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #e2e8f0;
+      min-width: 32px;
+      text-align: right;
+      padding-top: 2px;
+    }
+
+    .pub-body { flex: 1; }
+    .pub-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 5px;
+      line-height: 1.4;
+    }
+    .pub-venue {
+      font-size: 0.78rem;
+      font-style: italic;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .pub-status {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 9px;
+      border-radius: 20px;
+    }
+    .pub-status.accepted   { background: #dcfce7; color: #15803d; }
+    .pub-status.presented  { background: #ede9fe; color: #7c3aed; }
+    .pub-status.in-progress{ background: #fef9c3; color: #b45309; }
+
+    .pub-links { margin-top: 8px; }
+    .pub-links a {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--blue);
+      margin-right: 10px;
+      padding: 2px 8px;
+      border: 1px solid #bfdbfe;
+      border-radius: 6px;
+      background: var(--blue-light);
+    }
+    .pub-links a:hover { text-decoration: none; background: var(--blue); color: #fff; border-color: var(--blue); }
+
+    /* ─── Projects ──────────────────────────────────────────────────────────── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 18px;
+    }
+
+    .proj-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      background: var(--bg);
+      transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .proj-card:hover {
+      box-shadow: 0 6px 24px rgba(37,99,235,0.1);
+      transform: translateY(-3px);
+      border-color: #93c5fd;
+    }
+
+    .proj-icon {
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+    }
+    .proj-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .proj-desc {
+      font-size: 0.79rem;
+      color: var(--text-muted);
+      flex: 1;
+      margin-bottom: 14px;
+      line-height: 1.6;
+    }
+
+    .proj-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 12px;
+    }
+    .proj-tag {
+      background: var(--bg-alt);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 0.68rem;
+      font-weight: 500;
+    }
+
+    .proj-links {
+      display: flex;
+      gap: 8px;
+    }
+    .proj-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      color: var(--text);
+      transition: all 0.15s;
+    }
+    .proj-link:hover { background: var(--blue); color: #fff; border-color: var(--blue); text-decoration: none; }
+    .proj-link.primary { background: var(--blue); color: #fff; border-color: var(--blue); }
+    .proj-link.primary:hover { background: #1e40af; }
+
+    /* ─── Skills ────────────────────────────────────────────────────────────── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 18px;
+    }
+    .skill-group {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .skill-group-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .skill-group-title i { color: var(--blue); }
+    .skill-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .skill-pill {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 3px 10px;
+      font-size: 0.76rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* ─── Awards ────────────────────────────────────────────────────────────── */
+    .award-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 14px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      margin-bottom: 10px;
+      transition: box-shadow 0.15s;
+    }
+    .award-item:hover { box-shadow: 0 3px 12px rgba(0,0,0,0.06); }
+    .award-icon {
+      font-size: 1.4rem;
+      min-width: 36px;
+      text-align: center;
+    }
+    .award-body { flex: 1; }
+    .award-title { font-weight: 700; font-size: 0.9rem; color: var(--text); margin-bottom: 3px; }
+    .award-desc  { font-size: 0.8rem; color: var(--text-muted); }
+
+    /* ─── Competitive Programming ────────────────────────────────────────────── */
+    .cp-platforms {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .cp-platform {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: var(--text);
+      transition: box-shadow 0.15s, border-color 0.15s;
+    }
+    .cp-platform:hover { border-color: var(--blue); box-shadow: 0 3px 10px rgba(37,99,235,0.1); text-decoration: none; }
+    .cp-platform i { color: var(--blue); font-size: 1rem; }
+
+    /* ─── Coursework ─────────────────────────────────────────────────────────── */
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .course-group {
+      background: var(--bg-alt);
+      border-radius: 10px;
+      padding: 16px;
+      border: 1px solid var(--border);
+    }
+    .course-group-name {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 10px;
+    }
+    .course-list {
+      list-style: none;
+    }
+    .course-list li {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      padding: 3px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .course-list li:last-child { border-bottom: none; }
+    .course-list li::before { content: "▸"; color: var(--blue); font-size: 0.7rem; }
+
+    /* ─── Contact ───────────────────────────────────────────────────────────── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+    }
+    .contact-card {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: box-shadow 0.15s, border-color 0.15s;
+      color: var(--text);
+    }
+    .contact-card:hover {
+      border-color: var(--blue);
+      box-shadow: 0 3px 12px rgba(37,99,235,0.1);
+      text-decoration: none;
+    }
+    .contact-icon {
+      width: 38px; height: 38px;
+      border-radius: 9px;
+      background: var(--blue-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--blue);
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .contact-label { font-size: 0.71rem; color: var(--text-muted); }
+    .contact-value { font-size: 0.83rem; font-weight: 600; color: var(--text); }
+
+    /* ─── Footer ────────────────────────────────────────────────────────────── */
+    footer {
+      background: #0f172a;
+      color: #64748b;
+      text-align: center;
+      padding: 22px;
+      font-size: 0.78rem;
+    }
+    footer a { color: #7dd3fc; }
+
+    /* ─── Scrollspy active link ──────────────────────────────────────────────── */
+    .active-section-link {
+      background: #1e40af !important;
+      color: #fff !important;
+    }
+
+    /* ─── Responsive ─────────────────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      body { flex-direction: column; }
+      #sidebar { position: relative; width: 100%; min-height: auto; padding: 20px 16px; }
+      #main { margin-left: 0; }
+      #topbar { display: flex; }
+      section { padding: 36px 22px; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .skills-grid   { grid-template-columns: 1fr 1fr; }
+      .contact-grid  { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
-
 <body>
-    <div id="header">
-        <div class="container">
-            <nav>
-                <img src="logo2.png" class="logo">
-                <ul id="sidemenu">
-                    <li><a href="#header">HOME</a></li>
-                    <li><a href="#about">ABOUT</a></li>
-                    <li><a href="#services">SERVICES</a></li>
-                    <li><a href="#portfolio">PORTFOLIO</a></li>
-                    <li><a href="#contact">CONTACT</a></li>
-                    <i class="fas fa-times" onclick="closemenu()"></i>
-                </ul>
-                <i class="fas fa-bars" onclick="openmenu()"></i>
-            </nav>
-            <div class="header-text">
-                <p><b></b><span>COMPETITIVE PROGRAMMER</span></b></p>
-                <h1>Hi, I'm <span>Prosenjit Mondol</span><br>From Bangladesh</h1>
-            </div>
+
+<!-- ─── SIDEBAR ─────────────────────────────────────────────────────────────── -->
+<aside id="sidebar">
+  <img src="IMG_6869.JPG" alt="Prosenjit Mondol" class="sidebar-photo" onerror="this.src='https://ui-avatars.com/api/?name=Prosenjit+Mondol&background=1e40af&color=fff&size=110'" />
+
+  <div class="sidebar-name">Prosenjit Mondol</div>
+  <div class="sidebar-title">
+    B.Sc. CSE · PSTU<br>
+    Research SE @ CIMILab
+  </div>
+
+  <div class="sidebar-divider"></div>
+
+  <nav>
+    <ul>
+      <li><a href="#about"       id="nav-about"><i class="fa-solid fa-house"></i> About</a></li>
+      <li><a href="#news"        id="nav-news"><i class="fa-solid fa-newspaper"></i> News</a></li>
+      <li><a href="#experience"  id="nav-exp"><i class="fa-solid fa-briefcase"></i> Experience</a></li>
+      <li><a href="#education"   id="nav-edu"><i class="fa-solid fa-graduation-cap"></i> Education</a></li>
+      <li><a href="#publications"id="nav-pub"><i class="fa-solid fa-scroll"></i> Publications</a></li>
+      <li><a href="#projects"    id="nav-proj"><i class="fa-solid fa-code-branch"></i> Projects</a></li>
+      <li><a href="#skills"      id="nav-skills"><i class="fa-solid fa-layer-group"></i> Skills</a></li>
+      <li><a href="#awards"      id="nav-awards"><i class="fa-solid fa-trophy"></i> Awards</a></li>
+      <li><a href="#cp"          id="nav-cp"><i class="fa-solid fa-terminal"></i> Competitive</a></li>
+      <li><a href="#coursework"  id="nav-course"><i class="fa-solid fa-book-open"></i> Coursework</a></li>
+      <li><a href="#contact"     id="nav-contact"><i class="fa-solid fa-envelope"></i> Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="sidebar-social">
+    <a href="https://github.com/pronad1"                                          target="_blank" title="GitHub"><i class="fa-brands fa-github"></i></a>
+    <a href="https://www.linkedin.com/in/prosenjit-mondol-615342266/"             target="_blank" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+    <a href="https://www.kaggle.com/prosenjitmondol"                               target="_blank" title="Kaggle"><i class="fa-brands fa-kaggle"></i></a>
+    <a href="https://scholar.google.com/citations?user=hidSpYcAAAAJ&hl=en"        target="_blank" title="Google Scholar"><i class="fa-brands fa-google-scholar"></i></a>
+    <a href="https://openreview.net/profile?id=%7EProsenjit_Mondol1"              target="_blank" title="OpenReview"><i class="fa-solid fa-file-circle-check"></i></a>
+  </div>
+
+  <div class="sidebar-email">
+    <a href="mailto:prosenjit1156@gmail.com">prosenjit1156@gmail.com</a>
+  </div>
+</aside>
+
+<!-- ─── MAIN CONTENT ─────────────────────────────────────────────────────────── -->
+<main id="main">
+
+  <!-- ── ABOUT ──────────────────────────────────────────────────────────────── -->
+  <section id="about">
+    <div class="about-grid">
+      <div>
+        <div class="about-badge"><i class="fa-solid fa-circle" style="color:#22c55e;font-size:0.55rem;"></i> Open to Collaborations &amp; Research Opportunities</div>
+        <h1 class="about-greeting">Hi, I'm <span>Prosenjit Mondol</span> 👋</h1>
+        <p class="about-bio">
+          I am pursuing a B.Sc. in Computer Science and Engineering at 
+          <a href="https://pstu.ac.bd" target="_blank">Patuakhali Science &amp; Technology University (PSTU)</a> 
+          (Dean's List, GPA: 3.69/4.00), jointly working as a 
+          <strong>Research Software Engineer &amp; Lab Systems Coordinator</strong> with the 
+          <a href="https://pronad1.github.io/CIMILab/index.html" target="_blank">Computation Informatics &amp; Machine Intelligence Lab (CIMILab)</a> 
+          on next-generation machine intelligence and computational systems for data-driven insights, intelligent decision-making, and real-world impact.
+        </p>
+        <p class="about-bio">
+          I am particularly interested in developing principled frameworks that combine 
+          <strong>theoretical guarantees</strong> with <strong>practical applicability</strong>, enabling 
+          trustworthy and stable decision-making in real-world settings characterized by distribution shift and model uncertainty.
+        </p>
+
+        <div class="about-open">
+          <strong>🤝 Open to:</strong> Research collaborations and opportunities in 
+          <strong>AI in Health, Health Informatics, HCI, Machine Learning, Image Processing, Computer Vision</strong>, and related areas.
+          Feel free to email me at 
+          <a href="mailto:prosenjit1156@gmail.com" style="color:#b45309;font-weight:600;">prosenjit1156@gmail.com</a>
         </div>
+
+        <div class="interest-tags">
+          <span class="interest-tag">🧠 AI in Health</span>
+          <span class="interest-tag">🏥 Health Informatics</span>
+          <span class="interest-tag">👁️ Computer Vision</span>
+          <span class="interest-tag">🖼️ Image Processing</span>
+          <span class="interest-tag">🤖 Machine Learning</span>
+          <span class="interest-tag">🖥️ HCI</span>
+          <span class="interest-tag">📊 Data Science</span>
+        </div>
+
+        <div class="profile-links">
+          <a href="https://github.com/pronad1" target="_blank">
+            <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github" alt="GitHub"></a>
+          <a href="https://www.linkedin.com/in/prosenjit-mondol-615342266/" target="_blank">
+            <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white" alt="LinkedIn"></a>
+          <a href="https://www.kaggle.com/prosenjitmondol" target="_blank">
+            <img src="https://img.shields.io/badge/Kaggle-20BEFF?style=flat-square&logo=kaggle&logoColor=white" alt="Kaggle"></a>
+          <a href="https://scholar.google.com/citations?user=hidSpYcAAAAJ&hl=en" target="_blank">
+            <img src="https://img.shields.io/badge/Google_Scholar-4285F4?style=flat-square&logo=google-scholar&logoColor=white" alt="Scholar"></a>
+          <a href="https://openreview.net/profile?id=%7EProsenjit_Mondol1" target="_blank">
+            <img src="https://img.shields.io/badge/OpenReview-B91C1C?style=flat-square&logo=stackblitz&logoColor=white" alt="OpenReview"></a>
+          <a href="https://codeforces.com/profile/prosenjit_mondol" target="_blank">
+            <img src="https://img.shields.io/badge/Codeforces-1F8ACB?style=flat-square&logo=codeforces&logoColor=white" alt="Codeforces"></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── NEWS ───────────────────────────────────────────────────────────────── -->
+  <section id="news">
+    <h2 class="section-title"><i class="fa-solid fa-newspaper"></i>News &amp; Updates</h2>
+    <div class="news-box">
+      <div class="news-item">
+        <span class="news-date">Aug 2026</span>
+        <span class="news-text">
+          Paper <em>"A Sensitivity-Gated Cascade for Compute-Efficient Spinal Lesion Detection"</em> accepted at 
+          <strong>MIRASOL Workshop, MICCAI 2026</strong>, Strasbourg, France. 
+          <span class="news-tag tag-accepted">✅ Accepted</span>
+        </span>
+      </div>
+      <div class="news-item">
+        <span class="news-date">Aug 2025</span>
+        <span class="news-text">
+          Started role as <strong>Research Software Engineer &amp; Lab Systems Coordinator</strong> at CIMILab, 
+          University of Missouri, USA. 
+          <span class="news-tag tag-accepted">🎉 New Role</span>
+        </span>
+      </div>
+      <div class="news-item">
+        <span class="news-date">2026</span>
+        <span class="news-text">
+          Paper <em>"A Deep Learning Approach to Bangla License Plate Text Extraction using Easy OCR"</em> 
+          presented at <strong>ICPECCII 2026</strong>.
+          <span class="news-tag tag-presented">🎤 Presented</span>
+        </span>
+      </div>
+      <div class="news-item">
+        <span class="news-date">2026</span>
+        <span class="news-text">
+          <em>"DSANet: A Grid-Search Optimized Heterogeneous Ensemble for Ischemic Stroke Lesion Segmentation"</em> 
+          submitted at <strong>ICECE 2026, BUET</strong> (First Author).
+          <span class="news-tag tag-progress">🔄 In Review</span>
+        </span>
+      </div>
+      <div class="news-item">
+        <span class="news-date">2025</span>
+        <span class="news-text">
+          🏆 <strong>First Prize</strong> at PSTU IT Carnival for the <em>"NeuroVision AI"</em> project.
+          <span class="news-tag tag-award">🏆 Award</span>
+        </span>
+      </div>
+      <div class="news-item">
+        <span class="news-date">2025</span>
+        <span class="news-text">
+          Ranked <strong>Top 5 out of 50 teams</strong> at PSTU Programming Contest 2025.
+          <span class="news-tag tag-award">🏅 Award</span>
+        </span>
+      </div>
+      <div class="news-item">
+        <span class="news-date">Feb 2023</span>
+        <span class="news-text">
+          Enrolled in B.Sc. CSE at <strong>Patuakhali Science &amp; Technology University (PSTU)</strong>. Currently on Dean's List with GPA 3.69/4.00.
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── EXPERIENCE ─────────────────────────────────────────────────────────── -->
+  <section id="experience">
+    <h2 class="section-title"><i class="fa-solid fa-briefcase"></i>Work Experience</h2>
+
+    <div class="exp-item">
+      <div class="exp-dot-col">
+        <div class="exp-dot"></div>
+        <div class="exp-line"></div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-role">Research Software Engineer &amp; Lab Systems Coordinator</div>
+        <div class="exp-org">
+          <a href="https://pronad1.github.io/CIMILab/index.html" target="_blank">Computation Informatics &amp; Machine Intelligence Lab (CIMILab)</a>
+        </div>
+        <div class="exp-loc"><i class="fa-solid fa-location-dot fa-xs"></i> University of Missouri, USA (Remote)</div>
+        <span class="exp-date">August 2025 – Present</span>
+        <div class="exp-desc">
+          Working on next-generation machine intelligence and computational systems for data-driven insights, 
+          intelligent decision-making, and real-world impact. Contributing to research in AI in Health, 
+          Medical Image Analysis, and computational informatics.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── EDUCATION ──────────────────────────────────────────────────────────── -->
+  <section id="education">
+    <h2 class="section-title"><i class="fa-solid fa-graduation-cap"></i>Education</h2>
+
+    <div class="edu-item">
+      <div class="edu-icon"><i class="fa-solid fa-university"></i></div>
+      <div class="edu-body">
+        <div class="edu-degree">B.Sc. in Computer Science and Engineering</div>
+        <div class="edu-school">
+          <a href="https://pstu.ac.bd" target="_blank">Patuakhali Science &amp; Technology University (PSTU)</a>
+        </div>
+        <div class="edu-detail">February 2023 – Present &nbsp;·&nbsp; Patuakhali, Bangladesh</div>
+        <div class="edu-detail">Credits Completed: 126.5 / 165</div>
+        <span class="edu-gpa">🏅 Dean's List · GPA: 3.69 / 4.00</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PUBLICATIONS ────────────────────────────────────────────────────────── -->
+  <section id="publications">
+    <h2 class="section-title"><i class="fa-solid fa-scroll"></i>Publications</h2>
+
+    <div class="pub-item">
+      <div class="pub-number">01</div>
+      <div class="pub-body">
+        <div class="pub-title">A Sensitivity-Gated Cascade for Compute-Efficient Spinal Lesion Detection in Resource-Constrained Settings</div>
+        <div class="pub-venue">3rd Medical Image Computing in Resource-Constrained Settings Workshop &amp; Knowledge Interchange (MIRASOL), <strong>MICCAI 2026</strong>, Strasbourg, France</div>
+        <span class="pub-status accepted">✅ Accepted · First Author (2026)</span>
+      </div>
     </div>
 
-
-    <!----------about---------->
-    <div id="about">
-        <div class="container">
-            <div class="row">
-                <div class="about-col-1">
-                    <img src="small-black.jpg">
-                </div>
-                <div class="about-col-2">
-                    <h1 class="sub-title">About Me</h1>
-                    <p>Highly motivated and dedicate fresher Computer Science Engineer
-                        with a strong academic background and a passion for innovation
-                        and problem-solving. Seeking a challenging and rewarding
-                        opportunity to use and grow my coding skills.</p>
-                    <div class="tab-titles">
-                        <p class="tab-links active-link" onclick="opentab('skills')">Skills</p>
-                        <p class="tab-links" onclick="opentab('experience')">Experience</p>
-                        <p class="tab-links" onclick="opentab('education')">Education</p>
-                    </div>
-                    <div class="tab-contents active-tab" id="skills">
-                        <ul>
-                            <li><span>Problem-Solving</span><br>C/C++/Java/Python.</li>
-                            <li><span>Expert</span><br>MySQL,Oracle,Data Structure, Data Communication and Networking,AutoCAD
-                                Electrical.</li>
-                        </ul>
-                    </div>
-                    <div class="tab-contents" id="experience">
-                        <ul>
-                            <li><span>2024-current</span><br>Graph Visualization & Analysis Tool</li>
-                            <li><span>2023-2024</span><br>INTERNSHIP at CodeAlpha</li>
-                            <li><span>2023-2024</span><br>Team lead</li>
-                        </ul>
-                    </div>
-                    <div class="tab-contents" id="education">
-                        <ul>
-                            <li><span>2023-current</span><br>B.Sc Engg. CSE from Patuakhali Science and Technology
-                                University</li>
-                            <li><span>2021</span><br>HSC from Naogaon Govt. College</li>
-                            <li><span>2019</span><br>SSC from Chak-atitha High School</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="pub-item">
+      <div class="pub-number">02</div>
+      <div class="pub-body">
+        <div class="pub-title">DSANet: A Grid-Search Optimized Heterogeneous Ensemble for Ischemic Stroke Lesion Segmentation</div>
+        <div class="pub-venue">14th International Conference on Electrical and Computer Engineering (<strong>ICECE 2026</strong>), BUET, Dhaka, Bangladesh</div>
+        <span class="pub-status in-progress">🔄 Under Review · First Author (2026)</span>
+      </div>
     </div>
 
-    <!----------services---------->
-    <div id="services">
-        <div class="container">
-            <h1 class="sub-title">My Services</h1>
-            <div class="services-list">
-                <div>
-                    <i class="fas fa-code"></i>
-                    <h2>Problems Solve</h2>
-                    <p>As a competitive programer, I try to solve problems on various online platform.</p>
-                    <a href="https://github.com/pronad1/Problem_Solving_Part1">Learn more</a>
-                </div>
-                <div>
-                    <i class="fab fa-app-store"></i>
-                    <h2>App Design</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nulla nibh, tincidunt sit amet
-                        sapien quis.</p>
-                    <a href="https://developer.android.com/">Learn more</a>
-                </div>
-                <div>
-                    <i class="fa-solid fa-droplet"></i>
-                    <h2>Badhon Member</h2>
-                    <p>As a Badhon member I generally try to manage blood for any type of patients on emergency
-                        situation.</p>
-                    <a href="https://www.patuakhali.gov.bd/bn/site/page/8xnC-%E0%A6%B0%E0%A6%95%E0%A7%8D%E0%A6%A4%E0%A7%87%E0%A6%B0-%E0%A6%AC%E0%A6%A8%E0%A7%8D%E0%A6%A7%E0%A6%A8">Learn more</a>
-                </div>
-            </div>
+    <div class="pub-item">
+      <div class="pub-number">03</div>
+      <div class="pub-body">
+        <div class="pub-title">A Deep Learning Approach to Bangla License Plate Text Extraction using Easy OCR</div>
+        <div class="pub-venue">International Conference on Power, Electronics, Communications, Computing, and Intelligent Infrastructure (<strong>ICPECCII 2026</strong>)</div>
+        <span class="pub-status presented">🎤 Presented (2026)</span>
+        <div class="pub-links">
+          <a href="https://drive.google.com/file/d/19hQWe6rTojGQuWsK58hnAklbj_ZK4kIA/view" target="_blank"><i class="fa-solid fa-certificate fa-xs"></i> Certificate</a>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PROJECTS ───────────────────────────────────────────────────────────── -->
+  <section id="projects">
+    <h2 class="section-title"><i class="fa-solid fa-code-branch"></i>Projects</h2>
+    <div class="projects-grid">
+
+      <div class="proj-card">
+        <div class="proj-icon">🧠</div>
+        <div class="proj-name">NeuroVision AI</div>
+        <div class="proj-desc">
+          A cutting-edge medical imaging platform for diagnosing neurological and cardiovascular conditions using advanced deep learning. 
+          Integrates brain, spine, heart, and chest imaging pipelines with lesion detection, segmentation, Grad-CAM explainability, and enterprise-grade security.
+        </div>
+        <div class="proj-tags">
+          <span class="proj-tag">PyTorch</span><span class="proj-tag">Deep Learning</span>
+          <span class="proj-tag">Medical AI</span><span class="proj-tag">Grad-CAM</span>
+        </div>
+        <div class="proj-links">
+          <a href="https://github.com/pronad1/NeuroVision" target="_blank" class="proj-link"><i class="fa-brands fa-github fa-xs"></i> Code</a>
+          <a href="https://reuse-hub-4b3f7.web.app/" target="_blank" class="proj-link primary"><i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i> Live</a>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-icon">🤖</div>
+        <div class="proj-name">TrashBot</div>
+        <div class="proj-desc">
+          AI-powered smart waste management system using Raspberry Pi 3B, computer vision, and IoT. 
+          Features YOLO-based real-time waste detection, deep learning classification, live web monitoring, and remote tracking for smart city applications.
+        </div>
+        <div class="proj-tags">
+          <span class="proj-tag">YOLO</span><span class="proj-tag">IoT</span>
+          <span class="proj-tag">Raspberry Pi</span><span class="proj-tag">OpenCV</span>
+        </div>
+        <div class="proj-links">
+          <a href="https://github.com/pronad1/TrashBot" target="_blank" class="proj-link"><i class="fa-brands fa-github fa-xs"></i> Code</a>
+          <a href="https://youtube.com/shorts/o1WTMZHI7-w" target="_blank" class="proj-link primary"><i class="fa-brands fa-youtube fa-xs"></i> Demo</a>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-icon">♻️</div>
+        <div class="proj-name">ReuseHub</div>
+        <div class="proj-desc">
+          Community-driven sustainability platform built with Flutter 3.x and Firebase. Connects donors with seekers of reusable goods, 
+          facilitating a circular economy and reducing waste at a production-ready scale.
+        </div>
+        <div class="proj-tags">
+          <span class="proj-tag">Flutter</span><span class="proj-tag">Firebase</span>
+          <span class="proj-tag">Dart</span><span class="proj-tag">Mobile</span>
+        </div>
+        <div class="proj-links">
+          <a href="https://github.com/pronad1/Flutter/tree/main/software" target="_blank" class="proj-link"><i class="fa-brands fa-github fa-xs"></i> Code</a>
+          <a href="https://youtu.be/6uswFRk_Srs" target="_blank" class="proj-link primary"><i class="fa-brands fa-youtube fa-xs"></i> Demo</a>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-icon">🕸️</div>
+        <div class="proj-name">Graph Craft</div>
+        <div class="proj-desc">
+          Web-based tool for visualizing and analyzing graphs interactively. Users input adjacency matrices 
+          and instantly see graph visualizations alongside analysis results including traversals and shortest paths.
+        </div>
+        <div class="proj-tags">
+          <span class="proj-tag">JavaScript</span><span class="proj-tag">Algorithms</span>
+          <span class="proj-tag">Data Structures</span><span class="proj-tag">Web</span>
+        </div>
+        <div class="proj-links">
+          <a href="https://github.com/pronad1/Graph-Visualizations" target="_blank" class="proj-link"><i class="fa-brands fa-github fa-xs"></i> Code</a>
+          <a href="https://pronad1.github.io/Graph-Visualizations/" target="_blank" class="proj-link primary"><i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i> Live</a>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-icon">🧹</div>
+        <div class="proj-name">Smart Vacuum Cleaner</div>
+        <div class="proj-desc">
+          Autonomous floor-cleaning robot built on Arduino UNO. Uses ultrasonic sensors for obstacle detection and avoidance, 
+          enabling fully automated navigation and floor cleaning without human intervention.
+        </div>
+        <div class="proj-tags">
+          <span class="proj-tag">Arduino</span><span class="proj-tag">Robotics</span>
+          <span class="proj-tag">IoT</span><span class="proj-tag">Sensors</span>
+        </div>
+        <div class="proj-links">
+          <a href="https://github.com/Prosenjit-Mondol/Ardiuno_UNO_Project" target="_blank" class="proj-link"><i class="fa-brands fa-github fa-xs"></i> Code</a>
+          <a href="https://www.youtube.com/watch?v=nY7cTv8nreg" target="_blank" class="proj-link primary"><i class="fa-brands fa-youtube fa-xs"></i> Demo</a>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-icon">💼</div>
+        <div class="proj-name">Job Portal</div>
+        <div class="proj-desc">
+          Dynamic job portal connecting job seekers with employers. Features job posting, user authentication, 
+          application management, and advanced search functionality using PHP, MySQL, HTML, and JavaScript.
+        </div>
+        <div class="proj-tags">
+          <span class="proj-tag">PHP</span><span class="proj-tag">MySQL</span>
+          <span class="proj-tag">Laravel</span><span class="proj-tag">Web</span>
+        </div>
+        <div class="proj-links">
+          <a href="https://github.com/pronad1/Web-Project" target="_blank" class="proj-link"><i class="fa-brands fa-github fa-xs"></i> Code</a>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-icon">🔍</div>
+        <div class="proj-name">Auto Checking Bot</div>
+        <div class="proj-desc">
+          Python-based automated credential verification bot. Reads email-password pairs from Excel, 
+          attempts authentication on target websites, and logs valid credentials — 
+          significantly reducing manual effort in large-scale validation tasks.
+        </div>
+        <div class="proj-tags">
+          <span class="proj-tag">Python</span><span class="proj-tag">Automation</span>
+          <span class="proj-tag">Selenium</span><span class="proj-tag">OpenPyXL</span>
+        </div>
+        <div class="proj-links">
+          <a href="https://github.com/pronad1/Auto_Checking_Bot" target="_blank" class="proj-link"><i class="fa-brands fa-github fa-xs"></i> Code</a>
+          <a href="https://youtu.be/09_ODw0Iv0w" target="_blank" class="proj-link primary"><i class="fa-brands fa-youtube fa-xs"></i> Demo</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── SKILLS ─────────────────────────────────────────────────────────────── -->
+  <section id="skills">
+    <h2 class="section-title"><i class="fa-solid fa-layer-group"></i>Technical Skills</h2>
+    <div class="skills-grid">
+
+      <div class="skill-group">
+        <div class="skill-group-title"><i class="fa-solid fa-code"></i> Languages</div>
+        <div class="skill-pills">
+          <span class="skill-pill">Python</span><span class="skill-pill">C++</span>
+          <span class="skill-pill">R</span><span class="skill-pill">Java</span>
+          <span class="skill-pill">JavaScript</span><span class="skill-pill">PHP</span>
+          <span class="skill-pill">C#</span><span class="skill-pill">Dart</span>
+          <span class="skill-pill">C</span><span class="skill-pill">HTML/CSS</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-title"><i class="fa-solid fa-brain"></i> ML / DL Frameworks</div>
+        <div class="skill-pills">
+          <span class="skill-pill">PyTorch</span><span class="skill-pill">TensorFlow</span>
+          <span class="skill-pill">Keras</span><span class="skill-pill">Scikit-learn</span>
+          <span class="skill-pill">OpenCV</span><span class="skill-pill">Pandas</span>
+          <span class="skill-pill">NumPy</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-title"><i class="fa-solid fa-chart-bar"></i> Visualization</div>
+        <div class="skill-pills">
+          <span class="skill-pill">Matplotlib</span><span class="skill-pill">Seaborn</span>
+          <span class="skill-pill">Plotly</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-title"><i class="fa-solid fa-database"></i> Databases</div>
+        <div class="skill-pills">
+          <span class="skill-pill">MySQL</span><span class="skill-pill">Oracle</span>
+          <span class="skill-pill">SQL Server</span><span class="skill-pill">Firebase</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-title"><i class="fa-solid fa-server"></i> Backend / Mobile</div>
+        <div class="skill-pills">
+          <span class="skill-pill">Laravel</span><span class="skill-pill">Flutter</span>
+          <span class="skill-pill">.NET</span><span class="skill-pill">REST APIs</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-title"><i class="fa-solid fa-wrench"></i> Tools &amp; Platforms</div>
+        <div class="skill-pills">
+          <span class="skill-pill">Git</span><span class="skill-pill">LaTeX</span>
+          <span class="skill-pill">Jupyter</span><span class="skill-pill">VS Code</span>
+          <span class="skill-pill">Android Studio</span><span class="skill-pill">Kaggle</span>
+          <span class="skill-pill">Raspberry Pi</span><span class="skill-pill">Arduino</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── AWARDS ─────────────────────────────────────────────────────────────── -->
+  <section id="awards">
+    <h2 class="section-title"><i class="fa-solid fa-trophy"></i>Awards &amp; Honours</h2>
+
+    <div class="award-item">
+      <div class="award-icon">🥇</div>
+      <div class="award-body">
+        <div class="award-title">PSTU IT Carnival — First Prize</div>
+        <div class="award-desc">First Prize for the <em>"NeuroVision AI"</em> project at the PSTU IT Carnival.</div>
+      </div>
     </div>
 
-    <!----------Portfolio---------->
-    <div id="portfolio">
-        <div class="container">
-            <h1 class="sub-title">My Work</h1>
-            <div class="work-list">
-                <div class="work">
-                    <img src="contest.png">
-                    <div class="layer">
-                        <h3>PROGRAMMING Contest</h3>
-                        <p>"Programming isn't about what you know; it's about what you can figure out"</p>
-                        <a href="https://codeforces.com/profile/prosenjit_mondol"><i class="fas fa-external-link-alt"></i></a>
-                    </div>
-                </div>
-                <div class="work">
-                    <img src="app.png">
-                    <div class="layer">
-                        <h3>APP Design</h3>
-                        <p>"Working hard on developing a new app! 🚀 A lot of exciting features are coming together, and we're in the testing phase now. Just a few tweaks left before launch. Stay tuned! 📱💡"</p>
-                        <a href="https://developer.android.com/"><i class="fas fa-external-link-alt"></i></a>
-                    </div>
-                </div>
-                <div class="work">
-                    <img src="web.png">
-                    <div class="layer">
-                        <h3>WEB Design</h3>
-                        <p>
-                            “If you can't explain it simply, you don't understand it well enough.”</p>
-                        <a href="https://github.com/pronad1/Amazon_clone"><i class="fas fa-external-link-alt"></i></a>
-                    </div>
-                </div>
-            </div>
-            <a href="https://user.bdapps.com/registration-v3/?ticket=ST-32870-1iFpcIDja7uqmiQWnfVW-cas" class="btn">See more</a>
-        </div>
+    <div class="award-item">
+      <div class="award-icon">🏅</div>
+      <div class="award-body">
+        <div class="award-title">PSTU Dean's Merit Award</div>
+        <div class="award-desc">Awarded scholarships for academic excellence — ranked among the top students in a cohort of 84.</div>
+      </div>
     </div>
 
-    <!----------contact---------->
-    <div id="contact">
-        <div class="container">
-            <div class="row">
-                <div class="contact-left">
-                    <h1 class="sub-title">Contact Me</h1>
-                    <p><i class="fa-solid fa-envelope"></i>prosenjit1156@gmail.com</p>
-                    <p><i class="fas fa-phone-square-alt"></i>01315-747034</p>
-                    <div class="social-icons">
-                        <a href="https://github.com/pronad1"><i class="fab fa-github"></i></a>
-                        <a href="https://www.researchgate.net/profile/Prosenjit-Mondol-2"><i 
-                            class="fa-brands fa-researchgate"></i></a>
-                        <a href="https://www.linkedin.com/in/prosenjit-mondol-615342266//"><i
-                                class="fab fa-linkedin"></i></a>
-                                <a href="https://scholar.google.com/citations?hl=en&user=hidSpYcAAAAJ&view_op=list_works&gmla=AL3_zihTaZskRTErlfwhpGSvedntHIM3EtWY-KJHbSIAJbmyhKLd3f4EJ5foNCxNUm71eFoWLAC9-6OM9Uw-XcDG">
-                                    <i class="fa-brands fa-google-scholar"></i></a>
-                        <a href="https://www.youtube.com/@prosen2001"><i class="fa-brands fa-youtube"></i></a>
-                        <a href="https://www.facebook.com/profile.php?id=100053139540646"><i
-                            class="fab fa-facebook"></i></a>
-                        <a href="https://www.instagram.com/prosenjit_1156/"><i class="fab fa-instagram"></i></a>
-                        <a href="https://x.com/Prosenjit1156"><i class="fab fa-twitter-square"></i></a>
-                    </div>
-                    <a href="https://github.com/pronad1/CV/blob/main/CV-WORD.pdf" download
-                        class="btn btn2">Download CV</a>
-                </div>
-                <div class="contact-right">
-                    <form name="submit-to-google-sheet">
-                        <input type="text" name="Name" placeholder="Your Name" required>
-                        <input type="text" name="Email" placeholder="Your Email" required>
-                        <textarea name="Message" rows="6" placeholder="Your Message"></textarea>
-                        <button type="submit" class="btn btn2">Submit</button>
-                    </form>
-                    <span id="msg"></span>
-                </div>
-            </div>
-        </div>
-        <div class="copyright">
-            <p>Copyright <i class="fa-sharp fa-regular fa-copyright"></i> 2024 <br>All rights reserved <i class="fas fa-heart"></i> Prosenjit Mondol(Prosen)</p>
-        </div>
+    <div class="award-item">
+      <div class="award-icon">💻</div>
+      <div class="award-body">
+        <div class="award-title">PSTU Programming Contest — Top 5</div>
+        <div class="award-desc">Ranked in the top 5 out of 50 teams at the PSTU Programming Contest 2025.</div>
+      </div>
     </div>
 
-    <script>
+    <div class="award-item">
+      <div class="award-icon">🎓</div>
+      <div class="award-body">
+        <div class="award-title">Government Board Merit Scholarship (HSC &amp; SSC)</div>
+        <div class="award-desc">Government merit scholarships for outstanding results in both HSC (2021) and SSC (2019) examinations.</div>
+      </div>
+    </div>
+  </section>
 
-        var tablinks = document.getElementsByClassName("tab-links");
-        var tabcontents = document.getElementsByClassName("tab-contents");
-        function opentab(tabname) {
-            for (tablink of tablinks) {
-                tablink.classList.remove("active-link");
-            }
-            for (tabcontent of tabcontents) {
-                tabcontent.classList.remove("active-tab");
-            }
-            event.currentTarget.classList.add("active-link");
-            document.getElementById(tabname).classList.add("active-tab");
-        }
+  <!-- ── COMPETITIVE PROGRAMMING ────────────────────────────────────────────── -->
+  <section id="cp">
+    <h2 class="section-title"><i class="fa-solid fa-terminal"></i>Competitive Programming</h2>
 
-    </script>
+    <div class="cp-platforms">
+      <a href="https://codeforces.com/profile/prosenjit_mondol" target="_blank" class="cp-platform">
+        <i class="fa-solid fa-bolt"></i> Codeforces · <strong>prosenjit_mondol</strong>
+      </a>
+      <a href="https://www.hackerrank.com/profile/prosenjit1156" target="_blank" class="cp-platform">
+        <i class="fa-solid fa-star"></i> HackerRank · <strong>prosenjit1156</strong>
+      </a>
+      <a href="https://leetcode.com/u/prosenjit_mondol/" target="_blank" class="cp-platform">
+        <i class="fa-solid fa-code"></i> LeetCode · <strong>prosenjit_mondol</strong>
+      </a>
+      <a href="https://judge.beecrowd.com/en/profile/793803" target="_blank" class="cp-platform">
+        <i class="fa-solid fa-bee" style="color:var(--gold)"></i> Beecrowd · <strong>Prosenjit</strong>
+      </a>
+    </div>
 
-    <script>
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+      <li style="display:flex;gap:10px;align-items:flex-start;font-size:0.85rem;color:var(--text-muted);">
+        <span style="color:var(--blue);font-weight:700;margin-top:2px;">▸</span>
+        Solved <strong style="color:var(--text);">1,500+ problems</strong> across multiple platforms, developing expertise in algorithms, data structures, and problem-solving techniques.
+      </li>
+      <li style="display:flex;gap:10px;align-items:flex-start;font-size:0.85rem;color:var(--text-muted);">
+        <span style="color:var(--blue);font-weight:700;margin-top:2px;">▸</span>
+        Competed in <strong style="color:var(--text);">ICPC Dhaka Regional Preliminary (2023–2025)</strong>, BitFest KUET (2024), and PSTU IT Carnival.
+      </li>
+    </ul>
+  </section>
 
-        var sidemen = document.getElementById("sidemenu");
+  <!-- ── COURSEWORK ─────────────────────────────────────────────────────────── -->
+  <section id="coursework">
+    <h2 class="section-title"><i class="fa-solid fa-book-open"></i>Relevant Coursework</h2>
+    <div class="course-grid">
 
-        function openmenu() {
-            sidemen.style.right = "0";
+      <div class="course-group">
+        <div class="course-group-name">Computer Science</div>
+        <ul class="course-list">
+          <li>Data Structure &amp; Algorithms</li>
+          <li>Artificial Intelligence</li>
+          <li>Software Engineering</li>
+          <li>Database Systems</li>
+          <li>Compiler Design &amp; Automata</li>
+          <li>Algorithm Engineering</li>
+          <li>Data Warehousing &amp; Mining</li>
+          <li>Numerical Methods</li>
+          <li>Discrete Mathematics</li>
+          <li>VLSI Design</li>
+        </ul>
+      </div>
 
-        }
+      <div class="course-group">
+        <div class="course-group-name">Signal &amp; Networks</div>
+        <ul class="course-list">
+          <li>Data Communication Engineering</li>
+          <li>Optical Fiber Communication</li>
+          <li>Computer Networks</li>
+          <li>Network Routing &amp; Switching</li>
+        </ul>
+      </div>
 
-        function closemenu() {
-            sidemen.style.right = "-200px";
+      <div class="course-group">
+        <div class="course-group-name">Mathematics</div>
+        <ul class="course-list">
+          <li>Differential &amp; Integral Calculus</li>
+          <li>Co-ordinate Geometry &amp; Linear Algebra</li>
+          <li>Statistics</li>
+          <li>Vector Analysis &amp; Complex Variables</li>
+          <li>ODE &amp; PDE</li>
+        </ul>
+      </div>
 
-        }
+      <div class="course-group">
+        <div class="course-group-name">Electrical &amp; Electronics</div>
+        <ul class="course-list">
+          <li>Basic Electrical Engineering</li>
+          <li>Digital Logic Design</li>
+          <li>Microprocessor &amp; Interfacing</li>
+          <li>Electrical Technology</li>
+        </ul>
+      </div>
 
-    </script>
+    </div>
+  </section>
 
-    <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbya12hBtdBryXnHoGkmPsNIFsMP0eXg_W1XNamrJrUfY1cKCs-bdWtiynASIC8rrCYW/exec'
-        const form = document.forms['submit-to-google-sheet']
-        const msg = document.getElementById("msg")
+  <!-- ── CONTACT ────────────────────────────────────────────────────────────── -->
+  <section id="contact">
+    <h2 class="section-title"><i class="fa-solid fa-envelope"></i>Contact &amp; Profiles</h2>
+    <p style="font-size:0.87rem;color:var(--text-muted);margin-bottom:20px;">
+      I'm always happy to discuss research ideas, collaborations, or opportunities. Feel free to reach out!
+    </p>
 
-        form.addEventListener('submit', e => {
-            e.preventDefault()
-            fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-                .then(response => {
-                    msg.innerHTML = "Message sent successfully"
-                    setTimeout(function () {
-                        msg.innerHTML = ""
-                    }, 5000)
-                    form.reset()
-                })
-                .catch(error => console.error('Error!', error.message))
-        })
-    </script>
+    <div class="contact-grid">
+      <a href="mailto:prosenjit1156@gmail.com" class="contact-card">
+        <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+        <div>
+          <div class="contact-label">Email</div>
+          <div class="contact-value">prosenjit1156@gmail.com</div>
+        </div>
+      </a>
+      <a href="https://github.com/pronad1" target="_blank" class="contact-card">
+        <div class="contact-icon"><i class="fa-brands fa-github"></i></div>
+        <div>
+          <div class="contact-label">GitHub</div>
+          <div class="contact-value">pronad1</div>
+        </div>
+      </a>
+      <a href="https://www.linkedin.com/in/prosenjit-mondol-615342266/" target="_blank" class="contact-card">
+        <div class="contact-icon" style="background:#e0f2fe;color:#0284c7;"><i class="fa-brands fa-linkedin"></i></div>
+        <div>
+          <div class="contact-label">LinkedIn</div>
+          <div class="contact-value">prosenjit-mondol</div>
+        </div>
+      </a>
+      <a href="https://www.kaggle.com/prosenjitmondol" target="_blank" class="contact-card">
+        <div class="contact-icon" style="background:#e0f7fa;color:#0097a7;"><i class="fa-brands fa-kaggle"></i></div>
+        <div>
+          <div class="contact-label">Kaggle</div>
+          <div class="contact-value">prosenjitmondol</div>
+        </div>
+      </a>
+      <a href="https://scholar.google.com/citations?user=hidSpYcAAAAJ&hl=en" target="_blank" class="contact-card">
+        <div class="contact-icon" style="background:#fce4ec;color:#c62828;"><i class="fa-brands fa-google-scholar"></i></div>
+        <div>
+          <div class="contact-label">Google Scholar</div>
+          <div class="contact-value">Prosenjit Mondol</div>
+        </div>
+      </a>
+      <a href="https://openreview.net/profile?id=%7EProsenjit_Mondol1" target="_blank" class="contact-card">
+        <div class="contact-icon" style="background:#fff3e0;color:#e65100;"><i class="fa-solid fa-file-circle-check"></i></div>
+        <div>
+          <div class="contact-label">OpenReview</div>
+          <div class="contact-value">Prosenjit_Mondol1</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Prosenjit Mondol &nbsp;·&nbsp; B.Sc. CSE, PSTU &nbsp;·&nbsp;
+      Research SE @ <a href="https://pronad1.github.io/CIMILab/index.html" target="_blank">CIMILab</a>
+      &nbsp;·&nbsp;
+      <a href="mailto:prosenjit1156@gmail.com">prosenjit1156@gmail.com</a>
+    </p>
+  </footer>
+
+</main>
+
+<script>
+  // ── Smooth scrollspy ──────────────────────────────────────────────────────
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav ul li a');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active-section-link'));
+        const link = document.querySelector(`nav a[href="#${entry.target.id}"]`);
+        if (link) link.classList.add('active-section-link');
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+
+  // ── Mobile menu toggle ────────────────────────────────────────────────────
+  const sidebar = document.getElementById('sidebar');
+  const toggle  = document.getElementById('menu-toggle');
+  if (toggle) {
+    toggle.addEventListener('click', () => {
+      sidebar.style.display = sidebar.style.display === 'none' ? 'flex' : 'none';
+    });
+  }
+</script>
+
 </body>
-
 </html>
