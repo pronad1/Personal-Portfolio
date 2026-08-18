@@ -68,6 +68,7 @@
       background: var(--bg);
       line-height: 1.7;
       display: flex;
+      min-height: 100vh;
     }
 
     a {
@@ -82,6 +83,8 @@
     /* ─── Sidebar ───────────────────────────────────────────────────────────── */
     #sidebar {
       width: var(--sidebar-w);
+      height: 100vh;
+      /* fixed height so overflow-y:auto actually scrolls */
       min-height: 100vh;
       background: #0f172a;
       color: #e2e8f0;
@@ -94,6 +97,22 @@
       padding: 32px 20px 24px;
       z-index: 100;
       overflow-y: auto;
+      /* Thin custom scrollbar inside sidebar */
+      scrollbar-width: thin;
+      scrollbar-color: #334155 transparent;
+    }
+
+    #sidebar::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    #sidebar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    #sidebar::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
     }
 
     .sidebar-photo {
@@ -867,6 +886,141 @@
       color: var(--text-muted);
     }
 
+    /* ─── Certificate Carousel ──────────────────────────────────────────────── */
+    .cert-carousel-wrap {
+      position: relative;
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .cert-track {
+      overflow: hidden;
+      border-radius: 14px;
+      box-shadow: 0 8px 32px rgba(37, 99, 235, 0.1);
+      background: #f8fafc;
+      border: 1px solid var(--border);
+    }
+
+    .cert-slides {
+      display: flex;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+    }
+
+    .cert-slide {
+      min-width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 480px;
+      background: #f1f5f9;
+    }
+
+    .cert-slide img {
+      max-width: 100%;
+      max-height: 480px;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .cert-slide iframe {
+      width: 100%;
+      height: 480px;
+      border: none;
+      border-radius: 8px;
+    }
+
+    /* Prev / Next buttons */
+    .cert-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--border);
+      color: var(--blue);
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+      transition: background 0.15s, color 0.15s, transform 0.15s;
+    }
+
+    .cert-btn:hover {
+      background: var(--blue);
+      color: #fff;
+      transform: translateY(-50%) scale(1.08);
+    }
+
+    .cert-btn.prev {
+      left: -22px;
+    }
+
+    .cert-btn.next {
+      right: -22px;
+    }
+
+    /* Dots */
+    .cert-dots {
+      display: flex;
+      justify-content: center;
+      gap: 7px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .cert-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #cbd5e1;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      border: none;
+      padding: 0;
+    }
+
+    .cert-dot.active {
+      background: var(--blue);
+      transform: scale(1.3);
+    }
+
+    /* Caption */
+    .cert-caption {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 10px;
+      min-height: 1.4em;
+    }
+
+    @media (max-width: 768px) {
+      .cert-btn.prev {
+        left: 4px;
+      }
+
+      .cert-btn.next {
+        right: 4px;
+      }
+
+      .cert-slide {
+        height: 260px;
+      }
+
+      .cert-slide iframe {
+        height: 260px;
+      }
+
+      .cert-slide img {
+        max-height: 260px;
+      }
+    }
+
     /* ─── Competitive Programming ────────────────────────────────────────────── */
     .cp-platforms {
       display: flex;
@@ -1229,6 +1383,7 @@
         <li><a href="#projects" id="nav-proj"><i class="fa-solid fa-code-branch"></i> Projects</a></li>
         <li><a href="#skills" id="nav-skills"><i class="fa-solid fa-layer-group"></i> Skills</a></li>
         <li><a href="#awards" id="nav-awards"><i class="fa-solid fa-trophy"></i> Awards</a></li>
+        <li><a href="#certs" id="nav-certs"><i class="fa-solid fa-certificate"></i> Certificates</a></li>
         <li><a href="#cp" id="nav-cp"><i class="fa-solid fa-terminal"></i> Competitive</a></li>
         <li><a href="#coursework" id="nav-course"><i class="fa-solid fa-book-open"></i> Coursework</a></li>
         <li><a href="#contact" id="nav-contact"><i class="fa-solid fa-envelope"></i> Contact</a></li>
@@ -1434,6 +1589,26 @@
           <div class="edu-detail">February 2023 – Present &nbsp;·&nbsp; Patuakhali, Bangladesh</div>
           <div class="edu-detail">Credits Completed: 126.5 / 165</div>
           <span class="edu-gpa">🏅 Dean's List · GPA: 3.69 / 4.00</span>
+        </div>
+      </div>
+
+      <div class="edu-item">
+        <div class="edu-icon"><i class="fa-solid fa-school"></i></div>
+        <div class="edu-body">
+          <div class="edu-degree">Higher Secondary Certificate (HSC) · Science</div>
+          <div class="edu-school">Naogaon Govt. College</div>
+          <div class="edu-detail">2019 – 2021 &nbsp;·&nbsp; Naogaon, Bangladesh</div>
+          <span class="edu-gpa" style="background:#fef9c3;color:#b45309;">✨ GPA: 5.00 / 5.00</span>
+        </div>
+      </div>
+
+      <div class="edu-item">
+        <div class="edu-icon"><i class="fa-solid fa-book"></i></div>
+        <div class="edu-body">
+          <div class="edu-degree">Secondary School Certificate (SSC) · Science</div>
+          <div class="edu-school">Chakatitha High School</div>
+          <div class="edu-detail">2017 – 2019 &nbsp;·&nbsp; Bangladesh</div>
+          <span class="edu-gpa" style="background:#fef9c3;color:#b45309;">✨ GPA: 5.00 / 5.00</span>
         </div>
       </div>
     </section>
@@ -1691,31 +1866,47 @@
     <section id="awards">
       <h2 class="section-title"><i class="fa-solid fa-trophy"></i>Awards &amp; Honours</h2>
 
-      <div class="award-item">
-        <div class="award-icon">🥇</div>
-        <div class="award-body">
-          <div class="award-title">PSTU IT Carnival — First Prize</div>
-          <div class="award-desc">First Prize for the <em>"NeuroVision AI"</em> project at the PSTU IT Carnival.</div>
-        </div>
-      </div>
-
+      <!-- 1. Dean's Merit -->
       <div class="award-item">
         <div class="award-icon">🏅</div>
         <div class="award-body">
           <div class="award-title">PSTU Dean's Merit Award</div>
-          <div class="award-desc">Awarded scholarships for academic excellence — ranked among the top students in a
-            cohort of 84.</div>
+          <div class="award-desc">Awarded for academic excellence — ranked among the top students in a cohort of 84 at
+            Patuakhali Science &amp; Technology University.</div>
         </div>
       </div>
 
+      <!-- 2. Aungkur Scholarship -->
       <div class="award-item">
-        <div class="award-icon">💻</div>
+        <div class="award-icon">🌱</div>
         <div class="award-body">
-          <div class="award-title">PSTU Programming Contest — Top 5</div>
-          <div class="award-desc">Ranked in the top 5 out of 50 teams at the PSTU Programming Contest 2025.</div>
+          <div class="award-title">Aungkur Scholarship — PSTU</div>
+          <div class="award-desc">Merit-based scholarship awarded by <strong>Patuakhali Science &amp; Technology
+              University</strong> to outstanding students demonstrating exceptional academic performance.</div>
         </div>
       </div>
 
+      <!-- 3. Grameen Bank Scholarship -->
+      <div class="award-item">
+        <div class="award-icon">🏦</div>
+        <div class="award-body">
+          <div class="award-title">Grameen Bank Scholarship</div>
+          <div class="award-desc">Scholarship awarded by <strong>Grameen Bank</strong> in recognition of outstanding SSC
+            (2019) results.</div>
+        </div>
+      </div>
+
+      <!-- 4. MOUSUMI NGO Scholarship -->
+      <div class="award-item">
+        <div class="award-icon">🤝</div>
+        <div class="award-body">
+          <div class="award-title">MOUSUMI NGO Scholarship</div>
+          <div class="award-desc">Scholarship awarded by <strong>MOUSUMI NGO</strong> in recognition of outstanding HSC
+            (2021) results.</div>
+        </div>
+      </div>
+
+      <!-- 5. Government Board Merit Scholarship -->
       <div class="award-item">
         <div class="award-icon">🎓</div>
         <div class="award-body">
@@ -1724,6 +1915,100 @@
             (2019) examinations.</div>
         </div>
       </div>
+
+      <!-- 6. PSTU Programming Contest -->
+      <div class="award-item">
+        <div class="award-icon">💻</div>
+        <div class="award-body">
+          <div class="award-title">PSTU Programming Contest — Top 5</div>
+          <div class="award-desc">Ranked in the top 5 out of 50 teams at the PSTU Programming Contest 2025.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CERTIFICATES ──────────────────────────────────────────────────────── -->
+    <section id="certs">
+      <h2 class="section-title"><i class="fa-solid fa-certificate"></i>Certificates &amp; Achievements</h2>
+      <p style="font-size:0.87rem;color:var(--text-muted);margin-bottom:24px;">
+        A collection of certificates earned through courses, competitions, and skill assessments.
+        Use the arrows or dots to browse — or it will auto-advance every 4 seconds.
+      </p>
+
+      <div class="cert-carousel-wrap" id="certCarousel">
+        <!-- Prev button -->
+        <button class="cert-btn prev" id="certPrev" aria-label="Previous certificate">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+
+        <div class="cert-track">
+          <div class="cert-slides" id="certSlides">
+
+            <div class="cert-slide" data-label="ICPC 2023 Asia Dhaka Preliminary — Honourable Mention">
+              <iframe src="acheivement/2024-ICPC 2023 Asia Dhaka Preli-HONORABLE.pdf" loading="lazy"></iframe>
+            </div>
+            <div class="cert-slide" data-label="ICPC Recommended Certificate">
+              <iframe src="acheivement/2024-ICPC Recomended.pdf" loading="lazy"></iframe>
+            </div>
+            <div class="cert-slide" data-label="AI Oracle Certificate">
+              <iframe src="acheivement/AI Oracle Certificate.pdf" loading="lazy"></iframe>
+            </div>
+            <div class="cert-slide" data-label="CISCO — Introduction to Modern AI">
+              <iframe src="acheivement/CISCO_Introduction_to_Modern_AI_certificate.pdf" loading="lazy"></iframe>
+            </div>
+            <div class="cert-slide" data-label="CISCO — Packet Tracer Learner Transcript">
+              <iframe src="acheivement/Cesco Packet tracer learner_transcript.pdf" loading="lazy"></iframe>
+            </div>
+            <div class="cert-slide" data-label="MySQL Certificate">
+              <img src="acheivement/MY_SQL.jpg" alt="MySQL Certificate" loading="lazy" />
+            </div>
+            <div class="cert-slide" data-label="Modern AI Certificate">
+              <iframe src="acheivement/Modern_AI_certificate.pdf" loading="lazy"></iframe>
+            </div>
+            <div class="cert-slide" data-label="Flutter Development Certificate">
+              <iframe src="acheivement/Prosenjit Mondol-flutter 7-C28091.pdf" loading="lazy"></iframe>
+            </div>
+            <div class="cert-slide" data-label="AutoCAD Certificate">
+              <img src="acheivement/auto cad cirtificate.jpg" alt="AutoCAD Certificate" loading="lazy" />
+            </div>
+            <div class="cert-slide" data-label="Communication Certificate">
+              <iframe src="acheivement/communication certificate.pdf" loading="lazy"></iframe>
+            </div>
+            <div class="cert-slide" data-label="Cyber Security Introduction Certificate">
+              <iframe src="acheivement/cyber intro cirtificate.pdf" loading="lazy"></iframe>
+            </div>
+            <div class="cert-slide" data-label="Cybersecurity Intro (Image)">
+              <img src="acheivement/cyber intro cirtificate_page-0001.jpg" alt="Cybersecurity Intro Certificate"
+                loading="lazy" />
+            </div>
+            <div class="cert-slide" data-label="Data Science Certificate">
+              <iframe src="acheivement/data science.pdf" loading="lazy"></iframe>
+            </div>
+            <div class="cert-slide" data-label="Microsoft Edge Certificate">
+              <iframe src="acheivement/edge cirteficate.pdf" loading="lazy"></iframe>
+            </div>
+            <div class="cert-slide" data-label="JavaScript Intermediate — HackerRank">
+              <iframe src="acheivement/javascript_intermediate certificate.pdf" loading="lazy"></iframe>
+            </div>
+            <div class="cert-slide" data-label="Microsoft Azure Certificate">
+              <iframe src="acheivement/microsoft azura.pdf" loading="lazy"></iframe>
+            </div>
+            <div class="cert-slide" data-label="Problem Solving Intermediate — HackerRank">
+              <iframe src="acheivement/problem_solving_intermediate certificate.pdf" loading="lazy"></iframe>
+            </div>
+
+          </div><!-- /cert-slides -->
+        </div><!-- /cert-track -->
+
+        <!-- Next button -->
+        <button class="cert-btn next" id="certNext" aria-label="Next certificate">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div><!-- /cert-carousel-wrap -->
+
+      <!-- Dot indicators -->
+      <div class="cert-dots" id="certDots"></div>
+      <!-- Caption -->
+      <div class="cert-caption" id="certCaption"></div>
     </section>
 
     <!-- ── COMPETITIVE PROGRAMMING ────────────────────────────────────────────── -->
@@ -2035,7 +2320,82 @@
         if (window.innerWidth <= 768) closeDrawer();
       });
     });
+
+    // If resized to desktop: force-close drawer and release body scroll lock
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        sidebarEl.classList.remove('drawer-open');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }, { passive: true });
+
+    // ── Certificate Carousel ────────────────────────────────────────────────
+    (function () {
+      const slides = document.querySelectorAll('.cert-slide');
+      const track = document.getElementById('certSlides');
+      const dotsWrap = document.getElementById('certDots');
+      const caption = document.getElementById('certCaption');
+      const prevBtn = document.getElementById('certPrev');
+      const nextBtn = document.getElementById('certNext');
+      const carousel = document.getElementById('certCarousel');
+      if (!slides.length || !track) return;
+
+      let current = 0;
+      let timer = null;
+      const DELAY = 4000;
+
+      // Build dots
+      slides.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'cert-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', `Go to certificate ${i + 1}`);
+        dot.addEventListener('click', () => goTo(i));
+        dotsWrap.appendChild(dot);
+      });
+
+      function updateUI() {
+        track.style.transform = `translateX(-${current * 100}%)`;
+        dotsWrap.querySelectorAll('.cert-dot').forEach((d, i) =>
+          d.classList.toggle('active', i === current));
+        caption.textContent = slides[current].dataset.label || '';
+      }
+
+      function goTo(idx) {
+        current = (idx + slides.length) % slides.length;
+        updateUI();
+      }
+
+      function startAuto() {
+        stopAuto();
+        timer = setInterval(() => goTo(current + 1), DELAY);
+      }
+      function stopAuto() {
+        if (timer) { clearInterval(timer); timer = null; }
+      }
+
+      prevBtn.addEventListener('click', () => { goTo(current - 1); startAuto(); });
+      nextBtn.addEventListener('click', () => { goTo(current + 1); startAuto(); });
+
+      // Pause on hover / resume on leave
+      carousel.addEventListener('mouseenter', stopAuto);
+      carousel.addEventListener('mouseleave', startAuto);
+      carousel.addEventListener('focusin', stopAuto);
+      carousel.addEventListener('focusout', startAuto);
+
+      // Touch swipe support
+      let touchStartX = 0;
+      carousel.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+      carousel.addEventListener('touchend', e => {
+        const diff = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) { goTo(current + (diff > 0 ? 1 : -1)); startAuto(); }
+      }, { passive: true });
+
+      updateUI();
+      startAuto();
+    })();
   </script>
+
 
 </body>
 
