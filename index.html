@@ -848,7 +848,222 @@
       font-weight: 500;
     }
 
-    /* ─── Awards ────────────────────────────────────────────────────────────── */
+    /* --- YouTube-style Video Cards (Some Visuals) --- */
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .video-card {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid #ef4444;
+      background: #000000;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+    }
+
+    .video-card:hover {
+      border-color: #ff0000;
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(239, 68, 68, 0.3);
+      text-decoration: none;
+    }
+
+    .video-thumb-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .video-thumb-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .video-card:hover .video-thumb-wrap img {
+      transform: scale(1.04);
+    }
+
+    /* Top header overlay: avatar + title */
+    .yt-card-header {
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.4) 60%, transparent 100%);
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .yt-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #2563eb;
+      border: 1.5px solid rgba(255, 255, 255, 0.9);
+      flex-shrink: 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .yt-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .yt-card-title-wrap {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .yt-card-title {
+      color: #ffffff;
+      font-size: 0.82rem;
+      font-weight: 700;
+      line-height: 1.25;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .yt-card-channel {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.68rem;
+      margin-top: 1px;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95);
+    }
+
+    /* Authentic YouTube SVG play button */
+    .yt-play-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 4;
+      transition: transform 0.2s ease;
+    }
+
+    .yt-play-btn svg {
+      width: 68px;
+      height: 48px;
+      filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.7));
+      opacity: 0.95;
+      transition: opacity 0.15s;
+    }
+
+    .video-card:hover .yt-play-btn {
+      transform: translate(-50%, -50%) scale(1.12);
+    }
+
+    .video-card:hover .yt-play-btn svg {
+      opacity: 1;
+    }
+
+    /* Bottom gradient bar with share + Watch on YouTube */
+    .yt-watch-bar {
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.35) 60%, transparent 100%);
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .yt-share-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 0.8rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .yt-watch-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .yt-watch-label .yt-brand {
+      color: #ffffff;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .yt-watch-label .yt-brand i {
+      color: #ff0000;
+      font-size: 1.05rem;
+    }
+
+    .yt-channel-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #ff0000;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 10px 22px;
+      border-radius: 24px;
+      text-decoration: none;
+      margin-bottom: 24px;
+      transition: background 0.18s, transform 0.15s;
+      box-shadow: 0 4px 14px rgba(255, 0, 0, 0.25);
+    }
+
+    .yt-channel-btn:hover {
+      background: #cc0000;
+      text-decoration: none;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+      .videos-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .award-item {
       display: flex;
       gap: 14px;
@@ -1387,6 +1602,7 @@
         <li><a href="#cp" id="nav-cp"><i class="fa-solid fa-terminal"></i> Competitive</a></li>
         <li><a href="#coursework" id="nav-course"><i class="fa-solid fa-book-open"></i> Coursework</a></li>
         <li><a href="#contact" id="nav-contact"><i class="fa-solid fa-envelope"></i> Contact</a></li>
+        <li><a href="#videos" id="nav-videos"><i class="fa-brands fa-youtube"></i> Videos</a></li>
       </ul>
     </nav>
 
@@ -1396,6 +1612,8 @@
           class="fa-brands fa-linkedin"></i></a>
       <a href="https://www.kaggle.com/prosenjitmondol" target="_blank" title="Kaggle"><i
           class="fa-brands fa-kaggle"></i></a>
+      <a href="https://www.youtube.com/@prosen49" target="_blank" title="YouTube" style="color:#ff0000;"><i
+          class="fa-brands fa-youtube"></i></a>
       <a href="https://scholar.google.com/citations?user=hidSpYcAAAAJ&hl=en" target="_blank" title="Google Scholar"><i
           class="fa-brands fa-google-scholar"></i></a>
       <a href="https://openreview.net/profile?id=%7EProsenjit_Mondol1" target="_blank" title="OpenReview"><i
@@ -1484,6 +1702,9 @@
               <img
                 src="https://img.shields.io/badge/Codeforces-1F8ACB?style=flat-square&logo=codeforces&logoColor=white"
                 alt="Codeforces"></a>
+            <a href="https://www.youtube.com/@prosen49" target="_blank">
+              <img src="https://img.shields.io/badge/YouTube-FF0000?style=flat-square&logo=youtube&logoColor=white"
+                alt="YouTube"></a>
           </div>
         </div>
       </div>
@@ -2043,9 +2264,76 @@
         </li>
       </ul>
 
-      <!-- Datathon Competitions -->
+      <!-- Hackathons & Competitions -->
       <h3
         style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
+        <i class="fa-solid fa-trophy" style="color:var(--gold);"></i> Hackathons &amp; Global Competitions
+      </h3>
+
+      <!-- ── FIRSTLY HIGHLIGHTED: NASA Space Apps Challenge 2025 ──────────────── -->
+      <div
+        style="border:2px solid #3b82f6;border-radius:12px;padding:22px;background:linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);margin-bottom:20px;box-shadow:0 4px 20px rgba(59,130,246,0.12);position:relative;overflow:hidden;">
+        <div
+          style="position:absolute;top:0;right:0;background:#0b3d91;color:#fff;font-size:0.68rem;font-weight:800;padding:4px 14px;border-bottom-left-radius:10px;letter-spacing:0.04em;text-transform:uppercase;display:flex;align-items:center;gap:5px;">
+          <i class="fa-solid fa-rocket"></i> NASA Space Apps
+        </div>
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+          <div style="flex:1;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+              <span
+                style="font-size:0.72rem;font-weight:800;background:#0b3d91;color:#ffffff;padding:3px 10px;border-radius:20px;display:flex;align-items:center;gap:4px;">
+                🚀 NASA Space Apps 2025
+              </span>
+              <span
+                style="font-size:0.72rem;font-weight:700;background:#dbeafe;color:#1e40af;padding:3px 10px;border-radius:20px;">
+                Role: Programmer / Lead Developer
+              </span>
+              <span
+                style="font-size:0.72rem;font-weight:700;background:#ede9fe;color:#6d28d9;padding:3px 10px;border-radius:20px;">
+                Team: PSTU_CLITECH
+              </span>
+              <span style="font-size:0.72rem;color:var(--text-muted);">
+                <i class="fa-solid fa-location-dot" style="color:#ef4444;"></i> Local Event: Barisal
+              </span>
+            </div>
+
+            <div style="font-weight:800;font-size:1.05rem;color:#0f172a;margin-bottom:4px;">
+              PSTU_CLITECH || 2025 NASA Space Apps Challenge
+            </div>
+            <div style="font-size:0.82rem;font-weight:600;color:#2563eb;margin-bottom:8px;">
+              Challenge Track: "Will It Rain On My Parade?" — Earth Science Division
+            </div>
+
+            <div style="font-size:0.82rem;color:#334155;margin-bottom:12px;line-height:1.65;">
+              Developed <strong>Clitech</strong>, an intelligent weather risk intelligence app that transforms real-time
+              NASA Earth Observation satellite data into personalized, actionable guidance for outdoor activities. The
+              system evaluates localized conditions for extreme weather risks (<em>"very hot"</em>, <em>"very
+                cold"</em>, <em>"very windy"</em>, <em>"very wet"</em>, or <em>"very uncomfortable"</em>) and delivers
+              automated safety alerts, event notifications, and practical recommendations through an intuitive
+              interface.
+            </div>
+
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+              <span
+                style="font-size:0.7rem;background:#ffffff;border:1px solid #cbd5e1;padding:2px 8px;border-radius:4px;color:#475569;">#NASA</span>
+              <span
+                style="font-size:0.7rem;background:#ffffff;border:1px solid #cbd5e1;padding:2px 8px;border-radius:4px;color:#475569;">#Clitech</span>
+              <span
+                style="font-size:0.7rem;background:#ffffff;border:1px solid #cbd5e1;padding:2px 8px;border-radius:4px;color:#475569;">#WeatherSafety</span>
+              <span
+                style="font-size:0.7rem;background:#ffffff;border:1px solid #cbd5e1;padding:2px 8px;border-radius:4px;color:#475569;">#EarthScience</span>
+              <a href="https://youtu.be/183J4iqp-s4" target="_blank"
+                style="margin-left:auto;display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:#ef4444;color:#ffffff;border-radius:8px;font-size:0.75rem;font-weight:700;text-decoration:none;box-shadow:0 2px 8px rgba(239,68,68,0.25);">
+                <i class="fa-brands fa-youtube"></i> Watch Clitech Video Demo
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Datathon Competitions -->
+      <h3
+        style="font-size:1rem;font-weight:700;color:var(--text);margin-top:24px;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
         <i class="fa-brands fa-kaggle" style="color:#20beff;"></i> Kaggle Datathon Competitions
       </h3>
 
@@ -2234,7 +2522,163 @@
             <div class="contact-value">Prosenjit_Mondol1</div>
           </div>
         </a>
+        <a href="https://www.youtube.com/@prosen49" target="_blank" class="contact-card">
+          <div class="contact-icon" style="background:#fee2e2;color:#dc2626;"><i class="fa-brands fa-youtube"></i></div>
+          <div>
+            <div class="contact-label">YouTube</div>
+            <div class="contact-value">@prosen49</div>
+          </div>
+        </a>
       </div>
+    </section>
+
+    <!-- ── SOME VISUALS (DEMO VIDEOS) ─────────────────────────────────── -->
+    <section id="videos">
+      <h2 class="section-title"><i class="fa-brands fa-youtube" style="color:#ff0000;"></i>Some Visuals</h2>
+      <p style="font-size:0.87rem;color:var(--text-muted);margin-bottom:20px;">
+        Project demos, robotics tests, and builds from my YouTube channel.
+      </p>
+
+      <a href="https://www.youtube.com/@prosen49" target="_blank" class="yt-channel-btn">
+        <i class="fa-brands fa-youtube"></i> Subscribe @ prosen49
+      </a>
+
+      <div class="videos-grid">
+
+        <!-- Video 1: Clitech (NASA Space Apps Challenge) -->
+        <a href="https://youtu.be/183J4iqp-s4" target="_blank" class="video-card">
+          <div class="video-thumb-wrap">
+            <div class="yt-card-header">
+              <div class="yt-avatar">
+                <i class="fa-solid fa-satellite" style="color:#fff;font-size:0.95rem;"></i>
+              </div>
+              <div class="yt-card-title-wrap">
+                <div class="yt-card-title">Clitech — NASA Space Apps Challenge 2025 | Weather Safety App</div>
+                <div class="yt-card-channel">Team PSTU_CLITECH · NASA Space Apps</div>
+              </div>
+            </div>
+            <img src="https://img.youtube.com/vi/183J4iqp-s4/hqdefault.jpg"
+              alt="Clitech — NASA Space Apps Challenge 2025" loading="lazy" />
+            <div class="yt-play-btn">
+              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"
+                  fill="#ff0000" />
+                <path d="M45 24 27 14v20" fill="#fff" />
+              </svg>
+            </div>
+            <div class="yt-watch-bar">
+              <div class="yt-share-icon"><i class="fa-solid fa-share"></i></div>
+              <div class="yt-watch-label">
+                <span>Watch on</span>
+                <span class="yt-brand"><i class="fa-brands fa-youtube"></i> YouTube</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Video 2: NeuroVision AI -->
+        <a href="https://youtu.be/MjoDlqvbwzg" target="_blank" class="video-card">
+          <div class="video-thumb-wrap">
+            <div class="yt-card-header">
+              <div class="yt-avatar">
+                <i class="fa-solid fa-brain" style="color:#fff;font-size:0.95rem;"></i>
+              </div>
+              <div class="yt-card-title-wrap">
+                <div class="yt-card-title">NeuroVision AI — Medical Imaging &amp; Explainable AI (XAI) Ecosystem</div>
+                <div class="yt-card-channel">Prosenjit Mondol · Medical AI &amp; Flutter</div>
+              </div>
+            </div>
+            <img src="https://img.youtube.com/vi/MjoDlqvbwzg/hqdefault.jpg"
+              alt="NeuroVision AI — Medical Imaging System" loading="lazy" />
+            <div class="yt-play-btn">
+              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"
+                  fill="#ff0000" />
+                <path d="M45 24 27 14v20" fill="#fff" />
+              </svg>
+            </div>
+            <div class="yt-watch-bar">
+              <div class="yt-share-icon"><i class="fa-solid fa-share"></i></div>
+              <div class="yt-watch-label">
+                <span>Watch on</span>
+                <span class="yt-brand"><i class="fa-brands fa-youtube"></i> YouTube</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Video 3: Automated Account Checking Bot -->
+        <a href="https://youtu.be/09_ODw0Iv0w" target="_blank" class="video-card">
+          <div class="video-thumb-wrap">
+            <div class="yt-card-header">
+              <div class="yt-avatar">
+                <i class="fa-solid fa-robot" style="color:#fff;font-size:0.95rem;"></i>
+              </div>
+              <div class="yt-card-title-wrap">
+                <div class="yt-card-title">Automated Website Account Validator Bot | Bulk Excel Processing</div>
+                <div class="yt-card-channel">Prosenjit Mondol · Web Automation</div>
+              </div>
+            </div>
+            <img src="https://img.youtube.com/vi/09_ODw0Iv0w/hqdefault.jpg"
+              alt="Automated Website Account Validator Bot" loading="lazy" />
+            <div class="yt-play-btn">
+              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"
+                  fill="#ff0000" />
+                <path d="M45 24 27 14v20" fill="#fff" />
+              </svg>
+            </div>
+            <div class="yt-watch-bar">
+              <div class="yt-share-icon"><i class="fa-solid fa-share"></i></div>
+              <div class="yt-watch-label">
+                <span>Watch on</span>
+                <span class="yt-brand"><i class="fa-brands fa-youtube"></i> YouTube</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Video 4: BCD to Excess-3 Converter -->
+        <a href="https://youtube.com/shorts/wyUW6HPdQ-Y" target="_blank" class="video-card">
+          <div class="video-thumb-wrap">
+            <div class="yt-card-header">
+              <div class="yt-avatar">
+                <i class="fa-solid fa-microchip" style="color:#fff;font-size:0.95rem;"></i>
+              </div>
+              <div class="yt-card-title-wrap">
+                <div class="yt-card-title">BCD to Excess-3 Code Converter Hardware Simulation (DLD Lab)</div>
+                <div class="yt-card-channel">Prosenjit Mondol · Digital Logic Design</div>
+              </div>
+            </div>
+            <img src="https://img.youtube.com/vi/wyUW6HPdQ-Y/hqdefault.jpg"
+              alt="BCD to Excess-3 Code Converter Hardware Simulation" loading="lazy" />
+            <div class="yt-play-btn">
+              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"
+                  fill="#ff0000" />
+                <path d="M45 24 27 14v20" fill="#fff" />
+              </svg>
+            </div>
+            <div class="yt-watch-bar">
+              <div class="yt-share-icon"><i class="fa-solid fa-share"></i></div>
+              <div class="yt-watch-label">
+                <span>Watch on</span>
+                <span class="yt-brand"><i class="fa-brands fa-youtube"></i> YouTube</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+      </div>
+
+      <p style="margin-top:18px;font-size:0.82rem;color:var(--text-muted);text-align:center;">
+        See more on <a href="https://www.youtube.com/@prosen49" target="_blank"
+          style="color:#ff0000;font-weight:600;">youtube.com/@prosen49</a>
+      </p>
     </section>
 
     <footer>
