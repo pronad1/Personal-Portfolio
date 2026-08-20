@@ -401,6 +401,245 @@
       font-weight: 500;
     }
 
+    /* ─── Portfolio QR Scanner ─────────────────────────────────────────────── */
+    .portfolio-scanner-card {
+      margin-top: 28px;
+      padding: 22px 24px;
+      background: #ffffff;
+      border: 1.5px solid #dbeafe;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(37, 99, 235, 0.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .portfolio-scanner-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #3b82f6, #60a5fa, #2563eb);
+    }
+
+    .scanner-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .scanner-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1px solid #bfdbfe;
+    }
+
+    .scanner-badge i {
+      color: #2563eb;
+    }
+
+    .scanner-status {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #16a34a;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #f0fdf4;
+      padding: 3px 10px;
+      border-radius: 20px;
+      border: 1px solid #bbf7d0;
+    }
+
+    .scanner-status i {
+      font-size: 0.6rem;
+      animation: pulse-dot 1.8s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.8); }
+    }
+
+    .scanner-body {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .scanner-qr-frame {
+      position: relative;
+      width: 160px;
+      height: 160px;
+      flex-shrink: 0;
+      background: #ffffff;
+      padding: 8px;
+      border-radius: 12px;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .scanner-qr-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      border-radius: 6px;
+    }
+
+    /* Scanner HUD corners */
+    .scanner-corner {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-color: #2563eb;
+      border-style: solid;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .scanner-corner.tl { top: 4px; left: 4px; border-width: 3px 0 0 3px; border-top-left-radius: 4px; }
+    .scanner-corner.tr { top: 4px; right: 4px; border-width: 3px 3px 0 0; border-top-right-radius: 4px; }
+    .scanner-corner.bl { bottom: 4px; left: 4px; border-width: 0 0 3px 3px; border-bottom-left-radius: 4px; }
+    .scanner-corner.br { bottom: 4px; right: 4px; border-width: 0 3px 3px 0; border-bottom-right-radius: 4px; }
+
+    /* Animated Laser line */
+    .scanner-laser {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.95), transparent);
+      box-shadow: 0 0 8px #3b82f6, 0 0 4px #60a5fa;
+      animation: scan-move 2.8s ease-in-out infinite alternate;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    @keyframes scan-move {
+      0% { top: 6px; opacity: 0.7; }
+      50% { opacity: 1; }
+      100% { top: calc(100% - 8px); opacity: 0.7; }
+    }
+
+    .scanner-info {
+      flex: 1;
+      min-width: 260px;
+    }
+
+    .scanner-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .scanner-desc {
+      font-size: 0.84rem;
+      color: #475569;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .scanner-url-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+      border-radius: 8px;
+      padding: 7px 12px;
+      margin-bottom: 14px;
+      font-family: monospace;
+      font-size: 0.78rem;
+      color: #2563eb;
+      word-break: break-all;
+    }
+
+    .scanner-url-box i {
+      color: #64748b;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .scanner-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .scanner-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: none;
+    }
+
+    .scanner-btn.primary {
+      background: #1d4ed8;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(29, 78, 216, 0.25);
+    }
+
+    .scanner-btn.primary:hover {
+      background: #1e40af;
+      color: #ffffff;
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+
+    .scanner-btn.secondary {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+
+    .scanner-btn.secondary:hover {
+      background: #dbeafe;
+      color: #1e40af;
+      text-decoration: none;
+    }
+
+    .scanner-btn.outline {
+      background: #ffffff;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+    }
+
+    .scanner-btn.outline:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+      text-decoration: none;
+    }
+
     /* ─── News ──────────────────────────────────────────────────────────────── */
     .news-box {
       max-height: 260px;
@@ -1706,6 +1945,52 @@
               <img src="https://img.shields.io/badge/YouTube-FF0000?style=flat-square&logo=youtube&logoColor=white"
                 alt="YouTube"></a>
           </div>
+
+          <!-- Portfolio Scanner / Direct QR Access -->
+          <div class="portfolio-scanner-card">
+            <div class="scanner-header">
+              <div class="scanner-badge">
+                <i class="fa-solid fa-qrcode"></i> Quick Portfolio Scanner
+              </div>
+              <span class="scanner-status">
+                <i class="fa-solid fa-circle"></i> Live Web Link
+              </span>
+            </div>
+            <div class="scanner-body">
+              <div class="scanner-qr-frame">
+                <div class="scanner-corner tl"></div>
+                <div class="scanner-corner tr"></div>
+                <div class="scanner-corner bl"></div>
+                <div class="scanner-corner br"></div>
+                <div class="scanner-laser"></div>
+                <img src="portfolio_qr.png" alt="Scan to visit Prosenjit Mondol's Portfolio" class="scanner-qr-img" />
+              </div>
+              <div class="scanner-info">
+                <h3 class="scanner-title">
+                  <i class="fa-solid fa-mobile-screen-button" style="color:var(--blue);"></i>
+                  Scan to View Portfolio on Mobile
+                </h3>
+                <p class="scanner-desc">
+                  Scan this QR code with any smartphone camera or QR scanner to instantly access my live portfolio, research publications, achievements, and projects on your device.
+                </p>
+                <div class="scanner-url-box">
+                  <i class="fa-solid fa-link"></i>
+                  <span class="scanner-url-text">https://pronad1.github.io/Personal-Portfolio/</span>
+                </div>
+                <div class="scanner-actions">
+                  <a href="portfolio_qr.png" download="Prosenjit_Mondol_Portfolio_QR.png" class="scanner-btn primary">
+                    <i class="fa-solid fa-download"></i> Download QR
+                  </a>
+                  <button type="button" class="scanner-btn secondary" id="copyPortfolioUrlBtn" onclick="copyPortfolioUrl()">
+                    <i class="fa-regular fa-copy"></i> <span id="copyBtnText">Copy Link</span>
+                  </button>
+                  <a href="https://pronad1.github.io/Personal-Portfolio/" target="_blank" class="scanner-btn outline">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Visit Site
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -2838,6 +3123,53 @@
       updateUI();
       startAuto();
     })();
+
+    // ── Copy Portfolio URL Helper ───────────────────────────────────────────
+    function copyPortfolioUrl() {
+      const url = 'https://pronad1.github.io/Personal-Portfolio/';
+      const btnText = document.getElementById('copyBtnText');
+      const copyBtn = document.getElementById('copyPortfolioUrlBtn');
+      const icon = copyBtn ? copyBtn.querySelector('i') : null;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(() => {
+          if (btnText) btnText.textContent = 'Copied!';
+          if (icon) icon.className = 'fa-solid fa-check';
+          setTimeout(() => {
+            if (btnText) btnText.textContent = 'Copy Link';
+            if (icon) icon.className = 'fa-regular fa-copy';
+          }, 2200);
+        }).catch(() => {
+          fallbackCopyTextToClipboard(url, btnText, icon);
+        });
+      } else {
+        fallbackCopyTextToClipboard(url, btnText, icon);
+      }
+    }
+
+    function fallbackCopyTextToClipboard(text, btnText, icon) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.top = '0';
+      textArea.style.left = '0';
+      textArea.style.opacity = '0';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        if (btnText) btnText.textContent = 'Copied!';
+        if (icon) icon.className = 'fa-solid fa-check';
+        setTimeout(() => {
+          if (btnText) btnText.textContent = 'Copy Link';
+          if (icon) icon.className = 'fa-regular fa-copy';
+        }, 2200);
+      } catch (err) {
+        prompt('Copy link to clipboard:', text);
+      }
+      document.body.removeChild(textArea);
+    }
   </script>
 
 
