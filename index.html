@@ -796,6 +796,98 @@
       border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
+    /* Poster Preview Card in News */
+    .poster-preview-card {
+      display: block;
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.09);
+      transition: all 0.28s ease;
+      background: #ffffff;
+      max-width: 520px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .poster-preview-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.22);
+      border-color: #3b82f6;
+      text-decoration: none;
+    }
+
+    .poster-preview-img-wrap {
+      position: relative;
+      width: 100%;
+      height: 240px;
+      overflow: hidden;
+      background: #f8fafc;
+    }
+
+    .poster-preview-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      transition: transform 0.4s ease, object-position 0.4s ease;
+      display: block;
+    }
+
+    .poster-preview-card:hover .poster-preview-img {
+      transform: scale(1.03);
+      object-position: center center;
+    }
+
+    .poster-preview-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(15, 23, 42, 0.88) 0%, rgba(15, 23, 42, 0.2) 50%, transparent 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 12px 14px;
+      transition: background 0.25s ease;
+    }
+
+    .poster-preview-card:hover .poster-preview-overlay {
+      background: linear-gradient(to top, rgba(15, 23, 42, 0.94) 0%, rgba(15, 23, 42, 0.3) 60%, transparent 100%);
+    }
+
+    .poster-preview-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .poster-preview-sub {
+      font-size: 0.72rem;
+      color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .poster-preview-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #2563eb;
+      color: #ffffff;
+      padding: 3px 9px;
+      border-radius: 5px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.35);
+    }
+
     .news-tag {
       display: inline-block;
       font-size: 0.65rem;
@@ -2146,20 +2238,18 @@
             🌟 <strong>Undergraduate Research Highlight:</strong> Designed and finalized the official research presentation poster for our accepted paper <em>"A Sensitivity-Gated Cascade for Compute-Efficient Spinal Lesion Detection in Resource-Constrained Settings"</em> at the <strong>MIRASOL Workshop, MICCAI 2026</strong> (Strasbourg, France).
             <span class="news-tag tag-accepted">🎯 MICCAI 2026</span>
             <div class="news-preview-wrap">
-              <a href="acheivement/[Prosenjit Mondol]_[74]_[MIRASOL]_poster.pdf" target="_blank" title="View MICCAI 2026 Presentation Poster" class="news-preview-link" style="max-width:460px;">
-                <div style="padding:10px 14px;background:#0f172a;display:flex;align-items:center;gap:12px;">
-                  <i class="fa-solid fa-file-pdf" style="font-size:1.6rem;color:#ef4444;flex-shrink:0;"></i>
-                  <div style="flex:1;min-width:0;">
-                    <div style="font-size:0.82rem;font-weight:700;color:#f8fafc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
-                      MICCAI 2026 (MIRASOL) Presentation Poster
+              <a href="acheivement/[Prosenjit Mondol]_[74]_[MIRASOL]_poster.pdf" target="_blank" title="Click to view full high-resolution poster" class="poster-preview-card">
+                <div class="poster-preview-img-wrap">
+                  <img src="acheivement/miccai_poster_preview.jpg" alt="MICCAI 2026 MIRASOL Workshop Poster — Prosenjit Mondol" class="poster-preview-img" />
+                  <div class="poster-preview-overlay">
+                    <div class="poster-preview-title">
+                      <i class="fa-solid fa-scroll" style="color:#60a5fa;"></i> MICCAI 2026 (MIRASOL) Presentation Poster
                     </div>
-                    <div style="font-size:0.72rem;color:#94a3b8;">
-                      Spinal Lesion Detection · Compute-Efficient Cascade · 1-Page Poster
+                    <div class="poster-preview-sub">
+                      <span>Spinal Lesion Detection · Compute-Efficient Cascade</span>
+                      <span class="poster-preview-cta"><i class="fa-solid fa-expand"></i> Click to View Full Poster</span>
                     </div>
                   </div>
-                  <span class="news-preview-badge" style="position:static;padding:4px 8px;font-size:0.65rem;flex-shrink:0;">
-                    <i class="fa-solid fa-arrow-up-right-from-square"></i> View Poster
-                  </span>
                 </div>
               </a>
             </div>
