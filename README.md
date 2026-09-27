@@ -13,13 +13,6 @@ Welcome to my personal portfolio website! This portfolio showcases my skills, pr
 - **Contact** - Get in touch with me through email or social media links.
 - **Responsive Design** - Fully optimized for mobile, tablet, and desktop viewing.
 
-## Technologies Used
-
-- HTML5
-- CSS3
-- JavaScript
-- Bootstrap (if applicable)
-- Any additional libraries or frameworks
 
 ## How to Use
 
