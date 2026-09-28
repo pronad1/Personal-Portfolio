@@ -935,6 +935,35 @@
       color: #dc2626;
     }
 
+    /* ─── Highlighted News Item ──────────────────────────────────────────────── */
+    .news-item.highlight {
+      background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 40%, #fff7ed 100%);
+      border-left: 4px solid #f59e0b;
+      border-bottom: 1px solid #fde68a;
+      position: relative;
+      border-radius: 0;
+    }
+
+    .news-item.highlight:hover {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 40%, #fef3c7 100%);
+    }
+
+    .news-highlight-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: linear-gradient(90deg, #f59e0b, #d97706);
+      color: #fff;
+      font-size: 0.63rem;
+      font-weight: 800;
+      padding: 2px 9px;
+      border-radius: 10px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      box-shadow: 0 2px 6px rgba(245, 158, 11, 0.3);
+    }
+
     /* ─── Experience ────────────────────────────────────────────────────────── */
     .exp-item {
       display: flex;
@@ -2239,6 +2268,62 @@
     <section id="news">
       <h2 class="section-title"><i class="fa-solid fa-newspaper"></i>News &amp; Updates</h2>
       <div class="news-box">
+        <!-- ★ HIGHLIGHT NEWS: MIRASOL Physical Presentation at MICCAI 2026, France -->
+        <div class="news-item highlight">
+          <span class="news-date">Sep 2026</span>
+          <div class="news-text">
+            <div class="news-highlight-badge">⭐ Milestone Achievement</div>
+            🇫🇷 <strong>Physically Presented at MICCAI 2026 — Strasbourg, France!</strong> As an undergraduate student,
+            our research paper <em>"A Sensitivity-Gated Cascade for Compute-Efficient Spinal Lesion Detection in
+              Resource-Constrained Settings"</em> was officially presented on-site at the <strong>3rd MiRASOL Workshop,
+              MICCAI 2026</strong> in Strasbourg, France, through the prestigious <strong>MICCAI Ambassador
+              Program</strong>.
+            We are deeply honored that <strong>Prof. Dr. Pamela Guevara</strong>, a MICCAI Ambassador, personally
+            carried
+            and presented our poster at the on-site poster session — a landmark moment for our research group.
+            <span class="news-tag tag-presented">🎤 Physically Presented</span>
+            <span class="news-tag tag-accepted">🏛️ MICCAI 2026</span>
+            <span class="news-tag" style="background:#fee2e2;color:#b91c1c;">🇫🇷 France</span>
+            <div class="news-preview-wrap">
+              <div class="news-gallery-grid">
+                <a href="acheivement/mirasol with pamela.png" target="_blank"
+                  title="View: With Prof. Dr. Pamela Guevara at the MIRASOL Poster Session" class="poster-preview-card">
+                  <div class="poster-preview-img-wrap" style="height:180px;">
+                    <img src="acheivement/mirasol with pamela.png"
+                      alt="With Prof. Dr. Pamela Guevara at MIRASOL MICCAI 2026 Strasbourg France"
+                      class="poster-preview-img" style="object-position:top center;" />
+                    <div class="poster-preview-overlay">
+                      <div class="poster-preview-title">
+                        <i class="fa-solid fa-user-tie" style="color:#fbbf24;"></i> With MICCAI Ambassador
+                      </div>
+                      <div class="poster-preview-sub">
+                        <span>Prof. Dr. Pamela Guevara · MIRASOL</span>
+                        <span class="poster-preview-cta"><i class="fa-solid fa-expand"></i> View Full</span>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                <a href="acheivement/mirasol presentation.png" target="_blank"
+                  title="View: MIRASOL Poster Session at MICCAI 2026, Strasbourg" class="poster-preview-card">
+                  <div class="poster-preview-img-wrap" style="height:180px;">
+                    <img src="acheivement/mirasol presentation.png"
+                      alt="MIRASOL Poster Session at MICCAI 2026 Strasbourg France" class="poster-preview-img"
+                      style="object-position:top center;" />
+                    <div class="poster-preview-overlay">
+                      <div class="poster-preview-title">
+                        <i class="fa-solid fa-person-chalkboard" style="color:#fbbf24;"></i> MIRASOL Poster Session
+                      </div>
+                      <div class="poster-preview-sub">
+                        <span>MICCAI 2026 · Strasbourg, France</span>
+                        <span class="poster-preview-cta"><i class="fa-solid fa-expand"></i> View Full</span>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="news-item">
           <span class="news-date">Sep 2026</span>
           <div class="news-text">
@@ -2504,10 +2589,13 @@
             Resource-Constrained Settings</div>
           <div class="pub-venue">3rd Medical Image Computing in Resource-Constrained Settings Workshop &amp; Knowledge
             Interchange (MIRASOL), <strong>MICCAI 2026</strong>, Strasbourg, France</div>
-          <span class="pub-status accepted">✅ Accepted · First Author (2026)</span>
+          <span class="pub-status presented" style="background:#fef3c7;color:#92400e;border-color:#fde68a;">🇫🇷
+            Physically Presented · First Author (2026)</span>
           <div class="pub-links">
             <a href="acheivement/[Prosenjit Mondol]_[74]_[MIRASOL]_poster.pdf" target="_blank"><i
                 class="fa-solid fa-file-pdf fa-xs"></i> Presentation Poster</a>
+            <a href="acheivement/mirasol with pamela.png" target="_blank" style="color:#92400e;"><i
+                class="fa-solid fa-camera fa-xs"></i> Poster Session Photo</a>
           </div>
         </div>
       </div>
