@@ -1847,6 +1847,116 @@
       color: var(--text);
     }
 
+    /* ─── Volunteering & Extracurricular ──────────────────────────────────── */
+    .vol-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 18px;
+      margin-top: 4px;
+    }
+
+    .vol-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 22px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vol-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      border-radius: 14px 14px 0 0;
+    }
+
+    .vol-card.green::before  { background: linear-gradient(90deg, #16a34a, #4ade80); }
+    .vol-card.blue::before   { background: linear-gradient(90deg, #1d4ed8, #60a5fa); }
+    .vol-card.orange::before { background: linear-gradient(90deg, #ea580c, #fb923c); }
+    .vol-card.teal::before   { background: linear-gradient(90deg, #0891b2, #38bdf8); }
+
+    .vol-card:hover {
+      box-shadow: 0 8px 28px rgba(37,99,235,0.13);
+      border-color: #93c5fd;
+      transform: translateY(-2px);
+    }
+
+    .vol-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .vol-body { flex: 1; min-width: 0; }
+
+    .vol-org {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 2px;
+      line-height: 1.3;
+    }
+
+    .vol-role {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--blue);
+      margin-bottom: 4px;
+    }
+
+    .vol-period {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .vol-period i { font-size: 0.65rem; }
+
+    .vol-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    .vol-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 10px;
+    }
+
+    .vol-tag {
+      font-size: 0.67rem;
+      font-weight: 600;
+      padding: 2px 9px;
+      border-radius: 10px;
+      background: var(--blue-light);
+      color: var(--blue);
+      border: 1px solid #bfdbfe;
+    }
+
+    .vol-tag.green  { background:#dcfce7; color:#16a34a; border-color:#bbf7d0; }
+    .vol-tag.red    { background:#fee2e2; color:#dc2626; border-color:#fecaca; }
+    .vol-tag.orange { background:#ffedd5; color:#ea580c; border-color:#fed7aa; }
+    .vol-tag.teal   { background:#e0f2fe; color:#0891b2; border-color:#bae6fd; }
+
     /* ─── Footer ────────────────────────────────────────────────────────────── */
     footer {
       background: #0f172a;
@@ -2089,7 +2199,8 @@
         <li><a href="#cp" id="nav-cp"><i class="fa-solid fa-terminal"></i> Competitive</a></li>
         <li><a href="#coursework" id="nav-course"><i class="fa-solid fa-book-open"></i> Coursework</a></li>
         <li><a href="#contact" id="nav-contact"><i class="fa-solid fa-envelope"></i> Contact</a></li>
-        <li><a href="#videos" id="nav-videos"><i class="fa-brands fa-youtube"></i> Videos</a></li>
+        <li><a href="#volunteering" id="nav-vol"><i class="fa-solid fa-hands-helping"></i> Volunteering</a></li>
+        <li><a href="#videos" id="nav-videos"><i class="fa-solid fa-play-circle"></i> Visual Representation</a></li>
       </ul>
     </nav>
 
@@ -3294,9 +3405,103 @@
       </div>
     </section>
 
-    <!-- ── SOME VISUALS (DEMO VIDEOS) ─────────────────────────────────── -->
+    <!-- ── VOLUNTEERING & EXTRACURRICULAR ──────────────────────────────────── -->
+    <section id="volunteering">
+      <h2 class="section-title"><i class="fa-solid fa-hands-helping"></i>Volunteering &amp; Extracurricular</h2>
+      <p style="font-size:0.87rem;color:var(--text-muted);margin-bottom:24px;">
+        Beyond academics and research, I actively contribute to community and student-led initiatives that advance
+        technology awareness, leadership, and social impact.
+      </p>
+
+      <div class="vol-grid">
+
+        <!-- Badhon -->
+        <div class="vol-card red">
+          <div class="vol-icon" style="background:#fee2e2;color:#dc2626;">🩸</div>
+          <div class="vol-body">
+            <div class="vol-org">Badhon</div>
+            <div class="vol-role">Voluntary Blood Donor</div>
+            <div class="vol-period"><i class="fa-regular fa-calendar"></i> Feb 2023 – Present · 2+ yrs</div>
+            <div class="vol-desc">
+              Badhon is Bangladesh's largest voluntary blood donation organization. As a volunteer donor,
+              I actively contribute to saving lives by responding to emergency blood needs in hospitals,
+              supporting patients in surgeries, trauma care, and chronic illness treatment.
+            </div>
+            <div class="vol-tags">
+              <span class="vol-tag red">🩸 Blood Donation</span>
+              <span class="vol-tag">Community Service</span>
+              <span class="vol-tag">Humanitarian</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CSE Club PSTU -->
+        <div class="vol-card blue">
+          <div class="vol-icon" style="background:#eff6ff;color:#1d4ed8;"><i class="fa-solid fa-laptop-code"></i></div>
+          <div class="vol-body">
+            <div class="vol-org">CSE Club, PSTU</div>
+            <div class="vol-role">Member</div>
+            <div class="vol-period"><i class="fa-regular fa-calendar"></i> Jan 2023 – Present · 2+ yrs</div>
+            <div class="vol-desc">
+              Active member of the CSE Club at Patuakhali Science &amp; Technology University, working to
+              foster a culture of technology, innovation, and collaborative learning among students. Participate
+              in organizing tech events, workshops, and programming contests.
+            </div>
+            <div class="vol-tags">
+              <span class="vol-tag">💻 Technology</span>
+              <span class="vol-tag">Programming</span>
+              <span class="vol-tag">Student Community</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- YouthMappers PSTU -->
+        <div class="vol-card teal">
+          <div class="vol-icon" style="background:#e0f2fe;color:#0891b2;">🌍</div>
+          <div class="vol-body">
+            <div class="vol-org">YouthMappers PSTU Chapter</div>
+            <div class="vol-role">Head of Media &amp; IT</div>
+            <div class="vol-period"><i class="fa-regular fa-calendar"></i> PSTU Campus</div>
+            <div class="vol-desc">
+              YouthMappers is a global university network dedicated to open mapping for humanitarian impact.
+              As Head of Media &amp; IT for the PSTU Chapter, I oversee digital communication, content creation,
+              and technical infrastructure to promote open geospatial data and community mapping initiatives.
+            </div>
+            <div class="vol-tags">
+              <span class="vol-tag teal">🗺️ Open Mapping</span>
+              <span class="vol-tag">Media &amp; IT</span>
+              <span class="vol-tag">GIS</span>
+              <span class="vol-tag">Global Network</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PSTU Career Club -->
+        <div class="vol-card orange">
+          <div class="vol-icon" style="background:#ffedd5;color:#ea580c;"><i class="fa-solid fa-briefcase"></i></div>
+          <div class="vol-body">
+            <div class="vol-org">PSTU Career Club</div>
+            <div class="vol-role">Faculty Ambassador</div>
+            <div class="vol-period"><i class="fa-regular fa-calendar"></i> PSTU Campus</div>
+            <div class="vol-desc">
+              The PSTU Career Club bridges the gap between academic learning and professional readiness.
+              As a Faculty Ambassador, I represent my department, mentor peers on career development,
+              and coordinate industry engagement activities to prepare students for the professional world.
+            </div>
+            <div class="vol-tags">
+              <span class="vol-tag orange">🎓 Career Dev.</span>
+              <span class="vol-tag">Mentorship</span>
+              <span class="vol-tag">Ambassador</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── VISUAL REPRESENTATION (DEMO VIDEOS) ──────────────────────────────── -->
     <section id="videos">
-      <h2 class="section-title"><i class="fa-brands fa-youtube" style="color:#ff0000;"></i>Some Visuals</h2>
+      <h2 class="section-title"><i class="fa-solid fa-play-circle" style="color:#ff0000;"></i>Visual Representation</h2>
       <p style="font-size:0.87rem;color:var(--text-muted);margin-bottom:20px;">
         Project demos, robotics tests, and builds from my YouTube channel.
       </p>
@@ -3451,7 +3656,7 @@
       <p>© 2026 Prosenjit Mondol &nbsp;·&nbsp; B.Sc. CSE, PSTU &nbsp;·&nbsp;
         Research Assistant @ <a href="https://pronad1.github.io/CIMILab/index.html" target="_blank">CIMILab</a>
         &nbsp;·&nbsp;
-        <a href="mailto:prosenjit1156@gmail.com">prosenjit1156@gmail.com</a>
+        <a href="mailto:ug2102049@cse.pstu.ac.bd">ug2102049@cse.pstu.ac.bd</a>
       </p>
     </footer>
 
