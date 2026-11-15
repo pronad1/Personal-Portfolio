@@ -632,6 +632,7 @@ function initSortable(listEl, tableName, items) {
           await supabaseClient.from(tableName).update({ display_order: u.display_order }).eq('id', u.id);
         }
         showToast('Order saved', 'success');
+        triggerAutoSync();
       } catch (err) {
         showToast('Failed to save order', 'error');
       }
@@ -755,25 +756,27 @@ function showDashboard() {
   const userEmailEl = document.getElementById('user-email');
   if (userEmailEl) userEmailEl.textContent = ADMIN_EMAIL;
 
-  // If running in local fallback mode, show notice banner
-  if (!isSupabaseConfigured) {
-    let modeBanner = document.getElementById('cms-mode-banner');
-    if (!modeBanner) {
-      modeBanner = document.createElement('div');
-      modeBanner.id = 'cms-mode-banner';
-      modeBanner.style.cssText = 'background: rgba(52, 152, 219, 0.15); border: 1px solid rgba(52, 152, 219, 0.4); color: #93c5fd; padding: 0.75rem 1rem; border-radius: 8px; margin-bottom: 1.25rem; font-size: 0.85rem; display: flex; align-items: center; justify-content: space-between;';
-      modeBanner.innerHTML = `
-        <div>
-          <strong>⚡ Local Mode:</strong> Logged in as <code>${ADMIN_EMAIL}</code>. Changes are saved in your local browser storage.
-          To sync live with GitHub Pages, follow <a href="../ADMIN_DEPLOYMENT.md" target="_blank" style="color:#60a5fa;text-decoration:underline;">ADMIN_DEPLOYMENT.md</a> to connect your free Supabase database.
-        </div>
-        <button onclick="this.parentElement.remove()" style="background:none;border:none;color:#93c5fd;cursor:pointer;font-size:1.1rem;padding:0 0.5rem;" aria-label="Dismiss">×</button>
-      `;
-      const mainContent = document.getElementById('main-content');
-      if (mainContent) mainContent.prepend(modeBanner);
-    }
+  // Mode notice banner
+  let modeBanner = document.getElementById('cms-mode-banner');
+  if (!modeBanner) {
+    modeBanner = document.createElement('div');
+    modeBanner.id = 'cms-mode-banner';
+    modeBanner.style.cssText = 'background: rgba(52, 152, 219, 0.15); border: 1px solid rgba(52, 152, 219, 0.4); color: #93c5fd; padding: 0.75rem 1rem; border-radius: 8px; margin-bottom: 1.25rem; font-size: 0.85rem; display: flex; align-items: center; justify-content: space-between;';
+    const isGhConnected = !!localStorage.getItem('prosen_github_pat');
+    modeBanner.innerHTML = `
+      <div>
+        <strong>⚡ CMS Dashboard:</strong> Changes save instantly.
+        ${isGhConnected
+          ? '<span style="color:#22c55e;">Auto-sync is <strong>Active</strong> — all updates push automatically to GitHub on save!</span>'
+          : '<span style="color:#fbbf24;">Connect GitHub in the topbar to enable <strong>automatic deployment</strong> on every save.</span>'}
+      </div>
+      <button onclick="this.parentElement.remove()" style="background:none;border:none;color:#93c5fd;cursor:pointer;font-size:1.1rem;padding:0 0.5rem;" aria-label="Dismiss">×</button>
+    `;
+    const mainContent = document.getElementById('main-content');
+    if (mainContent) mainContent.prepend(modeBanner);
   }
 
+  updateSyncStatus();
   startInactivityTracking();
   navigateTo('overview');
 }
@@ -927,6 +930,234 @@ async function exportBackup() {
 }
 
 // =============================================================================
+// 10B. GITHUB DIRECT REPOSITORY SYNC & AUTOMATIC PUSH
+// =============================================================================
+
+let _isSyncing = false;
+let _pendingSync = false;
+
+function updateSyncStatus() {
+  const statusEl = document.getElementById('sync-status-indicator');
+  if (!statusEl) return;
+  const token = localStorage.getItem('prosen_github_pat');
+  if (token) {
+    statusEl.innerHTML = '<span style="color:#22c55e;" title="Auto-push enabled on every save">🟢 Auto-Sync Active</span>';
+    statusEl.style.cursor = 'pointer';
+    statusEl.onclick = () => openGitHubSyncModal();
+  } else {
+    statusEl.innerHTML = '<span style="color:#f59e0b;cursor:pointer;text-decoration:underline;" title="Click to connect GitHub for automatic live updates">⚠️ Auto-Sync: Connect GitHub</span>';
+    statusEl.onclick = () => openGitHubSyncModal();
+  }
+}
+
+async function triggerAutoSync() {
+  const token = localStorage.getItem('prosen_github_pat');
+  const repo = localStorage.getItem('prosen_github_repo') || 'pronad1/Personal-Portfolio';
+  const branch = localStorage.getItem('prosen_github_branch') || 'main';
+  const statusEl = document.getElementById('sync-status-indicator');
+
+  if (!token) {
+    updateSyncStatus();
+    if (!sessionStorage.getItem('prosen_gh_prompt_dismissed')) {
+      sessionStorage.setItem('prosen_gh_prompt_dismissed', 'true');
+      openGitHubSyncModal(true);
+    }
+    return;
+  }
+
+  if (_isSyncing) {
+    _pendingSync = true;
+    return;
+  }
+
+  _isSyncing = true;
+  if (statusEl) {
+    statusEl.innerHTML = '<span style="color:#38bdf8;">🔄 Auto-pushing to GitHub...</span>';
+  }
+
+  try {
+    await executeGitHubPush(repo, branch, token);
+    const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    if (statusEl) {
+      statusEl.innerHTML = `<span style="color:#22c55e;" title="Automatically committed to ${repo}:${branch}">✅ Synced to GitHub (${now})</span>`;
+    }
+    showToast('Saved & auto-pushed to GitHub!', 'success');
+  } catch (err) {
+    console.error('Auto GitHub push error:', err);
+    if (statusEl) {
+      statusEl.innerHTML = `<span style="color:#f87171;cursor:pointer;" title="${escHtml(err.message)}">⚠️ Sync failed (click to retry)</span>`;
+      statusEl.onclick = () => triggerAutoSync();
+    }
+    showToast('Saved locally, but GitHub auto-push failed: ' + err.message, 'warning');
+  } finally {
+    _isSyncing = false;
+    if (_pendingSync) {
+      _pendingSync = false;
+      triggerAutoSync();
+    }
+  }
+}
+
+function openGitHubSyncModal(isAutoPrompt = false) {
+  const savedToken = localStorage.getItem('prosen_github_pat') || '';
+  const savedRepo = localStorage.getItem('prosen_github_repo') || 'pronad1/Personal-Portfolio';
+  const savedBranch = localStorage.getItem('prosen_github_branch') || 'main';
+
+  const modalTitle = isAutoPrompt ? '🐙 Enable Automatic Live Updates' : '🐙 GitHub Repository Sync';
+  const introText = isAutoPrompt
+    ? 'Connect your GitHub repository once to enable <strong>automatic instant publishing</strong>. After entering your token, every change you save in this admin panel will automatically push to your live website without any manual steps!'
+    : 'Configure automatic GitHub synchronization. Every change you make in this dashboard automatically commits to <code>data/portfolio-data.json</code> in your repository so your live GitHub Pages site is always up-to-date.';
+
+  const bodyHtml = `
+    <div style="font-size:0.875rem;color:var(--text-muted);margin-bottom:1.25rem;line-height:1.5;">
+      ${introText}
+    </div>
+    <div class="form-group">
+      <label>GitHub Repository</label>
+      <input type="text" id="gh-repo" value="${escHtml(savedRepo)}" placeholder="username/repository" />
+    </div>
+    <div class="form-group">
+      <label>Branch</label>
+      <input type="text" id="gh-branch" value="${escHtml(savedBranch)}" placeholder="main" />
+    </div>
+    <div class="form-group">
+      <label>GitHub Personal Access Token (PAT)</label>
+      <input type="password" id="gh-token" value="${escHtml(savedToken)}" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" />
+      <small style="display:block;margin-top:0.35rem;color:var(--text-muted);font-size:0.75rem;">
+        Requires <code>repo</code> or fine-grained <code>contents:write</code> scope.
+        Stored locally in your private browser storage only.
+      </small>
+    </div>
+    <div class="form-group">
+      <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;font-size:0.875rem;">
+        <input type="checkbox" id="gh-save-token" ${savedToken ? 'checked' : ''} style="width:auto;" />
+        Remember token on this device (enables automatic push on every save)
+      </label>
+    </div>
+  `;
+
+  openModal(modalTitle, bodyHtml, async () => {
+    const repo = document.getElementById('gh-repo')?.value.trim();
+    const branch = document.getElementById('gh-branch')?.value.trim() || 'main';
+    const token = document.getElementById('gh-token')?.value.trim();
+    const remember = document.getElementById('gh-save-token')?.checked;
+
+    if (!repo || !token) {
+      showToast('Please provide both repository and access token', 'error');
+      return;
+    }
+
+    if (remember) {
+      localStorage.setItem('prosen_github_pat', token);
+      localStorage.setItem('prosen_github_repo', repo);
+      localStorage.setItem('prosen_github_branch', branch);
+    } else {
+      localStorage.removeItem('prosen_github_pat');
+    }
+
+    updateSyncStatus();
+
+    const saveBtn = document.getElementById('modal-save-btn');
+    if (saveBtn) {
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Pushing to GitHub...';
+    }
+
+    try {
+      await executeGitHubPush(repo, branch, token);
+      showToast('Successfully pushed to GitHub! Auto-sync is now active.', 'success');
+      closeModal();
+      updateSyncStatus();
+    } catch (err) {
+      showToast('GitHub Push failed: ' + err.message, 'error');
+    } finally {
+      if (saveBtn) {
+        saveBtn.disabled = false;
+        saveBtn.textContent = '🚀 Push to GitHub';
+      }
+    }
+  });
+
+  const saveBtn = document.getElementById('modal-save-btn');
+  if (saveBtn) {
+    saveBtn.textContent = '🚀 Push to GitHub';
+  }
+}
+
+async function executeGitHubPush(repo, branch, token) {
+  const tables = [
+    'about', 'news', 'experience', 'education', 'publications',
+    'projects', 'skills', 'skill_categories', 'awards',
+    'certificates', 'competitive_programming', 'cp_meta', 'contests',
+    'hackathons', 'coursework', 'contact_profiles', 'volunteering', 'media'
+  ];
+
+  const payload = {
+    version: '1.0',
+    updated_at: new Date().toISOString(),
+    tables: {}
+  };
+
+  for (const table of tables) {
+    try {
+      const { data } = await supabaseClient.from(table).select('*');
+      payload.tables[table] = data || [];
+    } catch (e) {
+      payload.tables[table] = [];
+    }
+  }
+
+  const contentStr = JSON.stringify(payload, null, 2);
+  const contentBase64 = btoa(unescape(encodeURIComponent(contentStr)));
+  const filePath = 'data/portfolio-data.json';
+
+  let fileSha = null;
+  const getUrl = `https://api.github.com/repos/${repo}/contents/${filePath}?ref=${branch}`;
+  const getRes = await fetch(getUrl, {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/vnd.github.v3+json'
+    }
+  });
+
+  if (getRes.status === 200) {
+    const fileInfo = await getRes.json();
+    fileSha = fileInfo.sha;
+  } else if (getRes.status === 401 || getRes.status === 403) {
+    const errData = await getRes.json().catch(() => ({}));
+    throw new Error('Authentication failed: ' + (errData.message || 'Invalid or unauthorized token. Make sure it has "repo" or "contents:write" permission.'));
+  } else if (getRes.status !== 404) {
+    const errData = await getRes.json().catch(() => ({}));
+    throw new Error(errData.message || `GitHub API error (${getRes.status})`);
+  }
+
+  const putUrl = `https://api.github.com/repos/${repo}/contents/${filePath}`;
+  const putBody = {
+    message: `Admin CMS: Update portfolio content (${new Date().toLocaleDateString()})`,
+    content: contentBase64,
+    branch: branch
+  };
+  if (fileSha) {
+    putBody.sha = fileSha;
+  }
+
+  const putRes = await fetch(putUrl, {
+    method: 'PUT',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(putBody)
+  });
+
+  if (!putRes.ok) {
+    const errData = await putRes.json().catch(() => ({}));
+    throw new Error(errData.message || `Failed to commit to GitHub (${putRes.status})`);
+  }
+}
+
+// =============================================================================
 // 11. SECTION: ABOUT (single-row edit form, no list)
 // =============================================================================
 
@@ -1037,9 +1268,25 @@ async function saveAbout(existingId = null) {
   }
 
   if (error) { showToast('Save failed: ' + error.message, 'error'); return; }
+
+  // Automatically keep primary education entry in sync with About academic info
+  try {
+    const { data: edus } = await supabaseClient.from('education').select('*').order('display_order', { ascending: true }).limit(1);
+    if (edus && edus.length > 0) {
+      const eduPayload = {};
+      if (payload.cgpa) eduPayload.gpa = payload.cgpa;
+      if (payload.credits_completed) eduPayload.credits = payload.credits_completed;
+      if (payload.honor) eduPayload.honor = payload.honor;
+      if (Object.keys(eduPayload).length > 0) {
+        await supabaseClient.from('education').update(eduPayload).eq('id', edus[0].id);
+      }
+    }
+  } catch (_) {}
+
   await logActivity('update', 'about', 'Updated about section');
   showToast('About saved!', 'success');
   loadAbout();
+  triggerAutoSync();
 }
 
 // =============================================================================
@@ -1126,6 +1373,7 @@ async function saveNews() {
   if (error) { showToast('Save failed: ' + error.message, 'error'); return; }
   await logActivity(id ? 'update' : 'create', 'news', `${id ? 'Updated' : 'Created'} news: ${payload.title}`);
   showToast('News saved!', 'success');
+  triggerAutoSync();
   closeModal();
   loadNews();
 }
@@ -1136,6 +1384,7 @@ async function deleteNews(id) {
   if (error) { showToast('Delete failed: ' + error.message, 'error'); return; }
   await logActivity('delete', 'news', `Deleted news id: ${id}`);
   showToast('News deleted.', 'success');
+  triggerAutoSync();
   loadNews();
 }
 
@@ -1213,6 +1462,7 @@ async function saveExperience() {
   if (error) { showToast('Save failed: ' + error.message, 'error'); return; }
   await logActivity(id ? 'update' : 'create', 'experience', `${id ? 'Updated' : 'Created'}: ${payload.role} at ${payload.organization}`);
   showToast('Experience saved!', 'success');
+  triggerAutoSync();
   closeModal();
   loadExperience();
 }
@@ -1223,6 +1473,7 @@ async function deleteExperience(id) {
   if (error) { showToast('Delete failed: ' + error.message, 'error'); return; }
   await logActivity('delete', 'experience', `Deleted experience id: ${id}`);
   showToast('Experience deleted.', 'success');
+  triggerAutoSync();
   loadExperience();
 }
 
@@ -1272,8 +1523,9 @@ function showEducationForm(item = null) {
     <div class="form-group"><label>Institution URL</label><input type="url" id="f-inst_url" value="${escHtml(item?.inst_url || '')}" /></div>
     <div class="form-group"><label>Location</label><input type="text" id="f-location" value="${escHtml(item?.location || '')}" /></div>
     <div class="form-group"><label>Period</label><input type="text" id="f-period" value="${escHtml(item?.period || '')}" /></div>
-    <div class="form-group"><label>GPA</label><input type="text" id="f-gpa" value="${escHtml(item?.gpa || '')}" /></div>
-    <div class="form-group"><label>Honor</label><input type="text" id="f-honor" value="${escHtml(item?.honor || '')}" /></div>
+    <div class="form-group"><label>Credits Completed</label><input type="text" id="f-credits" value="${escHtml(item?.credits || '')}" placeholder="e.g. 126.5 / 165" /></div>
+    <div class="form-group"><label>GPA / CGPA</label><input type="text" id="f-gpa" value="${escHtml(item?.gpa || '')}" placeholder="e.g. 3.65 / 4.00" /></div>
+    <div class="form-group"><label>Honor</label><input type="text" id="f-honor" value="${escHtml(item?.honor || '')}" placeholder="e.g. Dean's List" /></div>
     <div class="form-group"><label>Display Order</label><input type="number" id="f-display_order" value="${item?.display_order ?? 0}" /></div>
     <input type="hidden" id="f-id" value="${item?.id || ''}" />
   `, () => saveEducation());
@@ -1287,6 +1539,7 @@ async function saveEducation() {
     inst_url: document.getElementById('f-inst_url')?.value.trim(),
     location: document.getElementById('f-location')?.value.trim(),
     period: document.getElementById('f-period')?.value.trim(),
+    credits: document.getElementById('f-credits')?.value.trim(),
     gpa: document.getElementById('f-gpa')?.value.trim(),
     honor: document.getElementById('f-honor')?.value.trim(),
     display_order: parseInt(document.getElementById('f-display_order')?.value) || 0,
@@ -1297,10 +1550,26 @@ async function saveEducation() {
     : await supabaseClient.from('education').insert(payload);
 
   if (error) { showToast('Save failed: ' + error.message, 'error'); return; }
+
+  // Sync to About table if this is the primary degree
+  try {
+    const { data: aboutData } = await supabaseClient.from('about').select('*').limit(1).maybeSingle();
+    if (aboutData && (!payload.display_order || payload.display_order === 0)) {
+      const aboutPayload = {};
+      if (payload.gpa) aboutPayload.cgpa = payload.gpa;
+      if (payload.credits) aboutPayload.credits_completed = payload.credits;
+      if (payload.honor) aboutPayload.honor = payload.honor;
+      if (Object.keys(aboutPayload).length > 0) {
+        await supabaseClient.from('about').update(aboutPayload).eq('id', aboutData.id);
+      }
+    }
+  } catch (_) {}
+
   await logActivity(id ? 'update' : 'create', 'education', `${id ? 'Updated' : 'Created'}: ${payload.degree}`);
   showToast('Education saved!', 'success');
   closeModal();
   loadEducation();
+  triggerAutoSync();
 }
 
 async function deleteEducation(id) {
@@ -1310,6 +1579,7 @@ async function deleteEducation(id) {
   await logActivity('delete', 'education', `Deleted education id: ${id}`);
   showToast('Education deleted.', 'success');
   loadEducation();
+  triggerAutoSync();
 }
 
 // =============================================================================
@@ -1396,6 +1666,7 @@ async function savePublications() {
   if (error) { showToast('Save failed: ' + error.message, 'error'); return; }
   await logActivity(id ? 'update' : 'create', 'publications', `${id ? 'Updated' : 'Created'}: ${payload.title}`);
   showToast('Publication saved!', 'success');
+  triggerAutoSync();
   closeModal();
   loadPublications();
 }
@@ -1406,6 +1677,7 @@ async function deletePublications(id) {
   if (error) { showToast('Delete failed: ' + error.message, 'error'); return; }
   await logActivity('delete', 'publications', `Deleted publication id: ${id}`);
   showToast('Publication deleted.', 'success');
+  triggerAutoSync();
   loadPublications();
 }
 
@@ -1495,6 +1767,7 @@ async function saveProjects() {
   if (error) { showToast('Save failed: ' + error.message, 'error'); return; }
   await logActivity(id ? 'update' : 'create', 'projects', `${id ? 'Updated' : 'Created'}: ${payload.name}`);
   showToast('Project saved!', 'success');
+  triggerAutoSync();
   closeModal();
   loadProjects();
 }
@@ -1505,6 +1778,7 @@ async function deleteProjects(id) {
   if (error) { showToast('Delete failed: ' + error.message, 'error'); return; }
   await logActivity('delete', 'projects', `Deleted project id: ${id}`);
   showToast('Project deleted.', 'success');
+  triggerAutoSync();
   loadProjects();
 }
 
@@ -1571,6 +1845,7 @@ async function saveSkills() {
   if (error) { showToast('Save failed: ' + error.message, 'error'); return; }
   await logActivity(id ? 'update' : 'create', 'skills', `${id ? 'Updated' : 'Created'}: ${payload.category}`);
   showToast('Skills saved!', 'success');
+  triggerAutoSync();
   closeModal();
   loadSkills();
 }
@@ -1581,6 +1856,7 @@ async function deleteSkills(id) {
   if (error) { showToast('Delete failed: ' + error.message, 'error'); return; }
   await logActivity('delete', 'skills', `Deleted skill category id: ${id}`);
   showToast('Skill category deleted.', 'success');
+  triggerAutoSync();
   loadSkills();
 }
 
@@ -1652,6 +1928,7 @@ async function saveAwards() {
   if (error) { showToast('Save failed: ' + error.message, 'error'); return; }
   await logActivity(id ? 'update' : 'create', 'awards', `${id ? 'Updated' : 'Created'}: ${payload.title}`);
   showToast('Award saved!', 'success');
+  triggerAutoSync();
   closeModal();
   loadAwards();
 }
@@ -1662,6 +1939,7 @@ async function deleteAwards(id) {
   if (error) { showToast('Delete failed: ' + error.message, 'error'); return; }
   await logActivity('delete', 'awards', `Deleted award id: ${id}`);
   showToast('Award deleted.', 'success');
+  triggerAutoSync();
   loadAwards();
 }
 
@@ -1743,6 +2021,7 @@ async function saveCertificates() {
   if (error) { showToast('Save failed: ' + error.message, 'error'); return; }
   await logActivity(id ? 'update' : 'create', 'certificates', `${id ? 'Updated' : 'Created'}: ${payload.label}`);
   showToast('Certificate saved!', 'success');
+  triggerAutoSync();
   closeModal();
   loadCertificates();
 }
@@ -1753,6 +2032,7 @@ async function deleteCertificates(id) {
   if (error) { showToast('Delete failed: ' + error.message, 'error'); return; }
   await logActivity('delete', 'certificates', `Deleted certificate id: ${id}`);
   showToast('Certificate deleted.', 'success');
+  triggerAutoSync();
   loadCertificates();
 }
 
@@ -1821,6 +2101,7 @@ async function saveCompetitiveProgramming() {
   if (error) { showToast('Save failed: ' + error.message, 'error'); return; }
   await logActivity(id ? 'update' : 'create', 'competitive_programming', `${id ? 'Updated' : 'Created'}: ${payload.platform}`);
   showToast('CP Profile saved!', 'success');
+  triggerAutoSync();
   closeModal();
   loadCompetitiveProgramming();
 }
@@ -1831,6 +2112,7 @@ async function deleteCompetitiveProgramming(id) {
   if (error) { showToast('Delete failed: ' + error.message, 'error'); return; }
   await logActivity('delete', 'competitive_programming', `Deleted CP profile id: ${id}`);
   showToast('CP profile deleted.', 'success');
+  triggerAutoSync();
   loadCompetitiveProgramming();
 }
 
@@ -1884,6 +2166,7 @@ async function saveCpMeta(existingId = null) {
   if (error) { showToast('Save failed: ' + error.message, 'error'); return; }
   await logActivity('update', 'cp_meta', 'Updated CP Meta');
   showToast('CP Meta saved!', 'success');
+  triggerAutoSync();
   loadCpMeta();
 }
 
@@ -1947,6 +2230,7 @@ async function saveContests() {
   if (error) { showToast('Save failed: ' + error.message, 'error'); return; }
   await logActivity(id ? 'update' : 'create', 'contests', `${id ? 'Updated' : 'Created'}: ${payload.name}`);
   showToast('Contest saved!', 'success');
+  triggerAutoSync();
   closeModal();
   loadContests();
 }
@@ -1957,6 +2241,7 @@ async function deleteContests(id) {
   if (error) { showToast('Delete failed: ' + error.message, 'error'); return; }
   await logActivity('delete', 'contests', `Deleted contest id: ${id}`);
   showToast('Contest deleted.', 'success');
+  triggerAutoSync();
   loadContests();
 }
 
@@ -2044,6 +2329,7 @@ async function saveHackathons() {
   if (error) { showToast('Save failed: ' + error.message, 'error'); return; }
   await logActivity(id ? 'update' : 'create', 'hackathons', `${id ? 'Updated' : 'Created'}: ${payload.name}`);
   showToast('Hackathon saved!', 'success');
+  triggerAutoSync();
   closeModal();
   loadHackathons();
 }
@@ -2054,6 +2340,7 @@ async function deleteHackathons(id) {
   if (error) { showToast('Delete failed: ' + error.message, 'error'); return; }
   await logActivity('delete', 'hackathons', `Deleted hackathon id: ${id}`);
   showToast('Hackathon deleted.', 'success');
+  triggerAutoSync();
   loadHackathons();
 }
 
@@ -2120,6 +2407,7 @@ async function saveCoursework() {
   if (error) { showToast('Save failed: ' + error.message, 'error'); return; }
   await logActivity(id ? 'update' : 'create', 'coursework', `${id ? 'Updated' : 'Created'}: ${payload.category}`);
   showToast('Coursework saved!', 'success');
+  triggerAutoSync();
   closeModal();
   loadCoursework();
 }
@@ -2130,6 +2418,7 @@ async function deleteCoursework(id) {
   if (error) { showToast('Delete failed: ' + error.message, 'error'); return; }
   await logActivity('delete', 'coursework', `Deleted coursework id: ${id}`);
   showToast('Coursework deleted.', 'success');
+  triggerAutoSync();
   loadCoursework();
 }
 
@@ -2204,6 +2493,7 @@ async function saveContactProfiles() {
   if (error) { showToast('Save failed: ' + error.message, 'error'); return; }
   await logActivity(id ? 'update' : 'create', 'contact_profiles', `${id ? 'Updated' : 'Created'}: ${payload.platform}`);
   showToast('Contact profile saved!', 'success');
+  triggerAutoSync();
   closeModal();
   loadContactProfiles();
 }
@@ -2214,6 +2504,7 @@ async function deleteContactProfiles(id) {
   if (error) { showToast('Delete failed: ' + error.message, 'error'); return; }
   await logActivity('delete', 'contact_profiles', `Deleted contact profile id: ${id}`);
   showToast('Contact profile deleted.', 'success');
+  triggerAutoSync();
   loadContactProfiles();
 }
 
@@ -2287,6 +2578,7 @@ async function saveVolunteering() {
   if (error) { showToast('Save failed: ' + error.message, 'error'); return; }
   await logActivity(id ? 'update' : 'create', 'volunteering', `${id ? 'Updated' : 'Created'}: ${payload.org}`);
   showToast('Volunteering saved!', 'success');
+  triggerAutoSync();
   closeModal();
   loadVolunteering();
 }
@@ -2297,6 +2589,7 @@ async function deleteVolunteering(id) {
   if (error) { showToast('Delete failed: ' + error.message, 'error'); return; }
   await logActivity('delete', 'volunteering', `Deleted volunteering id: ${id}`);
   showToast('Volunteering deleted.', 'success');
+  triggerAutoSync();
   loadVolunteering();
 }
 
@@ -2385,6 +2678,7 @@ async function saveMedia() {
   if (error) { showToast('Save failed: ' + error.message, 'error'); return; }
   await logActivity(id ? 'update' : 'create', 'media', `${id ? 'Updated' : 'Created'}: ${payload.title}`);
   showToast('Media saved!', 'success');
+  triggerAutoSync();
   closeModal();
   loadMedia();
 }
@@ -2395,6 +2689,7 @@ async function deleteMedia(id) {
   if (error) { showToast('Delete failed: ' + error.message, 'error'); return; }
   await logActivity('delete', 'media', `Deleted media id: ${id}`);
   showToast('Media deleted.', 'success');
+  triggerAutoSync();
   loadMedia();
 }
 
@@ -2436,6 +2731,7 @@ function initAddButtons() {
     'add-volunteering-btn': () => showVolunteeringForm(),
     'add-media-btn': () => showMediaForm(),
     'export-backup-btn': () => exportBackup(),
+    'github-sync-btn': () => openGitHubSyncModal(),
   };
 
   for (const [id, handler] of Object.entries(addButtonMap)) {

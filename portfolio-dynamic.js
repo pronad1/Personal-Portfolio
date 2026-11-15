@@ -16,20 +16,83 @@
   const SUPABASE_URL = 'YOUR_SUPABASE_URL';
   const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
 
-  // Graceful degradation: If unconfigured, do not touch the static HTML
-  if (
-    !SUPABASE_URL ||
-    SUPABASE_URL === 'YOUR_SUPABASE_URL' ||
-    !SUPABASE_ANON_KEY ||
-    SUPABASE_ANON_KEY === 'YOUR_SUPABASE_ANON_KEY' ||
-    typeof window.supabase === 'undefined'
-  ) {
-    // Keep existing static portfolio content intact
-    return;
+  const isSupabaseConfigured =
+    typeof SUPABASE_URL === 'string' &&
+    SUPABASE_URL !== 'YOUR_SUPABASE_URL' &&
+    SUPABASE_URL.startsWith('http') &&
+    typeof SUPABASE_ANON_KEY === 'string' &&
+    SUPABASE_ANON_KEY !== 'YOUR_SUPABASE_ANON_KEY' &&
+    typeof window.supabase !== 'undefined';
+
+  let _realSupabase = null;
+  if (isSupabaseConfigured) {
+    try {
+      _realSupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    } catch (e) {
+      console.warn('Supabase initialization failed:', e);
+    }
   }
 
-  // Initialize Supabase Client (read-only using anon key via RLS)
-  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  // Client proxy: uses live Supabase when configured, or reads from localStorage / data/portfolio-data.json
+  let _fileTables = null;
+  async function loadFallbackData() {
+    if (_fileTables !== null) return;
+    try {
+      const res = await fetch('data/portfolio-data.json?v=' + Date.now());
+      if (res.ok) {
+        const json = await res.json();
+        _fileTables = json?.tables || {};
+      } else {
+        _fileTables = {};
+      }
+    } catch (_) {
+      _fileTables = {};
+    }
+  }
+
+  const supabase = {
+    from(table) {
+      if (_realSupabase) {
+        return _realSupabase.from(table);
+      }
+      return {
+        select(cols) {
+          const raw = localStorage.getItem(`prosen_cms_${table}`);
+          let items = [];
+          if (raw) {
+            try { items = JSON.parse(raw); } catch (_) {}
+          } else if (_fileTables && _fileTables[table]) {
+            items = _fileTables[table];
+          }
+          const builder = {
+            eq(col, val) {
+              items = items.filter(it => it[col] === val);
+              return builder;
+            },
+            order(col, opts = { ascending: true }) {
+              items.sort((a, b) => {
+                if (a[col] < b[col]) return opts.ascending ? -1 : 1;
+                if (a[col] > b[col]) return opts.ascending ? 1 : -1;
+                return 0;
+              });
+              return builder;
+            },
+            limit(n) {
+              items = items.slice(0, n);
+              return builder;
+            },
+            maybeSingle() {
+              return Promise.resolve({ data: items[0] || null, error: null });
+            },
+            then(resolve) {
+              resolve({ data: items, error: null });
+            }
+          };
+          return builder;
+        }
+      };
+    }
+  };
 
   // Helper: Escape HTML to prevent XSS
   function escHtml(str) {
@@ -66,7 +129,6 @@
       if (data.bio) {
         const bioEl = aboutSec.querySelector('.about-bio');
         if (bioEl) {
-          // If bio contains HTML tags from Quill, use it; else split by newlines
           if (data.bio.includes('<p>') || data.bio.includes('<div>')) {
             bioEl.innerHTML = data.bio;
           } else {
@@ -189,10 +251,15 @@
             ? `<a href="${escHtml(edu.inst_url)}" target="_blank">${escHtml(edu.institution)}</a>`
             : escHtml(edu.institution);
 
+          const gpaVal = edu.gpa || edu.cgpa || '';
           const honorBadge = edu.honor
-            ? `<span class="edu-gpa">🏅 ${escHtml(edu.honor)}${edu.gpa ? ' · CGPA: ' + escHtml(edu.gpa) : ''}</span>`
-            : edu.gpa
-            ? `<span class="edu-gpa">GPA: ${escHtml(edu.gpa)}</span>`
+            ? `<span class="edu-gpa">🏅 ${escHtml(edu.honor)}${gpaVal ? ' · CGPA: ' + escHtml(gpaVal) : ''}</span>`
+            : gpaVal
+            ? `<span class="edu-gpa" style="background:#fef9c3;color:#b45309;">✨ GPA: ${escHtml(gpaVal)}</span>`
+            : '';
+
+          const creditsHtml = edu.credits
+            ? `<div class="edu-detail">Credits Completed: ${escHtml(edu.credits)}</div>`
             : '';
 
           return `
@@ -202,6 +269,7 @@
                 <div class="edu-degree">${escHtml(edu.degree)}</div>
                 <div class="edu-school">${instLink}</div>
                 <div class="edu-detail">${escHtml(edu.period || '')}${edu.location ? ' &nbsp;·&nbsp; ' + escHtml(edu.location) : ''}</div>
+                ${creditsHtml}
                 ${honorBadge}
               </div>
             </div>
@@ -599,7 +667,10 @@
   // =============================================================================
   // BOOTSTRAP ALL SECTIONS
   // =============================================================================
-  function initDynamicPortfolio() {
+  async function initDynamicPortfolio() {
+    if (!_realSupabase) {
+      await loadFallbackData();
+    }
     loadAbout();
     loadNews();
     loadExperience();

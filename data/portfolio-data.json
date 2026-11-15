@@ -1,0 +1,955 @@
+{
+  "version": "1.0",
+  "updated_at": "2026-11-15T12:54:03.936Z",
+  "tables": {
+    "about": [
+      {
+        "id": "about-1",
+        "name": "Prosenjit Mondol",
+        "nickname": "Prosen",
+        "title": "B.Sc. CSE Student & Research Assistant",
+        "bio": "Prosenjit Mondol is a B.Sc. Computer Science and Engineering student at Patuakhali Science & Technology University (PSTU), Bangladesh, currently on the Dean's List with a CGPA of 3.656/4.00. He serves as a Research Assistant & Lab Systems Coordinator at the Computation Informatics & Machine Intelligence Lab (CIMILab), University of Missouri, USA (Remote), where he works on next-generation machine intelligence and computational systems for data-driven insights, intelligent decision-making, and real-world impact.",
+        "open_to": "Research collaborations and opportunities in AI in Health, Health Informatics, HCI, Machine Learning, Image Processing, Computer Vision, and related areas.",
+        "cgpa": "3.656 / 4.00",
+        "credits_completed": "126.5 / 165",
+        "honor": "Dean's List",
+        "lab_role": "Research Assistant & Lab Systems Coordinator (Remote)",
+        "lab_affiliation": "Computation Informatics & Machine Intelligence Lab (CIMILab), University of Missouri, USA",
+        "lab_url": "https://pronad1.github.io/CIMILab/index.html",
+        "email": "prosenjit1156@gmail.com",
+        "phone": "+880 1315747034",
+        "portfolio_url": "https://pronad1.github.io/Personal-Portfolio/",
+        "created_at": "2026-11-15T12:54:03.940Z"
+      }
+    ],
+    "news": [
+      {
+        "id": "news-1",
+        "date": "Sep 2026",
+        "title": "Physically Presented at MICCAI 2026 — Strasbourg, France! Paper presented at the 3rd MiRASOL Workshop, MICCAI 2026 through the MICCAI Ambassador Program. Prof. Dr. Pamela Guevara personally presented our poster.",
+        "content": "Sep 2026: Physically Presented at MICCAI 2026 — Strasbourg, France! Paper presented at the 3rd MiRASOL Workshop, MICCAI 2026 through the MICCAI Ambassador Program. Prof. Dr. Pamela Guevara personally presented our poster.",
+        "status": "published",
+        "display_order": 0,
+        "created_at": "2026-11-15T12:54:03.940Z"
+      },
+      {
+        "id": "news-2",
+        "date": "Aug 2026",
+        "title": "Paper 'A Deep Learning Approach to Bangla License Plate Text Extraction using Easy OCR' (ICPECCII 2026) is now available on IEEE Xplore.",
+        "content": "Aug 2026: Paper 'A Deep Learning Approach to Bangla License Plate Text Extraction using Easy OCR' (ICPECCII 2026) is now available on IEEE Xplore.",
+        "status": "published",
+        "display_order": 1,
+        "created_at": "2026-11-15T12:54:03.940Z"
+      },
+      {
+        "id": "news-3",
+        "date": "Aug 2026",
+        "title": "Paper 'A Sensitivity-Gated Cascade for Compute-Efficient Spinal Lesion Detection' accepted at MIRASOL Workshop, MICCAI 2026.",
+        "content": "Aug 2026: Paper 'A Sensitivity-Gated Cascade for Compute-Efficient Spinal Lesion Detection' accepted at MIRASOL Workshop, MICCAI 2026.",
+        "status": "published",
+        "display_order": 2,
+        "created_at": "2026-11-15T12:54:03.940Z"
+      },
+      {
+        "id": "news-4",
+        "date": "Sep 2026",
+        "title": "Secured Rank #1 on the Global Live Leaderboard in the Glucose Prediction Challenge (MetaboNet Consortium).",
+        "content": "Sep 2026: Secured Rank #1 on the Global Live Leaderboard in the Glucose Prediction Challenge (MetaboNet Consortium).",
+        "status": "published",
+        "display_order": 3,
+        "created_at": "2026-11-15T12:54:03.940Z"
+      },
+      {
+        "id": "news-5",
+        "date": "Aug 2026",
+        "title": "Participated in the Hackathon at PSTU IT Carnival 2026.",
+        "content": "Aug 2026: Participated in the Hackathon at PSTU IT Carnival 2026.",
+        "status": "published",
+        "display_order": 4,
+        "created_at": "2026-11-15T12:54:03.940Z"
+      },
+      {
+        "id": "news-6",
+        "date": "2026",
+        "title": "DSANet paper submitted at ICECE 2026, BUET (First Author, Under Review).",
+        "content": "2026: DSANet paper submitted at ICECE 2026, BUET (First Author, Under Review).",
+        "status": "published",
+        "display_order": 5,
+        "created_at": "2026-11-15T12:54:03.940Z"
+      },
+      {
+        "id": "news-7",
+        "date": "2025",
+        "title": "First Prize at PSTU IT Carnival for the NeuroVision AI project.",
+        "content": "2025: First Prize at PSTU IT Carnival for the NeuroVision AI project.",
+        "status": "published",
+        "display_order": 6,
+        "created_at": "2026-11-15T12:54:03.940Z"
+      },
+      {
+        "id": "news-8",
+        "date": "2025",
+        "title": "Ranked Top 5 out of 50 teams at PSTU Programming Contest 2025.",
+        "content": "2025: Ranked Top 5 out of 50 teams at PSTU Programming Contest 2025.",
+        "status": "published",
+        "display_order": 7,
+        "created_at": "2026-11-15T12:54:03.940Z"
+      },
+      {
+        "id": "news-9",
+        "date": "Aug 2025",
+        "title": "Started role as Research Assistant & Lab Systems Coordinator at CIMILab, University of Missouri, USA.",
+        "content": "Aug 2025: Started role as Research Assistant & Lab Systems Coordinator at CIMILab, University of Missouri, USA.",
+        "status": "published",
+        "display_order": 8,
+        "created_at": "2026-11-15T12:54:03.940Z"
+      },
+      {
+        "id": "news-10",
+        "date": "Feb 2023",
+        "title": "Enrolled in B.Sc. CSE at PSTU. Currently on Dean's List with CGPA 3.656/4.00.",
+        "content": "Feb 2023: Enrolled in B.Sc. CSE at PSTU. Currently on Dean's List with CGPA 3.656/4.00.",
+        "status": "published",
+        "display_order": 9,
+        "created_at": "2026-11-15T12:54:03.940Z"
+      }
+    ],
+    "experience": [
+      {
+        "id": "exp-1",
+        "role": "Research Assistant & Lab Systems Coordinator",
+        "organization": "Computation Informatics & Machine Intelligence Lab (CIMILab)",
+        "org_url": "https://pronad1.github.io/CIMILab/index.html",
+        "location": "University of Missouri, USA (Remote)",
+        "period_start": "August 2025",
+        "period_end": "Present",
+        "description": "Working on next-generation machine intelligence and computational systems for data-driven insights, intelligent decision-making, and real-world impact. Contributing to research in AI in Health, Medical Image Analysis, and computational informatics.",
+        "display_order": 0,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      }
+    ],
+    "education": [
+      {
+        "id": "edu-1",
+        "degree": "B.Sc. in Computer Science and Engineering",
+        "institution": "Patuakhali Science & Technology University (PSTU)",
+        "inst_url": "https://pstu.ac.bd",
+        "location": "Patuakhali, Bangladesh",
+        "period": "February 2023 – Present",
+        "gpa": "3.656 / 4.00",
+        "honor": "Dean's List",
+        "display_order": 0,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "edu-2",
+        "degree": "Higher Secondary Certificate (HSC) — Science",
+        "institution": "Naogaon Govt. College",
+        "location": "Naogaon, Bangladesh",
+        "period": "2019 – 2021",
+        "gpa": "5.00 / 5.00",
+        "honor": "",
+        "display_order": 1,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "edu-3",
+        "degree": "Secondary School Certificate (SSC) — Science",
+        "institution": "Chakatitha High School",
+        "location": "Bangladesh",
+        "period": "2017 – 2019",
+        "gpa": "5.00 / 5.00",
+        "honor": "",
+        "display_order": 2,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      }
+    ],
+    "publications": [
+      {
+        "id": "pub-1",
+        "title": "A Deep Learning Approach to Bangla License Plate Text Extraction using Easy OCR",
+        "venue": "International Conference on Power, Electronics, Communications, Computing, and Intelligent Infrastructure (ICPECCII 2026)",
+        "status": "Published",
+        "publisher": "IEEE Xplore (2026)",
+        "url": "https://ieeexplore.ieee.org/document/11662050",
+        "author_position": "Co-author",
+        "poster_url": "",
+        "openreview_url": "",
+        "notes": "Published on IEEE Xplore in 2026. Presented at ICPECCII 2026.",
+        "year": 2026,
+        "display_order": 0,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "pub-2",
+        "title": "A Sensitivity-Gated Cascade for Compute-Efficient Spinal Lesion Detection in Resource-Constrained Settings",
+        "venue": "3rd Medical Image Computing in Resource-Constrained Settings Workshop & Knowledge Interchange (MIRASOL), MICCAI 2026, Strasbourg, France",
+        "status": "Physically Presented",
+        "publisher": "",
+        "url": "",
+        "author_position": "First Author (2026)",
+        "poster_url": "acheivement/[Prosenjit Mondol]_[74]_[MIRASOL]_poster.pdf",
+        "openreview_url": "https://openreview.net/profile?id=%7EProsenjit_Mondol1",
+        "notes": "Physically presented at MICCAI 2026 in Strasbourg, France, through the MICCAI Ambassador Program. Prof. Dr. Pamela Guevara personally carried and presented our poster at the on-site poster session. This is a landmark achievement for Prosenjit as an undergraduate researcher.",
+        "year": 2026,
+        "display_order": 1,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "pub-3",
+        "title": "DSANet: A Grid-Search Optimized Heterogeneous Ensemble for Ischemic Stroke Lesion Segmentation",
+        "venue": "14th International Conference on Electrical and Computer Engineering (ICECE 2026), BUET, Dhaka, Bangladesh",
+        "status": "Under Review",
+        "publisher": "",
+        "url": "",
+        "author_position": "First Author (2026)",
+        "poster_url": "",
+        "openreview_url": "",
+        "notes": "Submitted to ICECE 2026 at BUET. Currently under review as of November 2026.",
+        "year": 2026,
+        "display_order": 2,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      }
+    ],
+    "projects": [
+      {
+        "id": "proj-1",
+        "name": "NeuroVision AI",
+        "icon": "🧠",
+        "description": "A cutting-edge medical imaging platform for diagnosing neurological and cardiovascular conditions using advanced deep learning. Integrates brain, spine, heart, and chest imaging pipelines with lesion detection, segmentation, Grad-CAM explainability, and enterprise-grade security.",
+        "tags": [
+          "PyTorch",
+          "Deep Learning",
+          "Medical AI",
+          "Grad-CAM"
+        ],
+        "github_url": "https://github.com/pronad1/NeuroVision",
+        "demo_url": "",
+        "live_url": "",
+        "awards": "First Prize at PSTU IT Carnival 2025",
+        "status": "published",
+        "display_order": 0,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "proj-2",
+        "name": "TrashBot",
+        "icon": "🤖",
+        "description": "AI-powered smart waste management system using Raspberry Pi 3B, computer vision, and IoT. Features YOLO-based real-time waste detection, deep learning classification, live web monitoring, and remote tracking for smart city applications.",
+        "tags": [
+          "YOLO",
+          "IoT",
+          "Raspberry Pi",
+          "OpenCV"
+        ],
+        "github_url": "https://github.com/pronad1/TrashBot",
+        "demo_url": "https://youtube.com/shorts/o1WTMZHI7-w",
+        "live_url": "",
+        "awards": "",
+        "status": "published",
+        "display_order": 1,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "proj-3",
+        "name": "ReuseHub",
+        "icon": "♻️",
+        "description": "Community-driven sustainability platform built with Flutter 3.x and Firebase. Connects donors with seekers of reusable goods, facilitating a circular economy and reducing waste at a production-ready scale.",
+        "tags": [
+          "Flutter",
+          "Firebase",
+          "Dart",
+          "Mobile"
+        ],
+        "github_url": "https://github.com/pronad1/Flutter/tree/main/software",
+        "demo_url": "https://youtu.be/6uswFRk_Srs",
+        "live_url": "",
+        "awards": "",
+        "status": "published",
+        "display_order": 2,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "proj-4",
+        "name": "Graph Craft",
+        "icon": "🕸️",
+        "description": "Web-based tool for visualizing and analyzing graphs interactively. Users input adjacency matrices and instantly see graph visualizations alongside analysis results including traversals and shortest paths.",
+        "tags": [
+          "JavaScript",
+          "Algorithms",
+          "Data Structures",
+          "Web"
+        ],
+        "github_url": "https://github.com/pronad1/Graph-Visualizations",
+        "demo_url": "",
+        "live_url": "https://pronad1.github.io/Graph-Visualizations/",
+        "awards": "",
+        "status": "published",
+        "display_order": 3,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "proj-5",
+        "name": "Smart Vacuum Cleaner",
+        "icon": "🧹",
+        "description": "Autonomous floor-cleaning robot built on Arduino UNO. Uses ultrasonic sensors for obstacle detection and avoidance, enabling fully automated navigation and floor cleaning without human intervention.",
+        "tags": [
+          "Arduino",
+          "Robotics",
+          "IoT",
+          "Sensors"
+        ],
+        "github_url": "https://github.com/Prosenjit-Mondol/Ardiuno_UNO_Project",
+        "demo_url": "https://www.youtube.com/watch?v=nY7cTv8nreg",
+        "live_url": "",
+        "awards": "",
+        "status": "published",
+        "display_order": 4,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "proj-6",
+        "name": "Job Portal",
+        "icon": "💼",
+        "description": "Dynamic job portal connecting job seekers with employers. Features job posting, user authentication, application management, and advanced search functionality using PHP, MySQL, HTML, and JavaScript.",
+        "tags": [
+          "PHP",
+          "MySQL",
+          "Laravel",
+          "Web"
+        ],
+        "github_url": "https://github.com/pronad1/Web-Project",
+        "demo_url": "",
+        "live_url": "",
+        "awards": "",
+        "status": "published",
+        "display_order": 5,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "proj-7",
+        "name": "Blood Bank Project",
+        "icon": "🩸",
+        "description": "Java-based Blood Bank Management System designed to manage and streamline the process of blood donation and distribution. Maintains donor records, blood inventory, and blood requests from hospitals and healthcare institutions.",
+        "tags": [
+          "Java",
+          "OOP",
+          "Management System",
+          "Healthcare"
+        ],
+        "github_url": "https://github.com/pronad1/Blood_Bank_Project",
+        "demo_url": "",
+        "live_url": "",
+        "awards": "",
+        "status": "published",
+        "display_order": 6,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      }
+    ],
+    "skills": [
+      {
+        "id": "skill-1",
+        "category": "Languages",
+        "items": [
+          "Python",
+          "C++",
+          "R",
+          "Java",
+          "JavaScript",
+          "PHP",
+          "C#",
+          "Dart",
+          "C",
+          "HTML/CSS"
+        ],
+        "display_order": 0,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "skill-2",
+        "category": "ML/DL Frameworks",
+        "items": [
+          "PyTorch",
+          "TensorFlow",
+          "Keras",
+          "Scikit-learn",
+          "OpenCV",
+          "Pandas",
+          "NumPy"
+        ],
+        "display_order": 1,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "skill-3",
+        "category": "Visualization",
+        "items": [
+          "Matplotlib",
+          "Seaborn",
+          "Plotly"
+        ],
+        "display_order": 2,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "skill-4",
+        "category": "Databases",
+        "items": [
+          "MySQL",
+          "Oracle",
+          "SQL Server",
+          "Firebase"
+        ],
+        "display_order": 3,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "skill-5",
+        "category": "Backend / Mobile",
+        "items": [
+          "Laravel",
+          "Flutter",
+          ".NET",
+          "REST APIs"
+        ],
+        "display_order": 4,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "skill-6",
+        "category": "Tools & Platforms",
+        "items": [
+          "Git",
+          "LaTeX",
+          "Jupyter",
+          "VS Code",
+          "Android Studio",
+          "Kaggle",
+          "Raspberry Pi",
+          "Arduino"
+        ],
+        "display_order": 5,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      }
+    ],
+    "skill_categories": [],
+    "awards": [
+      {
+        "id": "award-1",
+        "title": "PSTU Dean's Merit Award",
+        "description": "Awarded for academic excellence — ranked among the top students in a cohort of 84 at Patuakhali Science & Technology University.",
+        "url": "",
+        "year": 2026,
+        "display_order": 0,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "award-2",
+        "title": "Rank #1 — Global Live Leaderboard, Glucose Prediction Challenge",
+        "description": "Secured Rank #1 on the Global Live Leaderboard in the Glucose Prediction Challenge (MetaboNet Consortium — Stanford, Harvard, UCSB, Pavia, etc.) with team team02w. (Sep 2026)",
+        "url": "https://metabo-net.org/glucose-prediction-challenge",
+        "year": 2026,
+        "display_order": 1,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "award-3",
+        "title": "First Prize — PSTU IT Carnival (NeuroVision AI Project)",
+        "description": "Won First Prize at PSTU IT Carnival 2025 for the NeuroVision AI medical imaging project.",
+        "url": "",
+        "year": 2026,
+        "display_order": 2,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "award-4",
+        "title": "Aungkur Scholarship — PSTU",
+        "description": "Merit-based scholarship awarded by Patuakhali Science & Technology University to outstanding students demonstrating exceptional academic performance.",
+        "url": "",
+        "year": 2026,
+        "display_order": 3,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "award-5",
+        "title": "Grameen Bank Scholarship",
+        "description": "Scholarship awarded by Grameen Bank in recognition of outstanding SSC (2019) results.",
+        "url": "",
+        "year": 2026,
+        "display_order": 4,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "award-6",
+        "title": "MOUSUMI NGO Scholarship",
+        "description": "Scholarship awarded by MOUSUMI NGO in recognition of outstanding HSC (2021) results.",
+        "url": "",
+        "year": 2026,
+        "display_order": 5,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "award-7",
+        "title": "Government Board Merit Scholarship (HSC & SSC)",
+        "description": "Government merit scholarships for outstanding results in both HSC (2021) and SSC (2019) examinations.",
+        "url": "",
+        "year": 2026,
+        "display_order": 6,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "award-8",
+        "title": "PSTU Programming Contest — Top 5",
+        "description": "Ranked in the top 5 out of 50 teams at the PSTU Programming Contest 2025.",
+        "url": "",
+        "year": 2026,
+        "display_order": 7,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "award-9",
+        "title": "ICPC 2023 Asia Dhaka Preliminary — Honourable Mention",
+        "description": "Received Honourable Mention at the ICPC 2023 Asia Dhaka Preliminary contest.",
+        "url": "",
+        "year": 2026,
+        "display_order": 8,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      }
+    ],
+    "certificates": [
+      {
+        "id": "cert-1",
+        "label": "MICCAI 2026 (MIRASOL Workshop) — Research Presentation Poster",
+        "file_url": "",
+        "type": "pdf",
+        "display_order": 0,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "cert-2",
+        "label": "ICPC 2023 Asia Dhaka Preliminary — Honourable Mention",
+        "file_url": "",
+        "type": "pdf",
+        "display_order": 1,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "cert-3",
+        "label": "ICPC Recommended Certificate",
+        "file_url": "",
+        "type": "pdf",
+        "display_order": 2,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "cert-4",
+        "label": "AI Oracle Certificate",
+        "file_url": "",
+        "type": "pdf",
+        "display_order": 3,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "cert-5",
+        "label": "CISCO — Introduction to Modern AI",
+        "file_url": "",
+        "type": "pdf",
+        "display_order": 4,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "cert-6",
+        "label": "CISCO — Packet Tracer Learner Transcript",
+        "file_url": "",
+        "type": "pdf",
+        "display_order": 5,
+        "created_at": "2026-11-15T12:54:03.941Z"
+      },
+      {
+        "id": "cert-7",
+        "label": "MySQL Certificate",
+        "file_url": "",
+        "type": "pdf",
+        "display_order": 6,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "cert-8",
+        "label": "Modern AI Certificate",
+        "file_url": "",
+        "type": "pdf",
+        "display_order": 7,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "cert-9",
+        "label": "Flutter Development Certificate",
+        "file_url": "",
+        "type": "pdf",
+        "display_order": 8,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "cert-10",
+        "label": "AutoCAD Certificate",
+        "file_url": "",
+        "type": "pdf",
+        "display_order": 9,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "cert-11",
+        "label": "Communication Certificate",
+        "file_url": "",
+        "type": "pdf",
+        "display_order": 10,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "cert-12",
+        "label": "Cyber Security Introduction Certificate",
+        "file_url": "",
+        "type": "pdf",
+        "display_order": 11,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "cert-13",
+        "label": "Data Science Certificate",
+        "file_url": "",
+        "type": "pdf",
+        "display_order": 12,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "cert-14",
+        "label": "Microsoft Edge Certificate",
+        "file_url": "",
+        "type": "pdf",
+        "display_order": 13,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "cert-15",
+        "label": "JavaScript Intermediate — HackerRank",
+        "file_url": "",
+        "type": "pdf",
+        "display_order": 14,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "cert-16",
+        "label": "Microsoft Azure Certificate",
+        "file_url": "",
+        "type": "pdf",
+        "display_order": 15,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "cert-17",
+        "label": "Problem Solving Intermediate — HackerRank",
+        "file_url": "",
+        "type": "pdf",
+        "display_order": 16,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      }
+    ],
+    "competitive_programming": [
+      {
+        "id": "cp-1",
+        "platform": "Codeforces",
+        "handle": "prosenjit_mondol",
+        "url": "https://codeforces.com/profile/prosenjit_mondol",
+        "display_order": 0,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "cp-2",
+        "platform": "HackerRank",
+        "handle": "prosenjit1156",
+        "url": "https://www.hackerrank.com/profile/prosenjit1156",
+        "display_order": 1,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "cp-3",
+        "platform": "LeetCode",
+        "handle": "prosenjit_mondol",
+        "url": "https://leetcode.com/u/prosenjit_mondol/",
+        "display_order": 2,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "cp-4",
+        "platform": "Beecrowd",
+        "handle": "Prosenjit",
+        "url": "https://judge.beecrowd.com/en/profile/793803",
+        "display_order": 3,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      }
+    ],
+    "cp_meta": [
+      {
+        "id": "cp_meta-1",
+        "problems_solved": "1,500+",
+        "nasa_team": "PSTU_CLITECH",
+        "nasa_role": "Programmer / Lead Developer",
+        "nasa_project": "Clitech — an intelligent weather risk intelligence app that transforms real-time NASA Earth Observation satellite data into personalized, actionable guidance for outdoor activities.",
+        "nasa_location": "Local Event: Barisal",
+        "nasa_track": "\"Will It Rain On My Parade?\" — Earth Science Division",
+        "created_at": "2026-11-15T12:54:03.942Z"
+      }
+    ],
+    "contests": [
+      {
+        "id": "contest-1",
+        "name": "ICPC Dhaka Regional Preliminary (2023–2025)",
+        "display_order": 0,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "contest-2",
+        "name": "BitFest KUET (2024)",
+        "display_order": 1,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "contest-3",
+        "name": "PSTU IT Carnival Hackathon (2026)",
+        "display_order": 2,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      }
+    ],
+    "hackathons": [],
+    "coursework": [
+      {
+        "id": "cw-1",
+        "category": "Computer Science",
+        "courses": [
+          "Data Structure & Algorithms",
+          "Artificial Intelligence",
+          "Software Engineering",
+          "Database Systems",
+          "Compiler Design & Automata",
+          "Algorithm Engineering",
+          "Data Warehousing & Mining",
+          "Numerical Methods",
+          "Discrete Mathematics",
+          "VLSI Design"
+        ],
+        "display_order": 0
+      },
+      {
+        "id": "cw-2",
+        "category": "Signal & Networks",
+        "courses": [
+          "Data Communication Engineering",
+          "Optical Fiber Communication",
+          "Computer Networks",
+          "Network Routing & Switching"
+        ],
+        "display_order": 1
+      },
+      {
+        "id": "cw-3",
+        "category": "Mathematics",
+        "courses": [
+          "Differential & Integral Calculus",
+          "Co-ordinate Geometry & Linear Algebra",
+          "Statistics",
+          "Vector Analysis & Complex Variables",
+          "ODE & PDE"
+        ],
+        "display_order": 2
+      },
+      {
+        "id": "cw-4",
+        "category": "Electrical & Electronics",
+        "courses": [
+          "Basic Electrical Engineering",
+          "Digital Logic Design",
+          "Microprocessor & Interfacing",
+          "Electrical Technology"
+        ],
+        "display_order": 3
+      }
+    ],
+    "contact_profiles": [
+      {
+        "id": "prof-1",
+        "platform": "github",
+        "label": "GitHub",
+        "url": "https://github.com/pronad1",
+        "handle": "pronad1",
+        "display_order": 0,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "prof-2",
+        "platform": "linkedin",
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/prosenjit-mondol-615342266/",
+        "handle": "prosenjit-mondol",
+        "display_order": 1,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "prof-3",
+        "platform": "kaggle",
+        "label": "Kaggle",
+        "url": "https://www.kaggle.com/prosenjitmondol",
+        "handle": "prosenjitmondol",
+        "display_order": 2,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "prof-4",
+        "platform": "huggingface",
+        "label": "Hugging Face",
+        "url": "https://huggingface.co/prosenjit1156",
+        "handle": "prosenjit1156",
+        "display_order": 3,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "prof-5",
+        "platform": "researchgate",
+        "label": "ResearchGate",
+        "url": "https://www.researchgate.net/profile/Prosenjit-Mondol-2",
+        "handle": "Prosenjit-Mondol-2",
+        "display_order": 4,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "prof-6",
+        "platform": "orcid",
+        "label": "ORCID",
+        "url": "https://orcid.org/0009-0009-4827-4768",
+        "handle": "0009-0009-4827-4768",
+        "display_order": 5,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "prof-7",
+        "platform": "googleScholar",
+        "label": "Google Scholar",
+        "url": "https://scholar.google.com/citations?user=hidSpYcAAAAJ&hl=en",
+        "handle": "hidSpYcAAAAJ",
+        "display_order": 6,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "prof-8",
+        "platform": "openreview",
+        "label": "OpenReview",
+        "url": "https://openreview.net/profile?id=%7EProsenjit_Mondol1",
+        "handle": "Prosenjit_Mondol1",
+        "display_order": 7,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "prof-9",
+        "platform": "youtube",
+        "label": "YouTube",
+        "url": "https://www.youtube.com/@prosen49",
+        "handle": "@prosen49",
+        "display_order": 8,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "prof-10",
+        "platform": "codeforces",
+        "label": "Codeforces",
+        "url": "https://codeforces.com/profile/prosenjit_mondol",
+        "handle": "prosenjit_mondol",
+        "display_order": 9,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "prof-11",
+        "platform": "hackerrank",
+        "label": "HackerRank",
+        "url": "https://www.hackerrank.com/profile/prosenjit1156",
+        "handle": "prosenjit1156",
+        "display_order": 10,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "prof-12",
+        "platform": "leetcode",
+        "label": "LeetCode",
+        "url": "https://leetcode.com/u/prosenjit_mondol/",
+        "handle": "prosenjit_mondol",
+        "display_order": 11,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "prof-13",
+        "platform": "email",
+        "label": "Email",
+        "url": "mailto:prosenjit1156@gmail.com",
+        "handle": "",
+        "display_order": 12,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "prof-14",
+        "platform": "cimilab",
+        "label": "CIMILab",
+        "url": "https://pronad1.github.io/CIMILab/index.html",
+        "handle": "",
+        "display_order": 13,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "prof-15",
+        "platform": "portfolio",
+        "label": "Portfolio",
+        "url": "https://pronad1.github.io/Personal-Portfolio/",
+        "handle": "",
+        "display_order": 14,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      }
+    ],
+    "volunteering": [
+      {
+        "id": "vol-1",
+        "org": "Badhon",
+        "role": "Voluntary Blood Donor",
+        "period": "Feb 2023 – Present",
+        "description": "Badhon is Bangladesh's largest voluntary blood donation organization. Actively contributes to saving lives by responding to emergency blood needs in hospitals.",
+        "display_order": 0,
+        "created_at": "2026-11-15T12:54:03.942Z"
+      },
+      {
+        "id": "vol-2",
+        "org": "CSE Club, PSTU",
+        "role": "Member",
+        "period": "Jan 2023 – Present",
+        "description": "Active member of the CSE Club at PSTU, working to foster a culture of technology, innovation, and collaborative learning. Participates in organizing tech events, workshops, and programming contests.",
+        "display_order": 1,
+        "created_at": "2026-11-15T12:54:03.943Z"
+      },
+      {
+        "id": "vol-3",
+        "org": "YouthMappers PSTU Chapter",
+        "role": "Head of Media & IT",
+        "period": "PSTU Campus",
+        "description": "YouthMappers is a global university network dedicated to open mapping for humanitarian impact. As Head of Media & IT for the PSTU Chapter, oversees digital communication and content creation.",
+        "display_order": 2,
+        "created_at": "2026-11-15T12:54:03.943Z"
+      }
+    ],
+    "media": [
+      {
+        "id": "media-1",
+        "title": "Clitech — NASA Space Apps Challenge Project Demo",
+        "url": "https://youtu.be/183J4iqp-s4",
+        "type": "video",
+        "thumbnail_url": "",
+        "display_order": 0,
+        "created_at": "2026-11-15T12:54:03.943Z"
+      }
+    ]
+  }
+}
