@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prosen Admin</title>
+
+  <!-- ── Admin Styles ───────────────────────────────────────────────── -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- ── Quill Rich Text Editor ─────────────────────────────────────── -->
+  <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet" />
+
+  <!-- ── Supabase JS ────────────────────────────────────────────────── -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+  <!-- ── Quill JS ───────────────────────────────────────────────────── -->
+  <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+
+  <!-- ── SortableJS (drag-and-drop ordering) ────────────────────────── -->
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+
+  <!-- ── Knowledge Base (local fallback seed data) ───────────────────── -->
+  <script src="../chatbot-knowledge.js"></script>
+
+  <!-- ── App Logic (defer so DOM is ready) ─────────────────────────── -->
+  <script src="app.js" defer></script>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     LOGIN PAGE
+     Shown by default; hidden once auth session is confirmed.
+══════════════════════════════════════════════════════════════════ -->
+<div id="login-page">
+  <div class="login-bg-overlay"></div>
+
+  <div class="login-card">
+
+    <!-- Logo / Avatar -->
+    <div class="login-avatar" aria-hidden="true">🤖</div>
+
+    <!-- Titles -->
+    <h1 class="login-title">Prosen Admin</h1>
+    <p  class="login-subtitle">Portfolio Content Management System</p>
+
+    <!-- Form -->
+    <form id="login-form" novalidate>
+
+      <div class="form-group">
+        <label for="login-email">Email</label>
+        <input
+          id="login-email"
+          type="email"
+          name="email"
+          placeholder="Enter admin email"
+          autocomplete="email"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="login-password">Password</label>
+        <div class="input-wrap">
+          <input
+            id="login-password"
+            type="password"
+            name="password"
+            placeholder="Enter password"
+            autocomplete="current-password"
+            required
+          />
+          <button type="button" class="toggle-pw" aria-label="Show/hide password" onclick="this.previousElementSibling.type=this.previousElementSibling.type==='password'?'text':'password'; this.textContent=this.previousElementSibling.type==='password'?'👁️':'🙈'">👁️</button>
+        </div>
+      </div>
+
+      <!-- Error message (populated by JS) -->
+      <div id="login-error" class="login-error" role="alert" aria-live="polite"></div>
+
+      <!-- Submit button with built-in spinner -->
+      <button type="submit" id="login-submit-btn" class="btn btn-primary btn-full">
+        <span class="btn-label">Sign In</span>
+        <span class="btn-spinner" aria-hidden="true"></span>
+      </button>
+
+    </form>
+
+    <!-- Loading overlay (shown while checking session on page load) -->
+    <div id="login-loading" class="login-loading" aria-label="Checking session…">
+      <div class="spinner-ring"></div>
+    </div>
+
+  </div><!-- /.login-card -->
+</div><!-- /#login-page -->
+
+
+<!-- ══════════════════════════════════════════════════════════════════
+     DASHBOARD SHELL
+     Hidden until authenticated; shown by JS.
+══════════════════════════════════════════════════════════════════ -->
+<div id="dashboard-page" class="hidden" aria-label="Admin Dashboard">
+
+  <!-- ── SIDEBAR ──────────────────────────────────────────────────── -->
+  <aside id="sidebar" class="sidebar" aria-label="Sidebar navigation">
+
+    <!-- Sidebar Logo -->
+    <div class="sidebar-logo">
+      <span class="sidebar-logo-icon" aria-hidden="true">🛠️</span>
+      <div>
+        <span class="sidebar-logo-title">Prosen Admin</span>
+        <span class="sidebar-logo-sub">Portfolio CMS</span>
+      </div>
+    </div>
+
+    <!-- Admin User Display -->
+    <div class="sidebar-user">
+      <div class="sidebar-user-avatar" id="user-avatar" aria-hidden="true">PA</div>
+      <div class="sidebar-user-info">
+        <span class="sidebar-user-email" id="user-email">Admin</span>
+        <span class="sidebar-user-role">Administrator</span>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sidebar-nav" aria-label="Section navigation">
+      <ul role="list">
+        <li>
+          <a href="#" class="nav-link active" data-section="overview" aria-current="page">
+            <span class="nav-icon" aria-hidden="true">📊</span>
+            <span class="nav-label">Overview</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link" data-section="news">
+            <span class="nav-icon" aria-hidden="true">📰</span>
+            <span class="nav-label">News &amp; Updates</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link" data-section="about">
+            <span class="nav-icon" aria-hidden="true">👤</span>
+            <span class="nav-label">About Me</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link" data-section="experience">
+            <span class="nav-icon" aria-hidden="true">💼</span>
+            <span class="nav-label">Experience</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link" data-section="education">
+            <span class="nav-icon" aria-hidden="true">🎓</span>
+            <span class="nav-label">Education</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link" data-section="publications">
+            <span class="nav-icon" aria-hidden="true">📄</span>
+            <span class="nav-label">Publications</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link" data-section="projects">
+            <span class="nav-icon" aria-hidden="true">🔬</span>
+            <span class="nav-label">Projects</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link" data-section="skills">
+            <span class="nav-icon" aria-hidden="true">⚙️</span>
+            <span class="nav-label">Skills</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link" data-section="awards">
+            <span class="nav-icon" aria-hidden="true">🏆</span>
+            <span class="nav-label">Awards</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link" data-section="certificates">
+            <span class="nav-icon" aria-hidden="true">📜</span>
+            <span class="nav-label">Certificates</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link" data-section="competitive_programming">
+            <span class="nav-icon" aria-hidden="true">💻</span>
+            <span class="nav-label">Competitive Programming</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link" data-section="cp_meta">
+            <span class="nav-icon" aria-hidden="true">🚀</span>
+            <span class="nav-label">CP Meta / NASA</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link" data-section="contests">
+            <span class="nav-icon" aria-hidden="true">🏁</span>
+            <span class="nav-label">Contests</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link" data-section="hackathons">
+            <span class="nav-icon" aria-hidden="true">🏅</span>
+            <span class="nav-label">Hackathons</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link" data-section="coursework">
+            <span class="nav-icon" aria-hidden="true">📚</span>
+            <span class="nav-label">Coursework</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link" data-section="contact_profiles">
+            <span class="nav-icon" aria-hidden="true">📞</span>
+            <span class="nav-label">Contact &amp; Profiles</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link" data-section="volunteering">
+            <span class="nav-icon" aria-hidden="true">🤝</span>
+            <span class="nav-label">Volunteering</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link" data-section="media">
+            <span class="nav-icon" aria-hidden="true">🎬</span>
+            <span class="nav-label">Media Gallery</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Sign Out -->
+    <div class="sidebar-footer">
+      <button id="signout-btn" class="btn-signout" aria-label="Sign out">
+        <span aria-hidden="true">🚪</span> Sign Out
+      </button>
+    </div>
+
+  </aside><!-- /#sidebar -->
+
+  <!-- Sidebar backdrop (mobile) -->
+  <div id="sidebar-backdrop" class="sidebar-backdrop" aria-hidden="true"></div>
+
+  <!-- ── MAIN AREA ─────────────────────────────────────────────────── -->
+  <div class="main-wrapper">
+
+    <!-- Top Bar -->
+    <header class="topbar" role="banner">
+      <button id="hamburger-btn" class="hamburger" aria-label="Toggle sidebar" aria-expanded="false" aria-controls="sidebar">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="topbar-breadcrumb">
+        <span id="breadcrumb-section">Overview</span>
+      </div>
+
+      <div class="topbar-right">
+        <span class="last-saved" id="last-saved" aria-live="polite"></span>
+        <button class="btn btn-secondary btn-sm" id="export-backup-btn" title="Export all data as JSON backup">
+          <span aria-hidden="true">💾</span> Export Backup
+        </button>
+      </div>
+    </header>
+          ⬇️ Export Backup
+        </button>
+      </div>
+    </header><!-- /.topbar -->
+
+    <!-- ── CONTENT PANELS ──────────────────────────────────────────── -->
+    <main id="main-content" role="main">
+
+      <!-- ============================================================
+           OVERVIEW PANEL
+      ============================================================ -->
+      <div class="section-panel active" id="panel-overview">
+
+        <div class="panel-header">
+          <h2>Dashboard Overview</h2>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon" style="--icon-color:#3498db" aria-hidden="true">📄</div>
+            <div class="stat-body">
+              <div class="stat-number" id="stat-publications">—</div>
+              <div class="stat-label">Publications</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="--icon-color:#22c55e" aria-hidden="true">🔬</div>
+            <div class="stat-body">
+              <div class="stat-number" id="stat-projects">—</div>
+              <div class="stat-label">Projects</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="--icon-color:#f59e0b" aria-hidden="true">📰</div>
+            <div class="stat-body">
+              <div class="stat-number" id="stat-news">—</div>
+              <div class="stat-label">News Items</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="--icon-color:#a855f7" aria-hidden="true">📜</div>
+            <div class="stat-body">
+              <div class="stat-number" id="stat-certificates">—</div>
+              <div class="stat-label">Certificates</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="--icon-color:#ef4444" aria-hidden="true">🏆</div>
+            <div class="stat-body">
+              <div class="stat-number" id="stat-awards">—</div>
+              <div class="stat-label">Awards</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="--icon-color:#06b6d4" aria-hidden="true">📊</div>
+            <div class="stat-body">
+              <div class="stat-number" id="stat-activity">—</div>
+              <div class="stat-label">Activity Logs</div>
+            </div>
+          </div>
+        </div><!-- /.stats-grid -->
+
+        <!-- Recent Activity -->
+        <div class="panel-section">
+          <h3 class="panel-section-title">Recent Activity</h3>
+          <div id="activity-log-list" class="activity-list" aria-label="Recent activity">
+            <!-- Populated by JS -->
+            <div class="skeleton-row"></div>
+            <div class="skeleton-row"></div>
+            <div class="skeleton-row"></div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="panel-section">
+          <h3 class="panel-section-title">Quick Actions</h3>
+          <div class="quick-actions">
+            <button class="btn btn-primary" onclick="showNewsForm()">
+              <span aria-hidden="true">+</span> Add News
+            </button>
+            <button class="btn btn-primary" onclick="showPublicationsForm()">
+              <span aria-hidden="true">+</span> Add Publication
+            </button>
+            <button class="btn btn-primary" onclick="showProjectsForm()">
+              <span aria-hidden="true">+</span> Add Project
+            </button>
+          </div>
+        </div>
+
+      </div><!-- /#panel-overview -->
+
+
+      <!-- ============================================================
+           NEWS & UPDATES PANEL
+      ============================================================ -->
+      <div class="section-panel" id="panel-news">
+        <div class="panel-header">
+          <h2>📰 News &amp; Updates</h2>
+          <button class="btn btn-primary" id="add-news-btn">+ Add News</button>
+        </div>
+        <div class="panel-toolbar">
+          <input type="search" class="search-input" placeholder="Search news…" data-search-panel="news" aria-label="Search news" />
+          <select class="filter-select" data-filter-panel="news" aria-label="Filter by status">
+            <option value="">All statuses</option>
+            <option value="published">Published</option>
+            <option value="draft">Draft</option>
+          </select>
+        </div>
+        <div class="items-list" id="list-news" aria-label="News items"></div>
+      </div>
+
+
+      <!-- ============================================================
+           ABOUT ME PANEL
+      ============================================================ -->
+      <div class="section-panel" id="panel-about">
+        <!-- Rendered dynamically by loadAbout() in app.js -->
+        <div class="panel-header">
+          <h2>👤 About Me</h2>
+        </div>
+        <div class="items-list" id="list-about"></div>
+      </div>
+
+
+      <!-- ============================================================
+           EXPERIENCE PANEL
+      ============================================================ -->
+      <div class="section-panel" id="panel-experience">
+        <div class="panel-header">
+          <h2>💼 Experience</h2>
+          <button class="btn btn-primary" id="add-experience-btn">+ Add Experience</button>
+        </div>
+        <div class="panel-toolbar">
+          <input type="search" class="search-input" placeholder="Search experience…" data-search-panel="experience" aria-label="Search experience" />
+        </div>
+        <div class="items-list sortable-list" id="list-experience" aria-label="Experience items"></div>
+      </div>
+
+
+      <!-- ============================================================
+           EDUCATION PANEL
+      ============================================================ -->
+      <div class="section-panel" id="panel-education">
+        <div class="panel-header">
+          <h2>🎓 Education</h2>
+          <button class="btn btn-primary" id="add-education-btn">+ Add Education</button>
+        </div>
+        <div class="panel-toolbar">
+          <input type="search" class="search-input" placeholder="Search education…" data-search-panel="education" aria-label="Search education" />
+        </div>
+        <div class="items-list sortable-list" id="list-education" aria-label="Education items"></div>
+      </div>
+
+
+      <!-- ============================================================
+           PUBLICATIONS PANEL
+      ============================================================ -->
+      <div class="section-panel" id="panel-publications">
+        <div class="panel-header">
+          <h2>📄 Publications</h2>
+          <button class="btn btn-primary" id="add-publications-btn">+ Add Publication</button>
+        </div>
+        <div class="panel-toolbar">
+          <input type="search" class="search-input" placeholder="Search publications…" data-search-panel="publications" aria-label="Search publications" />
+          <select class="filter-select" data-filter-panel="publications" aria-label="Filter by status">
+            <option value="">All statuses</option>
+            <option value="Published">Published</option>
+            <option value="Accepted">Accepted</option>
+            <option value="Under Review">Under Review</option>
+            <option value="Submitted">Submitted</option>
+          </select>
+        </div>
+        <div class="items-list sortable-list" id="list-publications" aria-label="Publication items"></div>
+      </div>
+
+
+      <!-- ============================================================
+           PROJECTS PANEL
+      ============================================================ -->
+      <div class="section-panel" id="panel-projects">
+        <div class="panel-header">
+          <h2>🔬 Projects</h2>
+          <button class="btn btn-primary" id="add-projects-btn">+ Add Project</button>
+        </div>
+        <div class="panel-toolbar">
+          <input type="search" class="search-input" placeholder="Search projects…" data-search-panel="projects" aria-label="Search projects" />
+          <select class="filter-select" data-filter-panel="projects" aria-label="Filter by status">
+            <option value="">All statuses</option>
+            <option value="published">Published</option>
+            <option value="draft">Draft</option>
+          </select>
+        </div>
+        <div class="items-list sortable-list" id="list-projects" aria-label="Project items"></div>
+      </div>
+
+
+      <!-- ============================================================
+           SKILLS PANEL
+      ============================================================ -->
+      <div class="section-panel" id="panel-skills">
+        <div class="panel-header">
+          <h2>⚙️ Skills</h2>
+          <button class="btn btn-primary" id="add-skills-btn">+ Add Category</button>
+        </div>
+        <div class="panel-toolbar">
+          <input type="search" class="search-input" placeholder="Search skills…" data-search-panel="skills" aria-label="Search skills" />
+        </div>
+        <div class="items-list sortable-list" id="list-skills" aria-label="Skill categories"></div>
+      </div>
+
+
+      <!-- ============================================================
+           AWARDS PANEL
+      ============================================================ -->
+      <div class="section-panel" id="panel-awards">
+        <div class="panel-header">
+          <h2>🏆 Awards</h2>
+          <button class="btn btn-primary" id="add-awards-btn">+ Add Award</button>
+        </div>
+        <div class="panel-toolbar">
+          <input type="search" class="search-input" placeholder="Search awards…" data-search-panel="awards" aria-label="Search awards" />
+        </div>
+        <div class="items-list sortable-list" id="list-awards" aria-label="Award items"></div>
+      </div>
+
+
+      <!-- ============================================================
+           CERTIFICATES PANEL
+      ============================================================ -->
+      <div class="section-panel" id="panel-certificates">
+        <div class="panel-header">
+          <h2>📜 Certificates</h2>
+          <button class="btn btn-primary" id="add-certificates-btn">+ Add Certificate</button>
+        </div>
+        <div class="panel-toolbar">
+          <input type="search" class="search-input" placeholder="Search certificates…" data-search-panel="certificates" aria-label="Search certificates" />
+        </div>
+        <div class="items-list sortable-list" id="list-certificates" aria-label="Certificate items"></div>
+      </div>
+
+
+      <!-- ============================================================
+           COMPETITIVE PROGRAMMING PANEL
+      ============================================================ -->
+      <div class="section-panel" id="panel-competitive_programming">
+        <div class="panel-header">
+          <h2>💻 Competitive Programming Platforms</h2>
+          <button class="btn btn-primary" id="add-competitive_programming-btn">+ Add Platform</button>
+        </div>
+        <div class="panel-toolbar">
+          <input type="search" class="search-input" placeholder="Search platforms…" aria-label="Search CP platforms" />
+        </div>
+        <div class="items-list sortable-list" id="list-competitive_programming" aria-label="Competitive programming platforms"></div>
+      </div>
+
+
+      <!-- ============================================================
+           CP META PANEL (Problems & NASA Space Apps)
+      ============================================================ -->
+      <div class="section-panel" id="panel-cp_meta">
+        <!-- Rendered dynamically by loadCpMeta() in app.js -->
+        <div class="panel-header">
+          <h2>🚀 CP Meta &amp; NASA Space Apps</h2>
+        </div>
+        <div class="items-list" id="list-cp_meta"></div>
+      </div>
+
+
+      <!-- ============================================================
+           CONTESTS PANEL
+      ============================================================ -->
+      <div class="section-panel" id="panel-contests">
+        <div class="panel-header">
+          <h2>🏁 Programming Contests</h2>
+          <button class="btn btn-primary" id="add-contests-btn">+ Add Contest</button>
+        </div>
+        <div class="panel-toolbar">
+          <input type="search" class="search-input" placeholder="Search contests…" aria-label="Search contests" />
+        </div>
+        <div class="items-list sortable-list" id="list-contests" aria-label="Contest items"></div>
+      </div>
+
+
+      <!-- ============================================================
+           HACKATHONS PANEL
+      ============================================================ -->
+      <div class="section-panel" id="panel-hackathons">
+        <div class="panel-header">
+          <h2>🏅 Hackathons</h2>
+          <button class="btn btn-primary" id="add-hackathons-btn">+ Add Hackathon</button>
+        </div>
+        <div class="panel-toolbar">
+          <input type="search" class="search-input" placeholder="Search hackathons…" data-search-panel="hackathons" aria-label="Search hackathons" />
+        </div>
+        <div class="items-list sortable-list" id="list-hackathons" aria-label="Hackathon items"></div>
+      </div>
+
+
+      <!-- ============================================================
+           COURSEWORK PANEL
+      ============================================================ -->
+      <div class="section-panel" id="panel-coursework">
+        <div class="panel-header">
+          <h2>📚 Coursework</h2>
+          <button class="btn btn-primary" id="add-coursework-btn">+ Add Category</button>
+        </div>
+        <div class="panel-toolbar">
+          <input type="search" class="search-input" placeholder="Search coursework…" data-search-panel="coursework" aria-label="Search coursework" />
+        </div>
+        <div class="items-list sortable-list" id="list-coursework" aria-label="Coursework categories"></div>
+      </div>
+
+
+      <!-- ============================================================
+           CONTACT & PROFILES PANEL
+      ============================================================ -->
+      <div class="section-panel" id="panel-contact_profiles">
+        <div class="panel-header">
+          <h2>📞 Contact &amp; Profiles</h2>
+          <button class="btn btn-primary" id="add-contact_profiles-btn">+ Add Profile</button>
+        </div>
+        <div class="panel-toolbar">
+          <input type="search" class="search-input" placeholder="Search profiles…" data-search-panel="contact" aria-label="Search contact profiles" />
+        </div>
+        <div class="items-list sortable-list" id="list-contact_profiles" aria-label="Contact profile items"></div>
+      </div>
+
+
+      <!-- ============================================================
+           VOLUNTEERING PANEL
+      ============================================================ -->
+      <div class="section-panel" id="panel-volunteering">
+        <div class="panel-header">
+          <h2>🤝 Volunteering</h2>
+          <button class="btn btn-primary" id="add-volunteering-btn">+ Add Role</button>
+        </div>
+        <div class="panel-toolbar">
+          <input type="search" class="search-input" placeholder="Search volunteering…" data-search-panel="volunteering" aria-label="Search volunteering" />
+        </div>
+        <div class="items-list sortable-list" id="list-volunteering" aria-label="Volunteering items"></div>
+      </div>
+
+
+      <!-- ============================================================
+           MEDIA GALLERY PANEL
+      ============================================================ -->
+      <div class="section-panel" id="panel-media">
+        <div class="panel-header">
+          <h2>🎬 Media Gallery</h2>
+          <button class="btn btn-primary" id="add-media-btn">+ Add Media</button>
+        </div>
+        <div class="panel-toolbar">
+          <input type="search" class="search-input" placeholder="Search media…" data-search-panel="media" aria-label="Search media" />
+          <select class="filter-select" data-filter-panel="media" aria-label="Filter by type">
+            <option value="">All types</option>
+            <option value="video">Video</option>
+            <option value="image">Image</option>
+          </select>
+        </div>
+        <div class="items-list sortable-list media-grid" id="list-media" aria-label="Media items"></div>
+      </div>
+
+
+    </main><!-- /#main-content -->
+  </div><!-- /.main-wrapper -->
+
+</div><!-- /#dashboard -->
+
+
+<!-- ══════════════════════════════════════════════════════════════════
+     MODAL OVERLAY
+     JS injects form HTML into #modal-body and sets #modal-title.
+══════════════════════════════════════════════════════════════════ -->
+<div id="modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-card" role="document">
+
+    <div class="modal-header">
+      <h3 id="modal-title" class="modal-title">Edit Item</h3>
+      <button id="modal-close-btn" class="modal-close" aria-label="Close modal">×</button>
+    </div>
+
+    <div id="modal-body" class="modal-body">
+      <!-- Form injected here by JS -->
+    </div>
+
+    <div class="modal-footer">
+      <button id="modal-cancel-btn" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+      <button id="modal-save-btn"   class="btn btn-primary">
+        <span class="btn-label">Save</span>
+        <span class="btn-spinner" aria-hidden="true"></span>
+      </button>
+    </div>
+
+  </div><!-- /.modal-card -->
+</div><!-- /#modal -->
+
+
+<!-- ══════════════════════════════════════════════════════════════════
+     TOAST NOTIFICATION
+     Shown bottom-right; JS adds message + type class + visible class.
+══════════════════════════════════════════════════════════════════ -->
+<div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true">
+  <span id="toast-icon" class="toast-icon" aria-hidden="true">✅</span>
+  <span id="toast-message" class="toast-message"></span>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════════════
+     DELETE CONFIRM DIALOG
+     Shown when user clicks Delete; Cancel/Confirm buttons handled by JS.
+══════════════════════════════════════════════════════════════════ -->
+<div id="confirm-dialog" class="confirm-dialog" role="alertdialog" aria-modal="true" aria-labelledby="confirm-title" style="display:none">
+  <div class="confirm-card">
+    <div class="confirm-icon" aria-hidden="true">🗑️</div>
+    <h3 id="confirm-title" class="confirm-title">Are you sure?</h3>
+    <p  id="confirm-message" class="confirm-message">This action cannot be undone.</p>
+    <div class="confirm-actions">
+      <button id="confirm-cancel" class="btn btn-secondary">Cancel</button>
+      <button id="confirm-delete" class="btn btn-danger">Delete</button>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>
