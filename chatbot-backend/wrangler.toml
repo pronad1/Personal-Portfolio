@@ -1,0 +1,15 @@
+name = "prosen-ai-api"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Cloudflare KV for rate limiting (optional but recommended)
+# Create with: wrangler kv:namespace create "PROSEN_AI_RATE_LIMIT"
+# Then add the resulting id below:
+# [[kv_namespaces]]
+# binding = "KV"
+# id = "<your-kv-id>"
+
+[vars]
+# No vars here — GEMINI_API_KEY is set via:
+#   wrangler secret put GEMINI_API_KEY
