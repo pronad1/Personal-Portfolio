@@ -82,6 +82,8 @@
         'hugging face', 'openreview', 'researchgate', 'ieee', 'spinal', 'stroke',
         'does he', 'can he', 'has he', 'is he', 'was he', 'will he',
         'his research', 'his project', 'his skill', 'his publication',
+        'semester', 'cgpa', 'gpa', 'grade', 'credits', 'dean', 'varsity',
+        'alma mater', 'institution', 'certificate', 'certif', 'credential',
       ];
       const hasInScopeSignal = inScopeSignals.some(sig => q.includes(sig));
       if (hasInScopeSignal) return false;
@@ -106,187 +108,205 @@
 
   // ── RESPONSE GENERATOR (Local Fallback) ───────────────────
   const LocalResponder = {
-    respond(query, topics) {
+
+    // Intent detector — uses regex directly on the query string.
+    // Returns a stable intent string regardless of KB_TOPICS keyword matching.
+    detectIntent(q) {
+      // Identity — must check before broad "tell me about" fallback
+      if (/(who is prosenjit|who is prosen|about prosenjit|about prosen|introduce prosenjit|introduce yourself|overview of prosenjit|prosenjit.?s? bio)/i.test(q)) return 'identity';
+      // University / institution
+      if (/(university|varsity|alma mater|pstu|patuakhali|where.*(stud|learn)|institution)/i.test(q)) return 'university';
+      // Semester / academic standing / credits
+      if (/(semester|which year|current year|academic year|credits?|session|batch|undergraduate year|standing)/i.test(q)) return 'semester';
+      // CGPA / grades
+      if (/(cgpa|gpa|grades?|result|marks|academic result|academic score|dean.?s list)/i.test(q)) return 'cgpa';
+      // Certificates — "certif" substring covers certificate/certificates/certification
+      if (/(how many cert|certif|credential)/i.test(q)) return 'certificates';
+      // Skills — "skill" substring covers skills/technical skills
+      if (/(skill|tech stack|programming language|framework|tool|librar|python|pytorch|tensorflow|flutter|what does he (know|code|use)|technical background|technical expertise)/i.test(q)) return 'skills';
+      // Publications / papers
+      if (/(publication|papers?|miccai|mirasol|ieee|dsanet|spinal|stroke|lesion|license plate|conference paper|journal|how many paper|research paper)/i.test(q)) return 'publications';
+      // Projects
+      if (/(projects?|neurovision|trashbot|reusehub|graph.?craft|vacuum|job portal|blood bank|what (did|has) he built|apps he made)/i.test(q)) return 'projects';
+      // Research interests (more specific, before generic "research")
+      if (/(research interest|research area|research background|research topic|working on research|medical ai|ai in health|health informatics)/i.test(q)) return 'research';
+      // Awards / achievements
+      if (/(awards?|honours?|honors?|prizes?|scholarships?|achievements?|glucose|nasa|carniv|ranking|ranked)/i.test(q)) return 'awards';
+      // Education
+      if (/(education|degree|b\.?sc|hsc|ssc|high school|secondary school|qualification|academic background)/i.test(q)) return 'education';
+      // Experience
+      if (/(experience|work experience|cimilab|research assistant|current role|where.*work|employment)/i.test(q)) return 'experience';
+      // Contact
+      if (/(contact|email|phone|reach|get in touch|hire|collaborat|connect|mail)/i.test(q)) return 'contact';
+      // Individual profiles
+      if (/(github|repo|source code)/i.test(q)) return 'github';
+      if (/(linkedin)/i.test(q)) return 'linkedin';
+      if (/(google scholar|scholar|citation)/i.test(q)) return 'scholar';
+      if (/(orcid)/i.test(q)) return 'orcid';
+      if (/(hugging.?face)/i.test(q)) return 'huggingface';
+      if (/(kaggle)/i.test(q)) return 'kaggle';
+      // Competitive programming
+      if (/(competitive|codeforces|hackerrank|leetcode|beecrowd|problem.?solving|problems solved|icpc|programming contest)/i.test(q)) return 'competitive';
+      // Generic "research" (after specific research checks)
+      if (/(research)/i.test(q)) return 'research';
+      // Volunteering
+      if (/(volunteer|badhon|cse club|youthmapper|blood donation|extracurricular)/i.test(q)) return 'volunteering';
+      // News
+      if (/(news|latest|recent update|what.?s new|recent news)/i.test(q)) return 'news';
+      // Coursework
+      if (/(course|coursework|subject|curriculum|classes taken|studied)/i.test(q)) return 'coursework';
+      // Generic fallback identity
+      if (/(who is|introduce|tell me about|about him|overview)/i.test(q)) return 'identity';
+      return 'unknown';
+    },
+
+    respond(query, _topics) {
       const KB = window.PROSENJIT_KB;
       if (!KB) return "Sorry, I'm having trouble accessing Prosenjit's information right now.";
 
-      const topicKeys = topics.map(t => t.key);
       const q = query.toLowerCase();
+      const intent = this.detectIntent(q);
 
-      // Identity / General
-      if (topicKeys.includes('identity') || q.match(/who is|introduce|about him|tell me about prosen/i)) {
-        const id = KB.identity;
-        return `**${id.name}** is a ${id.title} at **${id.affiliation}**. He also serves as **${id.labRole}** at **${id.labAffiliation}**.
-
-He is currently on the **Dean's List** with a CGPA of **3.656/4.00** and is passionate about AI in Health, Computer Vision, Machine Learning, and HCI.
-
-He is open to research collaborations and opportunities. You can reach him at [${id.email}](mailto:${id.email}).
-
-🔗 **Quick Links:** [Portfolio](${KB.profiles.portfolio.url}) · [GitHub](${KB.profiles.github.url}) · [LinkedIn](${KB.profiles.linkedin.url}) · [Google Scholar](${KB.profiles.googleScholar.url})`;
+      // ── UNIVERSITY ──────────────────────────────────────────
+      if (intent === 'university') {
+        const edu = KB.education[0];
+        return `Prosenjit studies at **[${edu.institution}](${edu.institutionUrl})**, ${edu.location}.\n\nHe is pursuing **${edu.degree}** (${edu.period}), currently on the **Dean's List** with a CGPA of **${edu.cgpa}**.`;
       }
 
-      // Research
-      if (topicKeys.includes('research')) {
-        const interests = KB.researchInterests.join(', ');
-        const exp = KB.experience[0];
-        return `**Research Background:**
-
-Prosenjit is a Research Assistant at **CIMILab, University of Missouri** (Remote), working since August 2025 on AI in Health, Medical Image Analysis, and computational informatics.
-
-**Research Interests:**
-${KB.researchInterests.map(i => `• ${i}`).join('\n')}
-
-He is particularly interested in developing principled frameworks that combine theoretical guarantees with practical applicability, enabling trustworthy decision-making under distribution shift and model uncertainty.
-
-🔗 [Google Scholar](${KB.profiles.googleScholar.url}) · [ResearchGate](${KB.profiles.researchgate.url}) · [ORCID](${KB.profiles.orcid.url}) · [OpenReview](${KB.profiles.openreview.url})`;
+      // ── SEMESTER / ACADEMIC STANDING ────────────────────────
+      if (intent === 'semester') {
+        const edu = KB.education[0];
+        return `Prosenjit is currently a **Senior (4th Year)** undergraduate student.\n\n• **Institution:** ${edu.institution}\n• **Credits Completed:** ${edu.creditsCompleted}\n• **CGPA:** ${edu.cgpa} (Dean's List)\n• **Enrolled Since:** February 2023\n\n*Note: Specific running semester information is not publicly listed on his portfolio.*`;
       }
 
-      // Publications
-      if (topicKeys.includes('publications')) {
-        const pubs = KB.publications;
-        return `**Publications (${pubs.length} papers):**
-
-**[1] ${pubs[0].title}**
-📄 *${pubs[0].venue}*
-✅ **${pubs[0].status}** — ${pubs[0].publisher}
-🔗 [IEEE Xplore](${pubs[0].url})
-
-**[2] ${pubs[1].title}**
-🏛️ *${pubs[1].venue}*
-🇫🇷 **${pubs[1].status}** — ${pubs[1].authorPosition}
-*(Presented at MICCAI 2026 through MICCAI Ambassador Program by Prof. Dr. Pamela Guevara)*
-🔗 [View Poster](https://pronad1.github.io/Personal-Portfolio/acheivement/%5BProsenjit%20Mondol%5D_%5B74%5D_%5BMIRASOL%5D_poster.pdf)
-
-**[3] ${pubs[2].title}**
-🔄 *${pubs[2].venue}*
-⏳ **${pubs[2].status}** — ${pubs[2].authorPosition}
-
-🔗 [Google Scholar](${KB.profiles.googleScholar.url}) · [OpenReview](${KB.profiles.openreview.url}) · [ResearchGate](${KB.profiles.researchgate.url})`;
+      // ── CGPA / GRADES ────────────────────────────────────────
+      if (intent === 'cgpa') {
+        return `**Academic Results:**\n\n• 🎓 **B.Sc. CSE at PSTU:** CGPA **3.656 / 4.00** — 🏅 Dean's List\n• 🏫 **HSC (Naogaon Govt. College):** GPA **5.00 / 5.00**\n• 📖 **SSC (Chakatitha High School):** GPA **5.00 / 5.00**`;
       }
 
-      // Projects
-      if (topicKeys.includes('projects')) {
-        const projs = KB.projects;
-        const projList = projs.map(p =>
-          `**${p.icon} ${p.name}** — ${p.description.substring(0, 90)}... [GitHub](${p.githubUrl})`
-        ).join('\n\n');
-        return `**Projects (${projs.length} highlighted):**\n\n${projList}\n\n🔗 [GitHub Profile](${KB.profiles.github.url}) for all source code.`;
+      // ── CERTIFICATES ─────────────────────────────────────────
+      if (intent === 'certificates') {
+        const certs = KB.certificates;
+        const list = certs.map((c, i) => `${i + 1}. ${c}`).join('\n');
+        return `Prosenjit has earned **${certs.length} certificates**:\n\n${list}\n\n🔗 View them in the [Certificates section](${KB.profiles.portfolio.url}#certs) of his portfolio.`;
       }
 
-      // Skills
-      if (topicKeys.includes('skills')) {
+      // ── SKILLS ───────────────────────────────────────────────
+      if (intent === 'skills') {
         const s = KB.skills;
-        return `**Technical Skills:**
-
-**Languages:** ${s.languages.join(', ')}
-**ML/DL Frameworks:** ${s.mlFrameworks.join(', ')}
-**Visualization:** ${s.visualization.join(', ')}
-**Databases:** ${s.databases.join(', ')}
-**Backend / Mobile:** ${s.backendMobile.join(', ')}
-**Tools & Platforms:** ${s.tools.join(', ')}`;
+        return `**Prosenjit's Technical Skills:**\n\n**Languages:** ${s.languages.join(', ')}\n**ML/DL Frameworks:** ${s.mlFrameworks.join(', ')}\n**Visualization:** ${s.visualization.join(', ')}\n**Databases:** ${s.databases.join(', ')}\n**Backend / Mobile:** ${s.backendMobile.join(', ')}\n**Tools & Platforms:** ${s.tools.join(', ')}`;
       }
 
-      // Education
-      if (topicKeys.includes('education')) {
+      // ── PUBLICATIONS ─────────────────────────────────────────
+      if (intent === 'publications') {
+        const pubs = KB.publications;
+        return `**Publications (${pubs.length} papers):**\n\n**[1] ${pubs[0].title}**\n📄 *${pubs[0].venue}*\n✅ **${pubs[0].status}** — ${pubs[0].publisher}\n🔗 [IEEE Xplore](${pubs[0].url})\n\n**[2] ${pubs[1].title}**\n🏛️ *${pubs[1].venue}*\n🇫🇷 **${pubs[1].status}** — ${pubs[1].authorPosition}\n*(Presented at MICCAI 2026 through MICCAI Ambassador Program by Prof. Dr. Pamela Guevara)*\n🔗 [View Poster](https://pronad1.github.io/Personal-Portfolio/acheivement/%5BProsenjit%20Mondol%5D_%5B74%5D_%5BMIRASOL%5D_poster.pdf)\n\n**[3] ${pubs[2].title}**\n🔄 *${pubs[2].venue}*\n⏳ **${pubs[2].status}** — ${pubs[2].authorPosition}\n\n🔗 [Google Scholar](${KB.profiles.googleScholar.url}) · [OpenReview](${KB.profiles.openreview.url}) · [ResearchGate](${KB.profiles.researchgate.url})`;
+      }
+
+      // ── PROJECTS ─────────────────────────────────────────────
+      if (intent === 'projects') {
+        const projs = KB.projects;
+        const list = projs.map(p => `**${p.icon} ${p.name}** — ${p.description.substring(0, 90)}... [GitHub](${p.githubUrl})`).join('\n\n');
+        return `**Projects (${projs.length} highlighted):**\n\n${list}\n\n🔗 [GitHub Profile](${KB.profiles.github.url}) for all source code.`;
+      }
+
+      // ── RESEARCH ─────────────────────────────────────────────
+      if (intent === 'research') {
+        return `**Research Background:**\n\nProsenjit is a Research Assistant at **CIMILab, University of Missouri** (Remote), working since August 2025 on AI in Health, Medical Image Analysis, and computational informatics.\n\n**Research Interests:**\n${KB.researchInterests.map(i => `• ${i}`).join('\n')}\n\n🔗 [Google Scholar](${KB.profiles.googleScholar.url}) · [ResearchGate](${KB.profiles.researchgate.url}) · [ORCID](${KB.profiles.orcid.url}) · [OpenReview](${KB.profiles.openreview.url})`;
+      }
+
+      // ── EDUCATION ────────────────────────────────────────────
+      if (intent === 'education') {
         const edu = KB.education;
-        return `**Education:**
-
-🎓 **${edu[0].degree}**
-${edu[0].institution} · ${edu[0].location}
-*${edu[0].period}* · CGPA: **${edu[0].cgpa}** · 🏅 **${edu[0].honor}**
-
-🏫 **${edu[1].degree}**
-${edu[1].institution} · *${edu[1].period}* · GPA: **${edu[1].gpa}**
-
-📖 **${edu[2].degree}**
-${edu[2].institution} · *${edu[2].period}* · GPA: **${edu[2].gpa}**`;
+        return `**Education:**\n\n🎓 **${edu[0].degree}**\n${edu[0].institution} · ${edu[0].location}\n*${edu[0].period}* · CGPA: **${edu[0].cgpa}** · 🏅 **${edu[0].honor}**\n\n🏫 **${edu[1].degree}**\n${edu[1].institution} · *${edu[1].period}* · GPA: **${edu[1].gpa}**\n\n📖 **${edu[2].degree}**\n${edu[2].institution} · *${edu[2].period}* · GPA: **${edu[2].gpa}**`;
       }
 
-      // Experience
-      if (topicKeys.includes('experience')) {
+      // ── EXPERIENCE ───────────────────────────────────────────
+      if (intent === 'experience') {
         const exp = KB.experience[0];
-        return `**Work Experience:**
-
-**${exp.role}**
-[${exp.organization}](${exp.orgUrl}) · *${exp.location}*
-📅 ${exp.period}
-
-${exp.description}
-
-🔗 [CIMILab Website](${exp.orgUrl}) · [LinkedIn](${KB.profiles.linkedin.url})`;
+        return `**Work Experience:**\n\n**${exp.role}**\n[${exp.organization}](${exp.orgUrl}) · *${exp.location}*\n📅 ${exp.period}\n\n${exp.description}\n\n🔗 [CIMILab Website](${exp.orgUrl}) · [LinkedIn](${KB.profiles.linkedin.url})`;
       }
 
-      // Awards
-      if (topicKeys.includes('awards')) {
-        const awards = KB.awards;
-        const list = awards.map(a => `🏆 **${a.title}** — ${a.description}`).join('\n\n');
-        return `**Awards & Honours:**\n\n${list}`;
+      // ── AWARDS ───────────────────────────────────────────────
+      if (intent === 'awards') {
+        const list = KB.awards.map(a => `🏆 **${a.title}** — ${a.description}`).join('\n\n');
+        return `**Awards & Honours (${KB.awards.length} total):**\n\n${list}`;
       }
 
-      // Contact
-      if (topicKeys.includes('contact')) {
+      // ── CONTACT ──────────────────────────────────────────────
+      if (intent === 'contact') {
         const p = KB.profiles;
-        return `**Contact & Profiles:**
-
-📧 **Email:** [${KB.identity.email}](mailto:${KB.identity.email})
-📞 **Phone:** ${KB.identity.phone}
-
-**Academic Profiles:**
-• [Google Scholar](${p.googleScholar.url}) · [ResearchGate](${p.researchgate.url}) · [ORCID](${p.orcid.url}) · [OpenReview](${p.openreview.url})
-
-**Developer Profiles:**
-• [GitHub](${p.github.url}) · [Hugging Face](${p.huggingface.url}) · [Kaggle](${p.kaggle.url})
-
-**Professional:**
-• [LinkedIn](${p.linkedin.url})
-
-**Competitive Programming:**
-• [Codeforces](${p.codeforces.url}) · [HackerRank](${p.hackerrank.url}) · [LeetCode](${p.leetcode.url})
-
-🌐 [Portfolio Website](${p.portfolio.url})`;
+        return `**Contact & Profiles:**\n\n📧 **Email:** [${KB.identity.email}](mailto:${KB.identity.email})\n📞 **Phone:** ${KB.identity.phone}\n\n**Academic:** [Google Scholar](${p.googleScholar.url}) · [ResearchGate](${p.researchgate.url}) · [ORCID](${p.orcid.url}) · [OpenReview](${p.openreview.url})\n\n**Developer:** [GitHub](${p.github.url}) · [Hugging Face](${p.huggingface.url}) · [Kaggle](${p.kaggle.url})\n\n**Professional:** [LinkedIn](${p.linkedin.url})\n\n**Competitive:** [Codeforces](${p.codeforces.url}) · [HackerRank](${p.hackerrank.url}) · [LeetCode](${p.leetcode.url})\n\n🌐 [Portfolio](${p.portfolio.url})`;
       }
 
-      // GitHub
-      if (topicKeys.includes('github') || q.includes('github')) {
+      // ── GITHUB ───────────────────────────────────────────────
+      if (intent === 'github') {
         const p = KB.profiles.github;
-        return `Prosenjit's **GitHub** profile: [${p.url}](${p.url}) (handle: **${p.handle}**)
-
-You can find his project source codes there, including NeuroVision AI, TrashBot, ReuseHub, Graph Craft, and more.`;
+        return `Prosenjit's **GitHub:** [${p.url}](${p.url}) (handle: **${p.handle}**)\n\nProject repos include NeuroVision AI, TrashBot, ReuseHub, Graph Craft, and more.`;
       }
 
-      // Competitive Programming
-      if (topicKeys.includes('competitive')) {
+      // ── LINKEDIN ─────────────────────────────────────────────
+      if (intent === 'linkedin') {
+        const p = KB.profiles.linkedin;
+        return `Prosenjit's **LinkedIn:** [${p.url}](${p.url})`;
+      }
+
+      // ── GOOGLE SCHOLAR ───────────────────────────────────────
+      if (intent === 'scholar') {
+        const p = KB.profiles.googleScholar;
+        return `Prosenjit's **Google Scholar:** [${p.url}](${p.url})`;
+      }
+
+      // ── ORCID ────────────────────────────────────────────────
+      if (intent === 'orcid') {
+        const p = KB.profiles.orcid;
+        return `Prosenjit's **ORCID:** [${p.url}](${p.url}) (ID: ${p.id})`;
+      }
+
+      // ── HUGGING FACE ─────────────────────────────────────────
+      if (intent === 'huggingface') {
+        const p = KB.profiles.huggingface;
+        return `Prosenjit's **Hugging Face:** [${p.url}](${p.url}) (handle: **${p.handle}**)`;
+      }
+
+      // ── KAGGLE ───────────────────────────────────────────────
+      if (intent === 'kaggle') {
+        const p = KB.profiles.kaggle;
+        return `Prosenjit's **Kaggle:** [${p.url}](${p.url}) (handle: **${p.handle}**)`;
+      }
+
+      // ── COMPETITIVE PROGRAMMING ──────────────────────────────
+      if (intent === 'competitive') {
         const cp = KB.competitiveProgramming;
         const platforms = cp.platforms.map(p => `• [${p.name}](${p.url}) — **${p.handle}**`).join('\n');
-        return `**Competitive Programming:**
-
-Prosenjit has solved **${cp.problemsSolved} problems** across multiple platforms, developing expertise in algorithms, data structures, and problem-solving.
-
-**Platforms:**
-${platforms}
-
-**Notable Contests:**
-${cp.contests.map(c => `• ${c}`).join('\n')}
-
-**NASA Space Apps Challenge 2025:**
-Team **${cp.nasaSpaceApps.team}** · Role: *${cp.nasaSpaceApps.role}*
-Project: *${cp.nasaSpaceApps.project}*`;
+        return `**Competitive Programming:**\n\nProsenjit has solved **${cp.problemsSolved} problems** across multiple platforms.\n\n**Platforms:**\n${platforms}\n\n**Notable Contests:**\n${cp.contests.map(c => `• ${c}`).join('\n')}\n\n**NASA Space Apps 2025:**\nTeam **${cp.nasaSpaceApps.team}** · Role: *${cp.nasaSpaceApps.role}*`;
       }
 
-      // News / Recent
-      if (topicKeys.includes('news')) {
+      // ── VOLUNTEERING ─────────────────────────────────────────
+      if (intent === 'volunteering') {
+        const list = KB.volunteering.map(v => `**${v.org}** — *${v.role}* (${v.period})\n${v.description}`).join('\n\n');
+        return `**Volunteering & Extracurricular:**\n\n${list}`;
+      }
+
+      // ── NEWS ─────────────────────────────────────────────────
+      if (intent === 'news') {
         return `**Recent News & Updates:**\n\n${KB.recentNews.map(n => `• ${n}`).join('\n\n')}`;
       }
 
-      // Default: general intro
-      return `I found some information about Prosenjit Mondol. He is a **B.Sc. CSE student at PSTU** and **Research Assistant at CIMILab (University of Missouri)**. His research focuses on AI in Health, Computer Vision, and Medical Image Analysis.
+      // ── COURSEWORK ───────────────────────────────────────────
+      if (intent === 'coursework') {
+        const c = KB.coursework;
+        return `**Relevant Coursework:**\n\n**Computer Science:** ${c.computerScience.join(', ')}\n**Signal & Networks:** ${c.signalNetworks.join(', ')}\n**Mathematics:** ${c.mathematics.join(', ')}\n**Electrical & Electronics:** ${c.electricalElectronics.join(', ')}`;
+      }
 
-Could you be more specific? You can ask me about:
-• His **research** and publications
-• His **projects** (NeuroVision AI, TrashBot, etc.)
-• His **technical skills** and education
-• His **awards** and achievements
-• How to **contact** him`;
+      // ── IDENTITY ─────────────────────────────────────────────
+      if (intent === 'identity') {
+        const id = KB.identity;
+        return `**${id.name}** is a ${id.title} at **${id.affiliation}**. He also serves as **${id.labRole}** at **${id.labAffiliation}**.\n\nHe is on the **Dean's List** with a CGPA of **3.656/4.00**. His research focuses on AI in Health, Computer Vision, and Medical Image Analysis.\n\nOpen to research collaborations — reach him at [${id.email}](mailto:${id.email}).\n\n🔗 [Portfolio](${KB.profiles.portfolio.url}) · [GitHub](${KB.profiles.github.url}) · [LinkedIn](${KB.profiles.linkedin.url}) · [Google Scholar](${KB.profiles.googleScholar.url})`;
+      }
+
+      // ── UNKNOWN ──────────────────────────────────────────────
+      return `I don't have that specific information in Prosenjit's portfolio data. I can tell you about:\n• His **research** and publications\n• His **projects** (NeuroVision AI, TrashBot, etc.)\n• His **skills**, education, and CGPA\n• His **awards** and certificates\n• How to **contact** him\n\nJust ask!`;
     },
   };
 
