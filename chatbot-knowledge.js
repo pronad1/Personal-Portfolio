@@ -343,87 +343,117 @@ const PROSENJIT_KB = {
 };
 
 // ── TOPIC ROUTER ──────────────────────────────────────────────
-// Maps question keywords → knowledge retrieval functions
+// Maps question intents → knowledge retrieval functions
 const KB_TOPICS = {
-  identity: {
-    keywords: ["who is", "about him", "introduce", "background", "prosenjit", "prosen", "who are you talking about", "tell me about"],
-    getData: () => PROSENJIT_KB.identity,
+  university: {
+    keywords: ["university", "varsity", "institution", "college", "school", "where does he study", "where did he study", "where is he studying", "campus", "alma mater", "pstu"],
+    getData: () => PROSENJIT_KB.education,
   },
-  research: {
-    keywords: ["research", "research interest", "working on", "study", "investigat", "focus", "area", "topic", "ai in health", "computer vision", "medical", "hci", "machine learning interest"],
-    getData: () => ({ interests: PROSENJIT_KB.researchInterests, experience: PROSENJIT_KB.experience }),
+  semester: {
+    keywords: ["semester", "which semester", "current semester", "running semester", "academic year", "which year", "current year", "credit", "credits", "session", "batch", "undergraduate year"],
+    getData: () => ({
+      degree: "B.Sc. in Computer Science and Engineering",
+      institution: "Patuakhali Science & Technology University (PSTU)",
+      enrolled: "February 2023 – Present",
+      standing: "Senior (4th Year)",
+      creditsCompleted: "126.5 / 165",
+      cgpa: "3.656 / 4.00 (Dean's List)",
+    }),
+  },
+  cgpa: {
+    keywords: ["cgpa", "gpa", "grade", "grades", "result", "results", "marks", "academic result", "academic score", "deans list", "dean's list"],
+    getData: () => ({
+      bsc_cgpa: "3.656 / 4.00 (Dean's List at PSTU)",
+      hsc_gpa: "5.00 / 5.00 (Naogaon Govt. College)",
+      ssc_gpa: "5.00 / 5.00 (Chakatitha High School)",
+    }),
+  },
+  certificates: {
+    keywords: ["certificate", "certificates", "certification", "certifications", "credential", "credentials", "how many certificate", "how many certif", "cert"],
+    getData: () => ({
+      totalCount: 17,
+      certificates: PROSENJIT_KB.certificates,
+    }),
+  },
+  skills: {
+    keywords: ["skill", "skills", "technolog", "tech stack", "languages", "programming language", "framework", "frameworks", "tools", "library", "libraries", "python", "pytorch", "tensorflow", "flutter", "technical background", "technical expertise", "what does he know"],
+    getData: () => PROSENJIT_KB.skills,
+  },
+  miccai: {
+    keywords: ["miccai", "mirasol", "spinal", "lesion detection", "france", "strasbourg", "pamela", "guevara", "ambassador program"],
+    getData: () => PROSENJIT_KB.publications.find(p => p.id === 2),
   },
   publications: {
-    keywords: ["publication", "paper", "publish", "miccai", "mirasol", "ieee", "dsanet", "stroke", "spinal", "lesion", "license plate", "ocr", "written", "authored", "research paper", "journal", "conference"],
+    keywords: ["publication", "publications", "paper", "papers", "research paper", "published", "ieee", "dsanet", "stroke", "how many paper", "conference paper", "journal"],
     getData: () => PROSENJIT_KB.publications,
   },
   projects: {
-    keywords: ["project", "built", "developed", "build", "neurovision", "trashbot", "reusehub", "graph craft", "vacuum", "job portal", "blood bank", "clite", "app", "system", "tool", "portfolio project"],
+    keywords: ["project", "projects", "neurovision", "trashbot", "reusehub", "graph craft", "vacuum", "job portal", "blood bank", "developed", "portfolio project", "built", "apps"],
     getData: () => PROSENJIT_KB.projects,
   },
-  skills: {
-    keywords: ["skill", "language", "framework", "tech", "know", "python", "pytorch", "tensorflow", "flutter", "java", "programming", "tools", "stack", "expert", "proficien", "capabilit"],
-    getData: () => PROSENJIT_KB.skills,
+  research: {
+    keywords: ["research", "research interest", "research interests", "research area", "research topic", "medical ai", "ai in health", "health informatics", "computer vision", "medical image"],
+    getData: () => ({ interests: PROSENJIT_KB.researchInterests, lab: PROSENJIT_KB.experience[0] }),
   },
   education: {
-    keywords: ["education", "degree", "university", "pstu", "study", "cgpa", "gpa", "b.sc", "bsc", "school", "college", "qualification", "academic", "student", "graduate"],
+    keywords: ["education", "degree", "qualification", "academic background", "study background", "higher secondary", "secondary school"],
     getData: () => PROSENJIT_KB.education,
   },
   experience: {
-    keywords: ["experience", "work", "job", "position", "cimilab", "lab", "role", "employ", "internship", "career", "industry"],
+    keywords: ["experience", "work experience", "job", "cimilab", "position", "current role", "where does he work", "research assistant", "employment"],
     getData: () => PROSENJIT_KB.experience,
   },
   awards: {
-    keywords: ["award", "honour", "honor", "achievement", "prize", "scholarship", "rank", "top", "recognition", "win", "won", "grameen", "board merit", "dean", "icpc"],
+    keywords: ["award", "awards", "honour", "honours", "honor", "honors", "achievement", "achievements", "prize", "prizes", "scholarship", "scholarships", "glucose challenge", "contest winner"],
     getData: () => PROSENJIT_KB.awards,
   },
   contact: {
-    keywords: ["contact", "email", "reach", "get in touch", "phone", "connect", "hire", "collaborate", "how to find", "where to find"],
+    keywords: ["contact", "email", "phone", "number", "reach", "get in touch", "hire", "collaborat", "connect", "mail"],
     getData: () => ({ contact: PROSENJIT_KB.identity, profiles: PROSENJIT_KB.profiles }),
   },
   github: {
-    keywords: ["github", "code", "repository", "repo", "source code"],
+    keywords: ["github", "github profile", "repo", "repositories", "source code"],
     getData: () => PROSENJIT_KB.profiles.github,
   },
   linkedin: {
-    keywords: ["linkedin", "professional network", "professional profile"],
+    keywords: ["linkedin", "linkedin profile", "professional network"],
     getData: () => PROSENJIT_KB.profiles.linkedin,
   },
   scholar: {
-    keywords: ["google scholar", "scholar", "citations", "citation"],
+    keywords: ["google scholar", "scholar", "citation", "citations"],
     getData: () => PROSENJIT_KB.profiles.googleScholar,
   },
   orcid: {
-    keywords: ["orcid", "researcher id", "research identity"],
+    keywords: ["orcid", "researcher id"],
     getData: () => PROSENJIT_KB.profiles.orcid,
   },
   huggingface: {
-    keywords: ["hugging face", "huggingface", "hf", "model", "dataset"],
+    keywords: ["hugging face", "huggingface", "hf"],
     getData: () => PROSENJIT_KB.profiles.huggingface,
   },
   kaggle: {
-    keywords: ["kaggle", "competition", "data competition"],
+    keywords: ["kaggle", "kaggle profile", "competitions profile"],
     getData: () => PROSENJIT_KB.profiles.kaggle,
   },
   competitive: {
-    keywords: ["competitive", "programming contest", "codeforces", "hackerrank", "leetcode", "icpc", "competitive programming", "problem solving", "problems solved", "beecrowd"],
+    keywords: ["competitive programming", "codeforces", "hackerrank", "leetcode", "beecrowd", "problem solving", "problems solved", "icpc", "programming contest", "nasa space apps"],
     getData: () => PROSENJIT_KB.competitiveProgramming,
   },
   news: {
-    keywords: ["news", "recent", "latest", "update", "happening", "current", "2026", "2025", "announcement", "new"],
+    keywords: ["latest news", "recent news", "updates", "what is new", "recent updates", "recent achievement"],
     getData: () => PROSENJIT_KB.recentNews,
   },
   volunteering: {
-    keywords: ["volunteer", "community", "extracurricular", "badhon", "cse club", "youthmapper", "blood", "social"],
+    keywords: ["volunteer", "volunteering", "extracurricular", "badhon", "blood donation", "cse club", "youthmappers"],
     getData: () => PROSENJIT_KB.volunteering,
   },
-  certificates: {
-    keywords: ["certificate", "certification", "course", "credential", "cisco", "microsoft", "azure", "flutter cert"],
-    getData: () => PROSENJIT_KB.certificates,
-  },
   coursework: {
-    keywords: ["coursework", "course", "subject", "curriculum", "studied", "class", "lecture", "semester"],
+    keywords: ["coursework", "courses", "subjects", "curriculum", "classes taken"],
     getData: () => PROSENJIT_KB.coursework,
+  },
+  identity: {
+    keywords: ["who is prosenjit", "who is prosen", "who is he", "tell me about prosenjit", "tell me about prosen", "tell me about him", "about prosenjit", "about prosen", "introduce prosenjit", "introduce yourself", "who are you", "overview of prosenjit", "prosenjit's bio", "prosenjit bio"],
+    getData: () => PROSENJIT_KB.identity,
   },
 };
 
