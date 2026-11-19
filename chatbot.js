@@ -84,6 +84,11 @@
         'his research', 'his project', 'his skill', 'his publication',
         'semester', 'cgpa', 'gpa', 'grade', 'credits', 'dean', 'varsity',
         'alma mater', 'institution', 'certificate', 'certif', 'credential',
+        // news / recent activity triggers
+        'recent achievement', 'recent activity', 'recent activit', 'recent work',
+        'recent accomplish', 'recent update', 'recent news', 'latest news',
+        'achievement', 'accomplishment', 'activity', 'update', 'news',
+        'what has he done', 'what did he do', 'any news', 'new update',
       ];
       const hasInScopeSignal = inScopeSignals.some(sig => q.includes(sig));
       if (hasInScopeSignal) return false;
@@ -114,6 +119,10 @@
     detectIntent(q) {
       // Identity — must check before broad "tell me about" fallback
       if (/(who is prosenjit|who is prosen|about prosenjit|about prosen|introduce prosenjit|introduce yourself|overview of prosenjit|prosenjit.?s? bio)/i.test(q)) return 'identity';
+
+      // ── NEWS / RECENT ACTIVITY — check early so "recent achievement/activity" routes here ──
+      if (/(news|latest news|recent news|recent update|what.?s new|any news|what happened|recent achievement|recent achievements|recent activit|recent work|recent accomplish|recent result|what has he done|what did he do recent|new update|latest update|new achievement|accomplishment|latest achievement|latest activit)/i.test(q)) return 'news';
+
       // University / institution
       if (/(university|varsity|alma mater|pstu|patuakhali|where.*(stud|learn)|institution)/i.test(q)) return 'university';
       // Semester / academic standing / credits
@@ -130,7 +139,7 @@
       if (/(projects?|neurovision|trashbot|reusehub|graph.?craft|vacuum|job portal|blood bank|what (did|has) he built|apps he made)/i.test(q)) return 'projects';
       // Research interests (more specific, before generic "research")
       if (/(research interest|research area|research background|research topic|working on research|medical ai|ai in health|health informatics)/i.test(q)) return 'research';
-      // Awards / achievements
+      // Awards / achievements (specific trophies, scholarships)
       if (/(awards?|honours?|honors?|prizes?|scholarships?|achievements?|glucose|nasa|carniv|ranking|ranked)/i.test(q)) return 'awards';
       // Education
       if (/(education|degree|b\.?sc|hsc|ssc|high school|secondary school|qualification|academic background)/i.test(q)) return 'education';
@@ -151,8 +160,6 @@
       if (/(research)/i.test(q)) return 'research';
       // Volunteering
       if (/(volunteer|badhon|cse club|youthmapper|blood donation|extracurricular)/i.test(q)) return 'volunteering';
-      // News
-      if (/(news|latest|recent update|what.?s new|recent news)/i.test(q)) return 'news';
       // Coursework
       if (/(course|coursework|subject|curriculum|classes taken|studied)/i.test(q)) return 'coursework';
       // Generic fallback identity

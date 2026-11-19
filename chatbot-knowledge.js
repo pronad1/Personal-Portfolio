@@ -442,7 +442,13 @@ const KB_TOPICS = {
     getData: () => PROSENJIT_KB.competitiveProgramming,
   },
   news: {
-    keywords: ["latest news", "recent news", "updates", "what is new", "recent updates", "recent achievement"],
+    keywords: [
+      "latest news", "recent news", "updates", "what is new", "recent updates",
+      "recent achievement", "recent achievements", "recent activity", "recent activities",
+      "latest achievement", "latest activity", "what has he done", "what did he do recently",
+      "new achievement", "new update", "latest update", "any news", "what happened",
+      "recent work", "latest work", "recent accomplishment", "accomplishment",
+    ],
     getData: () => PROSENJIT_KB.recentNews,
   },
   volunteering: {
