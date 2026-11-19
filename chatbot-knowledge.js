@@ -104,9 +104,10 @@ const PROSENJIT_KB = {
       id: 3,
       title: "DSANet: A Grid-Search Optimized Heterogeneous Ensemble for Ischemic Stroke Lesion Segmentation",
       venue: "14th International Conference on Electrical and Computer Engineering (ICECE 2026), BUET, Dhaka, Bangladesh",
-      status: "Under Review",
+      status: "Accepted",
       authorPosition: "First Author (2026)",
-      notes: "Submitted to ICECE 2026 at BUET. Currently under review as of November 2026.",
+      url: "https://lnkd.in/p/eATAveAT",
+      notes: "Accepted at ICECE 2026 (BUET). Explores a heterogeneous ensemble of three 3D deep learning architectures with an optimized fusion strategy for ischemic stroke lesion segmentation on multimodal MRI data. Supervised by Samrat Kumar Dey and Arpita Howlader.",
     },
   ],
 
@@ -329,12 +330,13 @@ const PROSENJIT_KB = {
 
   // ── RECENT NEWS ───────────────────────────────────────────
   recentNews: [
+    "Nov 2026: Research paper 'DSANet: A Grid-Search Optimized Heterogeneous Ensemble for Ischemic Stroke Lesion Segmentation' officially accepted at ICECE 2026, BUET! LinkedIn announcement: https://lnkd.in/p/eATAveAT",
     "Sep 2026: Physically Presented at MICCAI 2026 — Strasbourg, France! Paper presented at the 3rd MiRASOL Workshop, MICCAI 2026 through the MICCAI Ambassador Program. Prof. Dr. Pamela Guevara personally presented our poster.",
     "Aug 2026: Paper 'A Deep Learning Approach to Bangla License Plate Text Extraction using Easy OCR' (ICPECCII 2026) is now available on IEEE Xplore.",
     "Aug 2026: Paper 'A Sensitivity-Gated Cascade for Compute-Efficient Spinal Lesion Detection' accepted at MIRASOL Workshop, MICCAI 2026.",
     "Sep 2026: Secured Rank #1 on the Global Live Leaderboard in the Glucose Prediction Challenge (MetaboNet Consortium).",
     "Aug 2026: Participated in the Hackathon at PSTU IT Carnival 2026.",
-    "2026: DSANet paper submitted at ICECE 2026, BUET (First Author, Under Review).",
+    "Nov 2026: DSANet paper accepted at ICECE 2026, BUET (First Author).",
     "2025: First Prize at PSTU IT Carnival for the NeuroVision AI project.",
     "2025: Ranked Top 5 out of 50 teams at PSTU Programming Contest 2025.",
     "Aug 2025: Started role as Research Assistant & Lab Systems Coordinator at CIMILab, University of Missouri, USA.",
